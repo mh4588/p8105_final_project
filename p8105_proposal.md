@@ -1,6 +1,6 @@
 P8105 Final Project Proposal
 ================
-Elaine Cao, Liqi Zhou, Maggie Hsu, Xueting Li
+Liqi Zhou, Maggie Hsu, Xueting Li, Yining Cao
 2024-10-28
 
 ## Project title
@@ -9,11 +9,11 @@ Elaine Cao, Liqi Zhou, Maggie Hsu, Xueting Li
 
 ### Names
 
-Elaine Cao, Liqi Zhou, Maggie Hsu, Xueting Li \#alphabetical order
+Liqi Zhou, Maggie Hsu, Xueting Li, Yining Cao \#alphabetical order
 
 ### UNI codes
 
-yc4588, xl3495, mh4588, zl3495
+zl3495, mh4588, xl3495, yc4588
 
 ## Motivation for this project
 
