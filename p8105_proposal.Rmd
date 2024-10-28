@@ -1,6 +1,6 @@
 ---
 title: " P8105 Final Project Proposal"
-author: "Liqi Zhou, Maggie Hsu, Xueting Li, Yining Cao"
+author: "Felicity Lei, Liqi Zhou, Maggie Hsu, Xueting Li, Yining Cao"
 date: '`r Sys.Date()`'
 output: github_document
 ---
@@ -12,10 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## The group members (names and UNIs)
 ### Names
-Liqi Zhou, Maggie Hsu, Xueting Li, Yining Cao  #alphabetical order 
+Felicity Lei, Liqi Zhou, Maggie Hsu, Xueting Li, Yining Cao  #alphabetical order 
 
 ### UNI codes
-zl3495, mh4588, xl3495, yc4588
+fl2715, zl3495, mh4588, xl3495, yc4588
 
 ## Motivation for this project
 
