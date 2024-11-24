@@ -1,0 +1,65 @@
+---
+title: "Parks Funding Data Import"
+author: "Maggie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#Import libraries
+library(tidyverse)
+library(rvest)
+library(httr)
+library(janitor)
+```
+
+```{r read data}
+#Read data from JSON file provided on the site github
+nyc_park_funding = 
+  GET("https://newyorkcitycouncil.github.io/Parks_PA/results/data_files/funding.json") |> 
+  content("text") |>
+  jsonlite::fromJSON() |>
+  as_tibble() 
+```
+
+
+```{r clean data}
+#Clean variable names and properties
+nyc_park_funding = janitor::clean_names(nyc_park_funding, case = "snake") |>
+  mutate(maintenance_funding = gsub("\\$", "", maintenance_funding), 
+         maintenance_funding = parse_number(maintenance_funding), #convert vars to numeric
+         designated_private_funding = gsub("\\$", "", designated_private_funding),
+         designated_private_funding = parse_number(designated_private_funding),
+         acreage = parse_number(acreage))
+  
+```
+
+Run this if you want to separate amenities into 1 or 0 values
+```{r amenities yes no}
+#1 if the amenity is present, 0 if not 
+nyc_park_funding = nyc_park_funding |>
+  mutate( 
+    athletic_facilities = as.numeric(str_detect(pull(nyc_park_funding,"amenities"), "Athletic Facilities")),
+    beaches = as.numeric(
+      str_detect(pull(nyc_park_funding,"amenities"), "Beaches")
+      ),
+    comfort_stations = as.numeric(
+      str_detect(pull(nyc_park_funding,"amenities"), "Comfort Stations")
+      ),
+    natural_areas = as.numeric(
+      str_detect(pull(nyc_park_funding,"amenities"), "Natural Areas")
+      ),
+    playgrounds = as.numeric(
+      str_detect(pull(nyc_park_funding,"amenities"), "Playgrounds")
+      ),
+    trails = as.numeric(
+      str_detect(pull(nyc_park_funding,"amenities"), "Trails")
+      )
+    )
+
+```
+
+```{r export}
+#Export file as CSV
+write_csv(nyc_park_funding, "nyc_park_funding.csv")
+```
