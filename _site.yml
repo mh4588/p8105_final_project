@@ -9,6 +9,8 @@ navbar:
       href: data.html
     - text: "Crime"
       href: crime.html
+    - text: "Sanitation"
+      href: sanitation.html
     - text: "Restroom + Fountain Locations"
       href: maps.html
     - text: "About the Team"
