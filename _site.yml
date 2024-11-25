@@ -1,0 +1,17 @@
+name: "P8105 Final Project"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Data"
+      href: data.html
+    - text: "Crime"
+      href: crime.html
+    - text: "Restroom + Fountain Locations"
+      href: maps.html
+    - text: "About the Team"
+      href: about_team.html
+output:
+  html_document
