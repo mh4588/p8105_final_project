@@ -11,9 +11,10 @@ navbar:
       href: crime.html
     - text: "Sanitation"
       href: sanitation.html
-    - text: "Restroom + Fountain Locations"
+    - text: "Mapping Restrooms + Fountains"
       href: maps.html
     - text: "About the Team"
       href: about_team.html
 output:
-  html_document
+  html_document:
+    css: bootstrap.css
