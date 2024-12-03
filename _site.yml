@@ -11,7 +11,7 @@ navbar:
       href: crime.html
     - text: "Sanitation"
       href: sanitation.html
-    - text: "Mapping Restrooms + Fountains"
+    - text: "Facility Maps"
       href: maps.html
     - text: "About the Team"
       href: about_team.html
