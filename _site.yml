@@ -12,11 +12,11 @@ navbar:
     - text: "Sanitation"
       menu:
         - text: "Cleanliness"
-          href: cleanliess.html
+          href: Cleanliess.html
         - text: "Restroom"
-          href: restroom.html
+          href: Restroom.html
         - text: "Syringe"
-          href: syringe.html
+          href: Syringe.html
     - text: "Facility Maps"
       href: maps.html
     - text: "About the Team"
