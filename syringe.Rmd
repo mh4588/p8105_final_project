@@ -119,6 +119,7 @@ p10 <- ggplot(head(location_trends, 10),
 
 ggplotly(p10)
 ```
+
 Among the top 10 locations with the highest average annual increase in syringe findings, Aqueduct Walk and St. Mary's Park show significantly higher rates of increase, with approximately 4,000 and 3,500 additional syringes per year respectively. St. James Park ranks third with about 2,000 annual increases, while the remaining locations, including Washington Square Park and Poe Park, show more moderate increases of less than 1,000 syringes per year.
 
 Let's see the summary statistics of syringe count columns
@@ -172,6 +173,7 @@ p2 = ggplot(syringe_df, aes(x = kiosk_syringes)) +
 
 p1 + p2
 ```
+
 The distribution of syringe findings shows markedly different patterns between ground and kiosk collections. Ground syringes show a highly right-skewed distribution with most counts falling between 0-50 and a median around 10 (indicated by the red dashed line). In contrast, kiosk syringes demonstrate a more concentrated distribution within the 0-25 range, with notably fewer occurrences overall and a median near zero, suggesting limited utilization of disposal facilities.
 
 ```{r}
@@ -195,6 +197,7 @@ ggplot(syringe_df, aes(x = total_syringes)) +
     axis.text = element_text(size = 12)
   )
 ```
+
 The total syringes distribution shows a similar pattern to ground syringes, with a right-skewed distribution and a median around 10. 
 
 ```{r}
@@ -204,6 +207,7 @@ location_count <- syringe_df %>%
 print(paste("Total number of unique parks:", location_count))
 
 ```
+
 We identified 477 unique parks in this dataset, indicating a broad representation of NYC's park system in the syringe collection records.
 
 ```{r}
@@ -224,6 +228,7 @@ We identified 477 unique parks in this dataset, indicating a broad representatio
     axis.title = element_text(size = 12)
   )
 ```
+
 Due to the limited utilization of kiosk sites, the distribution of kiosk and non-kiosk locations is highly imbalanced, with a vast majority of syringe collection sites lacking kiosk facilities.
 
 So we want to see the distribution of syringe kiosks, here is the map of syringe kiosks in NYC parks.
@@ -274,6 +279,7 @@ map <- leaflet(syringe_map) %>%
 map
 
 ```
+
 The map provides a visual representation of syringe kiosk locations in NYC parks, with distinct markers indicating different kiosk types and statuses. The interactive features allow users to explore individual kiosk details and container sizes, providing valuable insights into the distribution and accessibility of safe disposal facilities across the city.
 
 Next, we will explore the temporal trends in syringe findings and kiosk utilization rates to identify patterns and potential correlations between these metrics.
@@ -421,6 +427,7 @@ p6 <- ggplot(property_summary,
 
 ggplotly(p6, tooltip = "text")
 ```
+
 The distribution of unique locations with syringe findings varies significantly across different property types. Traditional parks (PARK) dominate with approximately 400 unique locations, while other property types - Greenstreets (GREENST), Playgrounds (PLGD), and Zones (ZONE) - each report far fewer locations, around 40-50 sites each. This pattern suggests that syringe-related issues are predominantly concentrated in standard park areas rather than specialized recreational spaces.
 
 ```{r}
@@ -452,6 +459,7 @@ p7 <- ggplot(monthly_kiosk_trend,
 
 ggplotly(p7, tooltip = "text")
 ```
+
 The kiosk utilization rate demonstrates a pronounced downward trend from 2018 to 2024. During the early period (2017-2020), utilization fluctuated considerably between 40-70%, with peak rates reaching around 70%. A significant decline occurred post-2021, with rates steadily dropping to approximately 10-15% by 2024. This substantial decrease suggests a concerning trend in the effectiveness or acceptance of the kiosk disposal program over time, particularly in recent years.
 
 
@@ -498,6 +506,7 @@ p8 <- plot_ly() %>%
   )
 p8
 ```
+
 This plot compares ground-found and kiosk-collected syringes from 2017 to 2024, revealing a stark contrast between collection methods. Ground syringes (shown in blue) demonstrate high variability and an overall increasing trend, with peaks reaching over 25,000 in 2022. In contrast, kiosk collections (shown in green) remain consistently lower, rarely exceeding 5,000 syringes, and show a declining trend toward zero by 2024. This disparity suggests that despite the implementation of kiosk disposal programs, ground collection remains the predominant method of syringe recovery in NYC parks. 
 
 ```{r}
@@ -576,6 +585,7 @@ p11 = ggplot(model_data, aes(x = predicted, y = total_syringes, color = borough)
 
   ggplotly(p11)
 ```
+
 The scatter plot of actual versus predicted syringe counts reveals considerable variation in model performance across different boroughs. While there is a positive correlation between predicted and actual counts (indicated by the dashed line), the model appears to underpredict high syringe counts, particularly in the Bronx and Manhattan where several points fall well above the prediction line. Manhattan shows the highest concentration of points at higher predicted values, while Staten Island and Queens cluster at lower predicted counts. The model's predictions range from -500 to about 1,000 syringes, with actual counts reaching up to 10,000, suggesting limitations in capturing extreme cases.
 
 
@@ -583,6 +593,7 @@ The scatter plot of actual versus predicted syringe counts reveals considerable 
 par(mfrow=c(2,2))
 plot(model)
 ```
+
 The diagnostic plots reveal several concerns with the our model's assumptions. The Residuals vs Fitted plot shows a clear pattern with increasing variance at higher fitted values, indicating heteroscedasticity. The Q-Q plot demonstrates significant deviation from normality, particularly in the upper tail, suggesting the presence of outliers. The Scale-Location plot confirms non-constant variance across fitted values, while the Residuals vs Leverage plot identifies several influential observations (points 1972, 1968, and 129). These diagnostics suggest that model transformations or alternative modeling approaches may be needed to better meet regression assumptions.
 
 ## Discussion
