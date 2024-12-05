@@ -11,7 +11,7 @@ output:
 The critical issue of syringe litter in New York City parks was vividly highlighted in a recent YouTube video["Used syringes, needles litter one of the Bronx's largest parks"](https://www.youtube.com/watch?v=E_udp3ewgf0), which documented the disturbing presence of discarded needles in one of the borough's major recreational spaces. This visual evidence of the problem resonated with growing community concerns about public safety and health risks in urban parks, particularly in areas where children and families gather. While this coverage brought public attention to the issue, there remains a critical need for systematic, data-driven analysis of syringe litter patterns across NYC parks to inform evidence-based interventions and policy decisions.
 
 <div style="text-align: center;">
-![syringe litter](nycparks_syringe/images/syringe-litter.jpg){width=80%}
+![syringe litter](images/syringe-litter.jpg){width=80%}
 
 </div>
 
@@ -27,7 +27,7 @@ The critical issue of syringe litter in New York City parks was vividly highligh
 This dataset contains records of syringe collection in New York City's Parks, gathered jointly by NYC Parks staff and partner organizations including [Washington Heights Corner Project](https://www.nycservice.org/organizations/index.php?org_id=1462) and [New York Harm Reduction Educators](https://nyhre.org/). The dataset is part of NYC Parks Syringe Litter Data Collection initiative and is publicly accessible through the [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/Summary-of-Syringe-Data-in-NYC-Parks/t8xi-d5wb/about_data) ([Map data](https://data.cityofnewyork.us/Public-Safety/Parks-Syringe-Disposal-Kiosks-Map/dpfn-5ihn)), demonstrating the city's commitment to transparency in public health and safety data. Daily collection data is compiled and published monthly after thorough quality control processes, making it a reliable source for analyzing syringe disposal patterns in NYC Parks.
 
 <div style="text-align: center;">
-![syringe kiosk in a park (type: mailbox)](nycparks_syringe/images/syringe-box.jpg){width=80%}
+![syringe kiosk in a park (type: mailbox)](images/syringe-box.jpg){width=80%}
 </div>
 
 ```{r setup, include=FALSE}
@@ -49,7 +49,7 @@ library(car)
 
 ### Data cleaning
 ```{r}
-syringe_df <- read_csv("nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Parks_20241125.csv") %>% 
+syringe_df <- read_csv("data/nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Parks_20241125.csv") %>% 
   mutate(
     collected_date = mdy_hms(collected_date),
     year = year(collected_date),
@@ -225,7 +225,7 @@ Due to the limited utilization of kiosk sites, the distribution of kiosk and non
 So we want to see the distribution of syringe kiosks, here is the map of syringe kiosks in NYC parks.
 
 ```{r}
-syringe_map = read_csv("nycparks_syringe/Parks_Syringe_Disposal_Kiosks_20241202.csv")
+syringe_map = read_csv("data/nycparks_syringe/Parks_Syringe_Disposal_Kiosks_20241202.csv")
 
 process_data <- function(syringe_map) {
   # Extract coordinates from POINT column
