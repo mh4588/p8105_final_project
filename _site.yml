@@ -5,6 +5,11 @@ navbar:
   right:
     - text: "About"
       href: about.html
+      menu:
+       - text: "Report"
+          href: report.html
+        - text: "About the Team"
+          href: about_team.html
     - text: "Data"
       href: data.html
     - text: "Crime"
@@ -12,15 +17,16 @@ navbar:
     - text: "Sanitation"
       menu:
         - text: "Cleanliness"
-          href: Cleanliess.html
+          href: cleanliness.html
         - text: "Restroom"
           href: Restroom.html
         - text: "Syringe"
           href: Syringe.html
     - text: "Facility Maps"
       href: maps.html
-    - text: "About the Team"
-      href: about_team.html
+    - icon: fa-github fa-lg
+      href: https://github.com/mh4588/p8105_final_project
+
 output:
   html_document:
     css: bootstrap.css
