@@ -1,5 +1,5 @@
 ---
-title: "Restroom in NYC Parks"
+title: "Restroom Sanitation in NYC Parks"
 output:
   html_document:
     toc: true
