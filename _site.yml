@@ -5,22 +5,22 @@ navbar:
   right:
     - text: "About"
       menu:
-       - text: "Report"
-         href: report.html
+        - text: "Report"
+          href: report.html
         - text: "About the Team"
           href: about_team.html
     - text: "Data"
       href: data.html
     - text: "Crime"
-      href: Crime.html
+      href: crime.html
     - text: "Sanitation"
       menu:
         - text: "Cleanliness"
           href: cleanliness.html
         - text: "Restroom"
-          href: Restroom.html
+          href: restroom.html
         - text: "Syringe"
-          href: Syringe.html
+          href: syringe.html
     - text: "Facility Maps"
       href: maps.html
     - icon: fa-github fa-lg
