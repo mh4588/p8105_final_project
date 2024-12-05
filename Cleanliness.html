@@ -11,7 +11,7 @@
 
 
 
-<title>Cleanness in NYC Parks</title>
+<title>Overall Cleanliness of NYC Parks</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -36,6 +36,16 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -333,7 +343,7 @@ div.tocify {
   <a href="data.html">Data</a>
 </li>
 <li>
-  <a href="crime.html">Crime</a>
+  <a href="Crime.html">Crime</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -343,13 +353,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="cleanness.html">Cleanness</a>
+      <a href="Cleanliess.html">Cleanliness</a>
     </li>
     <li>
-      <a href="restroom.html">Restroom</a>
+      <a href="Restroom.html">Restroom</a>
     </li>
     <li>
-      <a href="syringe.html">Syringe</a>
+      <a href="Syringe.html">Syringe</a>
     </li>
   </ul>
 </li>
@@ -376,12 +386,1087 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Cleanness in NYC Parks</h1>
+<h1 class="title toc-ignore">Overall Cleanliness of NYC Parks</h1>
 
 </div>
 
 
+<p><img src="images/central_park_2.jpg" /></p>
+<div id="related-work" class="section level1">
+<h1>Related work</h1>
+<p>This project was inspired by the goal of exploring cleanliness in NYC
+parks, identifying features, temporal and spatial patterns contributing
+to low cleanliness scores, and discovering key factors influencing
+overall park cleanliness.</p>
+</div>
+<div id="initial-questions" class="section level1">
+<h1>Initial questions</h1>
+<ol style="list-style-type: decimal">
+<li>Analysis of Cleanliness Ratings by Different Features:</li>
+</ol>
+<ul>
+<li>How often are different features rated as “Unacceptable” (U) or
+“Very Unacceptable” (U/S)?</li>
+<li>What are the top three features that are most likely to be
+“Acceptable” in each borough?</li>
+<li>Which boroughs are the cleanest and least clean over the past
+decade?</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Analysis of Cleanliness Ratings over Different Time Periods:</li>
+</ol>
+<ul>
+<li>What is the acceptable proportion of cleanliness by boroughs and
+citywide over the years?</li>
+<li>What is the acceptable proportion of cleanliness by boroughs and
+citywide across different seasons?</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Analysis of the Relationship Between Cleanliness and Park
+Categories:</li>
+</ol>
+<ul>
+<li>How does cleanliness differ among different park categories?</li>
+</ul>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<div id="data-source" class="section level2">
+<h2>Data Source</h2>
+<p>The data contains related datasets about the Parks Inspection Program
+(PIP), a comprehensive, outcome-based performance measurement system
+that generates detailed inspections of parks and buildings. Inspectors
+perform approximately 6,000 PIP inspections each year, giving each
+inspected property an “Acceptable” (A) or “Unacceptable” (U) rating for
+overall condition and cleanliness. Individual “A” or “U” ratings are
+given to as many as 17 separate park features which fall under three
+broad categories: cleanliness, structural, and landscape.</p>
+<p>Datasets on properties and cleanliness are maintained in this
+project, including the following:</p>
+<ul>
+<li><a
+href="https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-All-Sites-MAPPED-/buk3-3qpr/about_data">Parks
+Inspection Program – All Sites (MAPPED)</a>: Contains properties
+eligible for inspection under the Parks Inspection Program, with
+internal directives and comments. Provides basic park information,
+including unique identification numbers, park names, zip codes,
+etc.<br />
+</li>
+<li><a
+href="https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Feature-Ratings/5mma-5n3h/about_data">Parks
+Inspection Program – Feature Ratings</a>: Contains ratings for inspected
+property features, with each row representing a rating for a specific
+feature. Provides the cleanliness feature IDs, corresponding ratings,
+etc., for each park.<br />
+</li>
+<li><a
+href="https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data">Parks
+Inspection Program – Inspections</a>: Contains overall ratings related
+to property inspections, with each row representing an individual
+inspection. Provides details such as inspection times, park cleanliness
+ratings, etc.</li>
+</ul>
+</div>
+<div id="data-processing" class="section level2">
+<h2>Data Processing</h2>
+<ul>
+<li><p>Data Cleaning: Initially, multiple datasets were loaded and
+cleaned, ensuring consistent column names.<br />
+</p></li>
+<li><p>Feature Filtering: Selected relevant cleanliness features,
+including Litter, Glass, Graffiti, Weeds, and Ice, for focused
+analysis.<br />
+</p></li>
+<li><p>Data Merging: Merged datasets based on <code>prop_id</code> and
+<code>inspection_id</code> to build a complete dataset covering park
+information, feature ratings, and cleanliness inspection data.</p></li>
+<li><p>Data Organization: Further cleaned and standardized the combined
+dataset, addressing missing values, removing unnecessary columns, and
+formatting string values to maintain data consistency.</p></li>
+</ul>
+<pre class="r"><code>library(tidyverse)
+library(plotly)
+library(ggsci)
+library(kableExtra)</code></pre>
+<pre class="r"><code>parks_properties &lt;- read_csv(&quot;./data/nycparks_cleanliness/parks_properties.csv&quot;) |&gt;
+  janitor::clean_names() |&gt;
+  select(gis_id = gispropnum, borough, class, name311, signname)
 
+pip_all &lt;- read_csv(&quot;./data/nycparks_cleanliness/pip_all_sites.csv&quot;) |&gt;
+  janitor::clean_names() |&gt;
+  select(prop_num, prop_name, prop_id, site_name, boro, zip_code, category)
+
+pip_inspect &lt;- read_csv(&quot;./data/nycparks_cleanliness/pip_inspections.csv&quot;) |&gt;
+  janitor::clean_names() |&gt;
+  select(prop_id, inspection_id, season, round, date, inspection_year, cleanliness, overall_condition)
+
+pip_feature &lt;- read_csv(&quot;./data/nycparks_cleanliness/pip_feature_ratings.csv&quot;) |&gt;
+  janitor::clean_names()
+
+pip_cleanliness &lt;- pip_feature |&gt;
+  filter(feature %in% c(&quot;Litter&quot;, &quot;Glass&quot;, &quot;Graffiti&quot;, &quot;Weeds&quot;, &quot;Ice&quot;)) 
+
+pip_1 &lt;- pip_cleanliness |&gt;
+  full_join(pip_inspect, by = &quot;inspection_id&quot;)
+
+pip &lt;- pip_all |&gt;
+  full_join(pip_1, by = &quot;prop_id&quot;) |&gt;
+  filter(!is.na(cleanliness)) |&gt;
+  filter(!is.na(boro)) |&gt;
+  select(-ia) |&gt;
+  filter(inspection_year %in% 2015:2024) |&gt;
+  mutate(rating = toupper(trimws(rating)), boro = toupper(trimws(boro)))</code></pre>
+</div>
+<div id="final-dataset" class="section level2">
+<h2>Final Dataset</h2>
+<p>The variables in the final dataset are:</p>
+<ul>
+<li><code>prop_num</code>: Unique identification number for each park
+property.<br />
+</li>
+<li><code>prop_name</code>: Name of park property.<br />
+</li>
+<li><code>prop_id</code>: Unique identification number for a property or
+portion of a property. In some cases – a standalone, smaller park for
+example – this number will be equivalent to the PropNum. In other cases
+– a zone, playground or other site within a larger park – an additional
+designation of letters and/or numbers will be added.<br />
+</li>
+<li><code>site_name</code>: Name of park property or portion of a
+property.<br />
+</li>
+<li><code>boro</code>: Borough in which property is located (B =
+Brooklyn; M = Manhattan; Q = Queens; R = Richmond (Staten Island); X =
+Bronx).<br />
+</li>
+<li><code>zip_code</code>: Zip Code in which the property is
+located.<br />
+</li>
+<li><code>category</code>: Property rating category for Parks Inspection
+Program.<br />
+</li>
+<li><code>feature</code>: Property feature assigned a rating.<br />
+</li>
+<li><code>rating</code>: Feature rating (A= acceptable; U= unacceptable;
+N= not rated; U/S= very unacceptable).<br />
+</li>
+<li><code>inspection_id</code>: Inspection ID associated with
+feature.<br />
+</li>
+<li><code>feature_number</code>: Unique feature identification
+number.<br />
+</li>
+<li><code>season</code>: Inspection season of inspection.<br />
+</li>
+<li><code>date</code>: Date of inspection.<br />
+</li>
+<li><code>inspection_year</code>: Inspection year of inspection.<br />
+</li>
+<li><code>cleanliness</code>: Cleanliness rating (A= acceptable; U=
+unacceptable; N= not rated).</li>
+</ul>
+</div>
+</div>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<div id="cleanliness-rating-analysis-of-different-features"
+class="section level2">
+<h2>1. Cleanliness rating analysis of different features</h2>
+<p><strong>Objective:</strong> To understand the differences in
+cleanliness between different features (Litter, Glass, Graffiti, Weeds,
+Ice).</p>
+<div id="u-and-us-times-vs.-feature-category" class="section level3">
+<h3>“U and U/S times” vs. “feature Category”</h3>
+<p>Count the number of times each feature is rated “unacceptable” (U) or
+“very unacceptable” (U/S) in each park. Find out what kind of features
+are most unacceptable and analyze the distribution characteristics of
+these features.</p>
+<pre class="r"><code>feature_summary &lt;- pip |&gt;
+  group_by(feature) |&gt;
+  summarise(
+    total_count = n(),
+    num_U = sum(rating == &quot;U&quot;, na.rm = TRUE),
+    num_US = sum(rating == &quot;U/S&quot;, na.rm = TRUE),
+    .groups = &quot;drop&quot;
+  ) |&gt;
+  mutate(
+    proportion_U = num_U / total_count,
+    proportion_US = num_US / total_count,
+    proportion_U_US = (num_U + num_US) / total_count
+  )
+
+kable(head(feature_summary)) |&gt; 
+kable_styling(full_width = FALSE) </code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+feature
+</th>
+<th style="text-align:right;">
+total_count
+</th>
+<th style="text-align:right;">
+num_U
+</th>
+<th style="text-align:right;">
+num_US
+</th>
+<th style="text-align:right;">
+proportion_U
+</th>
+<th style="text-align:right;">
+proportion_US
+</th>
+<th style="text-align:right;">
+proportion_U_US
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Glass
+</td>
+<td style="text-align:right;">
+59656
+</td>
+<td style="text-align:right;">
+568
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+0.0095213
+</td>
+<td style="text-align:right;">
+0.0006705
+</td>
+<td style="text-align:right;">
+0.0101918
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Graffiti
+</td>
+<td style="text-align:right;">
+60229
+</td>
+<td style="text-align:right;">
+2777
+</td>
+<td style="text-align:right;">
+411
+</td>
+<td style="text-align:right;">
+0.0461074
+</td>
+<td style="text-align:right;">
+0.0068240
+</td>
+<td style="text-align:right;">
+0.0529313
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ice
+</td>
+<td style="text-align:right;">
+18972
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+54
+</td>
+<td style="text-align:right;">
+0.0032153
+</td>
+<td style="text-align:right;">
+0.0028463
+</td>
+<td style="text-align:right;">
+0.0060616
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Litter
+</td>
+<td style="text-align:right;">
+60229
+</td>
+<td style="text-align:right;">
+7840
+</td>
+<td style="text-align:right;">
+2063
+</td>
+<td style="text-align:right;">
+0.1301699
+</td>
+<td style="text-align:right;">
+0.0342526
+</td>
+<td style="text-align:right;">
+0.1644225
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Weeds
+</td>
+<td style="text-align:right;">
+40691
+</td>
+<td style="text-align:right;">
+3010
+</td>
+<td style="text-align:right;">
+419
+</td>
+<td style="text-align:right;">
+0.0739721
+</td>
+<td style="text-align:right;">
+0.0102971
+</td>
+<td style="text-align:right;">
+0.0842692
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>feature_summary_long &lt;- feature_summary |&gt;
+  pivot_longer(cols = c(proportion_U, proportion_US, proportion_U_US), names_to = &quot;rating_type&quot;, values_to = &quot;proportion&quot;) |&gt;
+  mutate(rating_type = case_when(
+    rating_type == &quot;proportion_U&quot; ~ &quot;unacceptable (U)&quot;,
+    rating_type == &quot;proportion_US&quot; ~ &quot;very unacceptable (U/S)&quot;,
+    rating_type == &quot;proportion_U_US&quot; ~ &quot;U + U/S&quot;
+  ))</code></pre>
+<pre class="r"><code>p1 &lt;- ggplot(feature_summary_long, aes(x = feature, y = proportion, fill = rating_type)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  labs(
+    title = &quot;Proportions of U, U/S, and U + U/S for Different Features&quot;,
+    x = &quot;Feature&quot;,
+    y = &quot;Proportion&quot;,
+    fill = &quot;Rating Type&quot;
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  scale_fill_brewer()
+
+ggplotly(p1)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7543ad72540a195f2062" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-7543ad72540a195f2062">{"x":{"data":[{"orientation":"v","width":[0.30000000000000004,0.30000000000000027,0.29999999999999982,0.29999999999999982,0.30000000000000071],"base":[0,0,0,0,0],"x":[0.69999999999999996,1.7,2.7000000000000002,3.7000000000000002,4.7000000000000002],"y":[0.01019176612578785,0.052931312158594694,0.0060615644107105205,0.16442245429942387,0.084269248728220003],"text":["feature: Glass<br />proportion: 0.0101917661<br />rating_type: U + U/S","feature: Graffiti<br />proportion: 0.0529313122<br />rating_type: U + U/S","feature: Ice<br />proportion: 0.0060615644<br />rating_type: U + U/S","feature: Litter<br />proportion: 0.1644224543<br />rating_type: U + U/S","feature: Weeds<br />proportion: 0.0842692487<br />rating_type: U + U/S"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(222,235,247,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"U + U/S","legendgroup":"U + U/S","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.29999999999999993,0.29999999999999982,0.29999999999999982,0.30000000000000027,0.30000000000000071],"base":[0,0,0,0,0],"x":[1,2,3,4,5],"y":[0.009521255196459702,0.04610735692108453,0.0032152646004638416,0.13016985173255408,0.073972131429554444],"text":["feature: Glass<br />proportion: 0.0095212552<br />rating_type: unacceptable (U)","feature: Graffiti<br />proportion: 0.0461073569<br />rating_type: unacceptable (U)","feature: Ice<br />proportion: 0.0032152646<br />rating_type: unacceptable (U)","feature: Litter<br />proportion: 0.1301698517<br />rating_type: unacceptable (U)","feature: Weeds<br />proportion: 0.0739721314<br />rating_type: unacceptable (U)"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(158,202,225,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"unacceptable (U)","legendgroup":"unacceptable (U)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.29999999999999982,0.29999999999999982,0.29999999999999982,0.30000000000000071,0.30000000000000071],"base":[0,0,0,0,0],"x":[1.3,2.2999999999999998,3.2999999999999998,4.2999999999999998,5.2999999999999998],"y":[0.0006705109293281481,0.0068239552375101691,0.0028462998102466793,0.03425260256686978,0.010297117298665552],"text":["feature: Glass<br />proportion: 0.0006705109<br />rating_type: very unacceptable (U/S)","feature: Graffiti<br />proportion: 0.0068239552<br />rating_type: very unacceptable (U/S)","feature: Ice<br />proportion: 0.0028462998<br />rating_type: very unacceptable (U/S)","feature: Litter<br />proportion: 0.0342526026<br />rating_type: very unacceptable (U/S)","feature: Weeds<br />proportion: 0.0102971173<br />rating_type: very unacceptable (U/S)"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(49,130,189,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"very unacceptable (U/S)","legendgroup":"very unacceptable (U/S)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":53.812112334378554,"l":48.949771689497723},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Proportions of U, U/S, and U + U/S for Different Features","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,5.5999999999999996],"tickmode":"array","ticktext":["Glass","Graffiti","Ice","Litter","Weeds"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Glass","Graffiti","Ice","Litter","Weeds"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Feature","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0082211227149711942,0.17264357701439506],"tickmode":"array","ticktext":["0.00","0.05","0.10","0.15"],"tickvals":[0,0.050000000000000003,0.099999999999999992,0.15000000000000002],"categoryorder":"array","categoryarray":["0.00","0.05","0.10","0.15"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Rating Type","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"12e98422132a":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"12e98422132a","visdat":{"12e98422132a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>From the bar chart, we can observe the proportions of three rating
+types — Unacceptable (U), Very Unacceptable (U/S), and their combined
+proportion (U + U/S) — for different features (Glass, Graffiti, Ice,
+Litter, and Weeds).</p>
+<p><strong>Feature Analysis:</strong></p>
+<ul>
+<li><code>Litter</code>: The feature “Litter” has the highest combined
+(U + U/S) and individual “U” proportions compared to all other features.
+This indicates that litter is the most problematic feature in terms of
+cleanliness, frequently being rated as unacceptable.<br />
+</li>
+<li><code>Weeds</code>: Weeds have relatively high values for both “U”
+and “U + U/S” proportions. This suggests that weeds are also a
+significant cleanliness issue.<br />
+</li>
+<li><code>Graffiti</code>: Graffiti shows a moderate level of
+unacceptable ratings (both “U” and “U + U/S”), indicating that it is
+frequently, but not as consistently as Litter, rated as
+problematic.<br />
+</li>
+<li><code>Glass</code> and <code>Ice</code>: Both features have
+relatively low proportions across all rating types, suggesting that
+these features are generally well-maintained and less frequently rated
+as unacceptable.</li>
+</ul>
+<p><strong>Rating Types:</strong></p>
+<ul>
+<li>For all features, the proportion of “U/S” is relatively low compared
+to the “U” rating, suggesting that while some features may have been
+rated very unacceptable, the majority of issues fall into the
+unacceptable category without additional safety concerns.</li>
+</ul>
+</div>
+<div id="find-the-least-error-prone-feature-in-different-boroughs"
+class="section level3">
+<h3>Find the least error-prone feature in different boroughs</h3>
+<p>To find out the feature that is the least unacceptable by calculating
+the A proportion of each feature score in different regions.</p>
+<pre class="r"><code>feature_summary_boro &lt;- pip |&gt;
+  filter(!is.na(rating)) |&gt;  
+  group_by(boro, feature) |&gt;
+  summarise(
+    total_count = n(),
+    num_A = sum(rating == &quot;A&quot;),  
+    .groups = &quot;drop&quot;
+  ) |&gt;
+  mutate(
+    proportion_A = num_A / total_count
+  )
+
+best_feature_per_boro &lt;- feature_summary_boro |&gt;
+  group_by(boro) |&gt;
+  filter(proportion_A == max(proportion_A)) |&gt;
+  slice(1) |&gt;  
+  ungroup() |&gt;
+  arrange(boro)
+
+kable(head(best_feature_per_boro)) |&gt; 
+kable_styling(full_width = FALSE) </code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+boro
+</th>
+<th style="text-align:left;">
+feature
+</th>
+<th style="text-align:right;">
+total_count
+</th>
+<th style="text-align:right;">
+num_A
+</th>
+<th style="text-align:right;">
+proportion_A
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+Ice
+</td>
+<td style="text-align:right;">
+4755
+</td>
+<td style="text-align:right;">
+4688
+</td>
+<td style="text-align:right;">
+0.9859096
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Ice
+</td>
+<td style="text-align:right;">
+3925
+</td>
+<td style="text-align:right;">
+3843
+</td>
+<td style="text-align:right;">
+0.9791083
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Q
+</td>
+<td style="text-align:left;">
+Ice
+</td>
+<td style="text-align:right;">
+4855
+</td>
+<td style="text-align:right;">
+4799
+</td>
+<td style="text-align:right;">
+0.9884655
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R
+</td>
+<td style="text-align:left;">
+Glass
+</td>
+<td style="text-align:right;">
+5566
+</td>
+<td style="text-align:right;">
+5503
+</td>
+<td style="text-align:right;">
+0.9886813
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Ice
+</td>
+<td style="text-align:right;">
+3691
+</td>
+<td style="text-align:right;">
+3645
+</td>
+<td style="text-align:right;">
+0.9875373
+</td>
+</tr>
+</tbody>
+</table>
+<p>The table shows the feature in each borough with the highest
+proportion of “A” cleanliness ratings, indicating which features are the
+least error-prone in terms of cleanliness for each borough. The data
+includes results for five boroughs: Brooklyn (B), Manhattan (M), Queens
+(Q), Staten Island (R), and Bronx (X).</p>
+<p>Ice is the best-maintained feature in Brooklyn, Manhattan, Queens,
+and Bronx, with “A” rating proportions ranging from 97.91% to 98.85%.
+This indicates consistent cleanliness management across these boroughs.
+In Staten Island, Glass has the highest “A” rating at 98.87%, suggesting
+a different focus in cleanliness efforts. Overall, Ice appears to be
+easier to maintain across multiple boroughs, while Glass is notably
+well-managed in Staten Island.</p>
+</div>
+<div
+id="find-the-top-three-cleanest-and-least-clean-park-areas-in-each-district-over-the-decade"
+class="section level3">
+<h3>Find the top three cleanest and least clean park areas in each
+district over the decade</h3>
+<p>To find out the top three parks with the largest number of “A” rating
+and the top three parks with the largest number of “U+U/S” rating over
+the past ten years</p>
+<pre class="r"><code>park_cleanliness_summary &lt;- pip |&gt;
+  filter(rating %in% c(&quot;A&quot;, &quot;U&quot;, &quot;U/S&quot;)) |&gt;
+  group_by(boro, site_name, zip_code, rating) |&gt;
+  summarise(count = n(), .groups = &quot;drop&quot;) |&gt;
+  pivot_wider(names_from = rating, values_from = count, values_fill = 0) |&gt;
+  mutate(
+    total_A = A,
+    total_U_US = U + `U/S`
+  )</code></pre>
+<pre class="r"><code>top_3_clean_parks &lt;- park_cleanliness_summary |&gt;
+  group_by(boro) |&gt;
+  arrange(boro, desc(total_A)) |&gt;
+  slice_max(order_by = total_A, n = 3) |&gt;
+  select(boro, site_name, zip_code, total_A) |&gt;
+  arrange(boro)
+
+kable(head(top_3_clean_parks)) |&gt; 
+kable_styling(full_width = FALSE) </code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+boro
+</th>
+<th style="text-align:left;">
+site_name
+</th>
+<th style="text-align:left;">
+zip_code
+</th>
+<th style="text-align:right;">
+total_A
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+11236
+</td>
+<td style="text-align:right;">
+1003
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+11222
+</td>
+<td style="text-align:right;">
+832
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+11201
+</td>
+<td style="text-align:right;">
+749
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+10038
+</td>
+<td style="text-align:right;">
+485
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Central Park West
+</td>
+<td style="text-align:left;">
+00083
+</td>
+<td style="text-align:right;">
+344
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+10039
+</td>
+<td style="text-align:right;">
+341
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Top 3 Clean Parks in Each Borough:</strong></p>
+<ul>
+<li>The cleanest parks across most boroughs are Greenstreets,
+particularly in Brooklyn (B), Queens (Q), Staten Island (R), and the
+Bronx (X). Manhattan (M) includes both Central Park West and
+Greenstreets.<br />
+</li>
+<li>The high ratings of Greenstreets indicate a relatively strong level
+of maintenance, with this category distributed across various postal
+codes, demonstrating good cleanliness consistency.</li>
+</ul>
+<pre class="r"><code>top_3_unclean_parks &lt;- park_cleanliness_summary |&gt;
+  group_by(boro) |&gt;
+  arrange(boro, desc(total_U_US)) |&gt;
+  slice_max(order_by = total_U_US, n = 3) |&gt;
+  select(boro, site_name, zip_code, total_U_US) |&gt;
+  arrange(boro)
+
+kable(head(top_3_unclean_parks)) |&gt; 
+kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+boro
+</th>
+<th style="text-align:left;">
+site_name
+</th>
+<th style="text-align:left;">
+zip_code
+</th>
+<th style="text-align:right;">
+total_U_US
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+Dr John’s Plgd
+</td>
+<td style="text-align:left;">
+11234
+</td>
+<td style="text-align:right;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+11207
+</td>
+<td style="text-align:right;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+GREENSTREET
+</td>
+<td style="text-align:left;">
+11233
+</td>
+<td style="text-align:right;">
+41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Marcus Garvey Park Zone 3
+</td>
+<td style="text-align:left;">
+10027
+</td>
+<td style="text-align:right;">
+50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Highbridge Park Zone 1
+</td>
+<td style="text-align:left;">
+10032
+</td>
+<td style="text-align:right;">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Highbridge Park Zone 7
+</td>
+<td style="text-align:left;">
+10033
+</td>
+<td style="text-align:right;">
+44
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Top 3 Unclean Parks in Each Borough:</strong></p>
+<ul>
+<li>In Brooklyn (B) and Manhattan (M), Greenstreets appear not only as
+one of the cleanest but also among the uncleanest in certain areas,
+showing inconsistencies in their maintenance.<br />
+</li>
+<li>Staten Island (R) and the Bronx (X) have parks like Silver Lake Park
+Zone 1 and Williamsbridge Oval ranked among the uncleanest, indicating
+that maintenance in these areas needs improvement.<br />
+</li>
+<li>In Manhattan, the Highbridge Park series and Brooklyn’s Dr John’s
+Playground show high numbers of U+U/S ratings, suggesting that these
+parks may require more resources to improve their cleanliness.</li>
+</ul>
+<p>These results suggest significant differences in the cleanliness
+maintenance of Greenstreets across different regions, while specific
+parks like Highbridge Park and Dr John’s Playground need more attention
+and improvement.</p>
+</div>
+</div>
+<div id="analysis-of-the-cleanliness-score-in-different-time-periods"
+class="section level2">
+<h2>2. Analysis of the cleanliness score in different time periods</h2>
+<p><strong>Objective:</strong> Explore the impact of different time
+periods on park cleanliness, including seasons and years.</p>
+<div id="acceptable-ratio-of-borough-and-city-cleanliness-vs-year"
+class="section level3">
+<h3>“Acceptable Ratio of Borough and City cleanliness” VS “Year”</h3>
+<p>To calculate and compare the overall “A” rating proportion of
+cleanliness in each borough and the whole New York City each year, and
+to analyze the cleanliness trend in different boroughs.</p>
+<pre class="r"><code>annual_cleanliness_summary &lt;- pip |&gt;
+  filter(!is.na(cleanliness)) |&gt;
+  group_by(boro, inspection_year) |&gt;
+  summarise(
+    total_count = n(),
+    num_A = sum(cleanliness == &quot;A&quot;),
+    proportion_A = num_A / total_count,
+    .groups = &quot;drop&quot;
+  ) |&gt;
+  mutate(boro = ifelse(is.na(boro), &quot;NYC&quot;, boro))
+
+citywide_summary &lt;- pip |&gt;
+  filter(!is.na(cleanliness)) |&gt;
+  group_by(inspection_year) |&gt;
+  summarise(
+    total_count = n(),
+    num_A = sum(cleanliness == &quot;A&quot;),
+    proportion_A = num_A / total_count,
+    boro = &quot;NYC&quot;,
+    .groups = &quot;drop&quot;
+  )
+combined_cleanliness_summary &lt;- bind_rows(annual_cleanliness_summary, citywide_summary)
+
+combined_cleanliness_summary$boro &lt;- factor(combined_cleanliness_summary$boro, 
+                                            levels = c(&quot;NYC&quot;, 
+                                                       sort(unique(combined_cleanliness_summary$boro[combined_cleanliness_summary$boro != &quot;NYC&quot;]))))</code></pre>
+<pre class="r"><code>p2 &lt;- combined_cleanliness_summary |&gt;
+  ggplot(aes(x = inspection_year, y = proportion_A, color = boro, group = boro)) +
+  geom_point(size = 2) +  
+  geom_line(aes(linetype = boro, size = boro)) +   
+  scale_color_npg() + 
+  scale_linetype_manual(values = c(
+    &quot;NYC&quot; = &quot;solid&quot;, &quot;B&quot; = &quot;dashed&quot;, &quot;M&quot; = &quot;dotted&quot;, &quot;Q&quot; = &quot;twodash&quot;, &quot;R&quot; = &quot;dotdash&quot;, &quot;X&quot; = &quot;longdash&quot;)) +
+  scale_size_manual(values = c(&quot;NYC&quot; = 1.5, 
+                               &quot;B&quot; = 1, &quot;M&quot; = 1, &quot;Q&quot; = 1, &quot;R&quot; = 1, &quot;X&quot; = 1)) +
+  labs(
+    title = &quot;Acceptable Proportion by Year for NYC and Its Boroughs&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Acceptable Proportion&quot;,
+    color = &quot;Borough&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = &quot;top&quot;
+  )
+
+ggplotly(p2)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-c3f31d25ef20ba76a64d" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-c3f31d25ef20ba76a64d">{"x":{"data":[{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.91412401574803148,0.91207263209553413,0.91791428007110409,0.9366636581250245,0.93697992664747409,0.90764814435103547,0.9152555847046665,0.91911100640043975,0.93462478841451946,0.91479038738533847],"text":["inspection_year: 2015<br />proportion_A: 0.9141240<br />boro: NYC<br />boro: NYC","inspection_year: 2016<br />proportion_A: 0.9120726<br />boro: NYC<br />boro: NYC","inspection_year: 2017<br />proportion_A: 0.9179143<br />boro: NYC<br />boro: NYC","inspection_year: 2018<br />proportion_A: 0.9366637<br />boro: NYC<br />boro: NYC","inspection_year: 2019<br />proportion_A: 0.9369799<br />boro: NYC<br />boro: NYC","inspection_year: 2020<br />proportion_A: 0.9076481<br />boro: NYC<br />boro: NYC","inspection_year: 2021<br />proportion_A: 0.9152556<br />boro: NYC<br />boro: NYC","inspection_year: 2022<br />proportion_A: 0.9191110<br />boro: NYC<br />boro: NYC","inspection_year: 2023<br />proportion_A: 0.9346248<br />boro: NYC<br />boro: NYC","inspection_year: 2024<br />proportion_A: 0.9147904<br />boro: NYC<br />boro: NYC"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(230,75,53,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(230,75,53,1)"}},"hoveron":"points","name":"(NYC,1,NA)","legendgroup":"(NYC,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.89298531810766724,0.89938531219670015,0.89400411327321627,0.92222222222222228,0.91709183673469385,0.87541418157720341,0.87361067005398541,0.88957639219419327,0.90402952937557679,0.86428130783466994],"text":["inspection_year: 2015<br />proportion_A: 0.8929853<br />boro: B<br />boro: B","inspection_year: 2016<br />proportion_A: 0.8993853<br />boro: B<br />boro: B","inspection_year: 2017<br />proportion_A: 0.8940041<br />boro: B<br />boro: B","inspection_year: 2018<br />proportion_A: 0.9222222<br />boro: B<br />boro: B","inspection_year: 2019<br />proportion_A: 0.9170918<br />boro: B<br />boro: B","inspection_year: 2020<br />proportion_A: 0.8754142<br />boro: B<br />boro: B","inspection_year: 2021<br />proportion_A: 0.8736107<br />boro: B<br />boro: B","inspection_year: 2022<br />proportion_A: 0.8895764<br />boro: B<br />boro: B","inspection_year: 2023<br />proportion_A: 0.9040295<br />boro: B<br />boro: B","inspection_year: 2024<br />proportion_A: 0.8642813<br />boro: B<br />boro: B"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(77,187,213,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(77,187,213,1)"}},"hoveron":"points","name":"(B,1,NA)","legendgroup":"(B,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.92697768762677479,0.91980753809141935,0.9152542372881356,0.90900327742433007,0.92766999434921826,0.92207286187414772,0.92411924119241196,0.92103264996203493,0.9354953039163566,0.93952483801295894],"text":["inspection_year: 2015<br />proportion_A: 0.9269777<br />boro: M<br />boro: M","inspection_year: 2016<br />proportion_A: 0.9198075<br />boro: M<br />boro: M","inspection_year: 2017<br />proportion_A: 0.9152542<br />boro: M<br />boro: M","inspection_year: 2018<br />proportion_A: 0.9090033<br />boro: M<br />boro: M","inspection_year: 2019<br />proportion_A: 0.9276700<br />boro: M<br />boro: M","inspection_year: 2020<br />proportion_A: 0.9220729<br />boro: M<br />boro: M","inspection_year: 2021<br />proportion_A: 0.9241192<br />boro: M<br />boro: M","inspection_year: 2022<br />proportion_A: 0.9210326<br />boro: M<br />boro: M","inspection_year: 2023<br />proportion_A: 0.9354953<br />boro: M<br />boro: M","inspection_year: 2024<br />proportion_A: 0.9395248<br />boro: M<br />boro: M"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,160,135,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,160,135,1)"}},"hoveron":"points","name":"(M,1,NA)","legendgroup":"(M,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.92621110041706767,0.91164140599806509,0.93875657284256109,0.96066379840196681,0.95474972880830622,0.92611795204147762,0.93412797992471774,0.92152053954629065,0.94910571470117788,0.93206678180771441],"text":["inspection_year: 2015<br />proportion_A: 0.9262111<br />boro: Q<br />boro: Q","inspection_year: 2016<br />proportion_A: 0.9116414<br />boro: Q<br />boro: Q","inspection_year: 2017<br />proportion_A: 0.9387566<br />boro: Q<br />boro: Q","inspection_year: 2018<br />proportion_A: 0.9606638<br />boro: Q<br />boro: Q","inspection_year: 2019<br />proportion_A: 0.9547497<br />boro: Q<br />boro: Q","inspection_year: 2020<br />proportion_A: 0.9261180<br />boro: Q<br />boro: Q","inspection_year: 2021<br />proportion_A: 0.9341280<br />boro: Q<br />boro: Q","inspection_year: 2022<br />proportion_A: 0.9215205<br />boro: Q<br />boro: Q","inspection_year: 2023<br />proportion_A: 0.9491057<br />boro: Q<br />boro: Q","inspection_year: 2024<br />proportion_A: 0.9320668<br />boro: Q<br />boro: Q"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(60,84,136,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(60,84,136,1)"}},"hoveron":"points","name":"(Q,1,NA)","legendgroup":"(Q,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.96646072374227709,0.95943562610229272,0.95101351351351349,0.96672354948805461,0.9778817524457678,0.95035460992907805,0.9631799163179916,0.97389885807504073,0.96725337699549729,0.97049180327868856],"text":["inspection_year: 2015<br />proportion_A: 0.9664607<br />boro: R<br />boro: R","inspection_year: 2016<br />proportion_A: 0.9594356<br />boro: R<br />boro: R","inspection_year: 2017<br />proportion_A: 0.9510135<br />boro: R<br />boro: R","inspection_year: 2018<br />proportion_A: 0.9667235<br />boro: R<br />boro: R","inspection_year: 2019<br />proportion_A: 0.9778818<br />boro: R<br />boro: R","inspection_year: 2020<br />proportion_A: 0.9503546<br />boro: R<br />boro: R","inspection_year: 2021<br />proportion_A: 0.9631799<br />boro: R<br />boro: R","inspection_year: 2022<br />proportion_A: 0.9738989<br />boro: R<br />boro: R","inspection_year: 2023<br />proportion_A: 0.9672534<br />boro: R<br />boro: R","inspection_year: 2024<br />proportion_A: 0.9704918<br />boro: R<br />boro: R"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(243,155,127,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(243,155,127,1)"}},"hoveron":"points","name":"(R,1,NA)","legendgroup":"(R,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.88764510779436157,0.8985868661679135,0.90821256038647347,0.93875906526994357,0.92960579243765085,0.88888888888888884,0.91152597402597402,0.92439024390243907,0.9375,0.90149374243035929],"text":["inspection_year: 2015<br />proportion_A: 0.8876451<br />boro: X<br />boro: X","inspection_year: 2016<br />proportion_A: 0.8985869<br />boro: X<br />boro: X","inspection_year: 2017<br />proportion_A: 0.9082126<br />boro: X<br />boro: X","inspection_year: 2018<br />proportion_A: 0.9387591<br />boro: X<br />boro: X","inspection_year: 2019<br />proportion_A: 0.9296058<br />boro: X<br />boro: X","inspection_year: 2020<br />proportion_A: 0.8888889<br />boro: X<br />boro: X","inspection_year: 2021<br />proportion_A: 0.9115260<br />boro: X<br />boro: X","inspection_year: 2022<br />proportion_A: 0.9243902<br />boro: X<br />boro: X","inspection_year: 2023<br />proportion_A: 0.9375000<br />boro: X<br />boro: X","inspection_year: 2024<br />proportion_A: 0.9014937<br />boro: X<br />boro: X"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(132,145,180,1)","opacity":1,"size":7.559055118110237,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(132,145,180,1)"}},"hoveron":"points","name":"(X,1,NA)","legendgroup":"(X,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.91412401574803148,0.91207263209553413,0.91791428007110409,0.9366636581250245,0.93697992664747409,0.90764814435103547,0.9152555847046665,0.91911100640043975,0.93462478841451946,0.91479038738533847],"text":["inspection_year: 2015<br />proportion_A: 0.9141240<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2016<br />proportion_A: 0.9120726<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2017<br />proportion_A: 0.9179143<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2018<br />proportion_A: 0.9366637<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2019<br />proportion_A: 0.9369799<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2020<br />proportion_A: 0.9076481<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2021<br />proportion_A: 0.9152556<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2022<br />proportion_A: 0.9191110<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2023<br />proportion_A: 0.9346248<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC","inspection_year: 2024<br />proportion_A: 0.9147904<br />boro: NYC<br />boro: NYC<br />boro: NYC<br />boro: NYC"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(230,75,53,1)","dash":"solid"},"hoveron":"points","name":"NYC","legendgroup":"NYC","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.89298531810766724,0.89938531219670015,0.89400411327321627,0.92222222222222228,0.91709183673469385,0.87541418157720341,0.87361067005398541,0.88957639219419327,0.90402952937557679,0.86428130783466994],"text":["inspection_year: 2015<br />proportion_A: 0.8929853<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2016<br />proportion_A: 0.8993853<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2017<br />proportion_A: 0.8940041<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2018<br />proportion_A: 0.9222222<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2019<br />proportion_A: 0.9170918<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2020<br />proportion_A: 0.8754142<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2021<br />proportion_A: 0.8736107<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2022<br />proportion_A: 0.8895764<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2023<br />proportion_A: 0.9040295<br />boro: B<br />boro: B<br />boro: B<br />boro: B","inspection_year: 2024<br />proportion_A: 0.8642813<br />boro: B<br />boro: B<br />boro: B<br />boro: B"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(77,187,213,1)","dash":"dash"},"hoveron":"points","name":"B","legendgroup":"B","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.92697768762677479,0.91980753809141935,0.9152542372881356,0.90900327742433007,0.92766999434921826,0.92207286187414772,0.92411924119241196,0.92103264996203493,0.9354953039163566,0.93952483801295894],"text":["inspection_year: 2015<br />proportion_A: 0.9269777<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2016<br />proportion_A: 0.9198075<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2017<br />proportion_A: 0.9152542<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2018<br />proportion_A: 0.9090033<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2019<br />proportion_A: 0.9276700<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2020<br />proportion_A: 0.9220729<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2021<br />proportion_A: 0.9241192<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2022<br />proportion_A: 0.9210326<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2023<br />proportion_A: 0.9354953<br />boro: M<br />boro: M<br />boro: M<br />boro: M","inspection_year: 2024<br />proportion_A: 0.9395248<br />boro: M<br />boro: M<br />boro: M<br />boro: M"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(0,160,135,1)","dash":"dot"},"hoveron":"points","name":"M","legendgroup":"M","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.92621110041706767,0.91164140599806509,0.93875657284256109,0.96066379840196681,0.95474972880830622,0.92611795204147762,0.93412797992471774,0.92152053954629065,0.94910571470117788,0.93206678180771441],"text":["inspection_year: 2015<br />proportion_A: 0.9262111<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2016<br />proportion_A: 0.9116414<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2017<br />proportion_A: 0.9387566<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2018<br />proportion_A: 0.9606638<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2019<br />proportion_A: 0.9547497<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2020<br />proportion_A: 0.9261180<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2021<br />proportion_A: 0.9341280<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2022<br />proportion_A: 0.9215205<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2023<br />proportion_A: 0.9491057<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q","inspection_year: 2024<br />proportion_A: 0.9320668<br />boro: Q<br />boro: Q<br />boro: Q<br />boro: Q"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(60,84,136,1)","dash":"longdashdot"},"hoveron":"points","name":"Q","legendgroup":"Q","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.96646072374227709,0.95943562610229272,0.95101351351351349,0.96672354948805461,0.9778817524457678,0.95035460992907805,0.9631799163179916,0.97389885807504073,0.96725337699549729,0.97049180327868856],"text":["inspection_year: 2015<br />proportion_A: 0.9664607<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2016<br />proportion_A: 0.9594356<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2017<br />proportion_A: 0.9510135<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2018<br />proportion_A: 0.9667235<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2019<br />proportion_A: 0.9778818<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2020<br />proportion_A: 0.9503546<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2021<br />proportion_A: 0.9631799<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2022<br />proportion_A: 0.9738989<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2023<br />proportion_A: 0.9672534<br />boro: R<br />boro: R<br />boro: R<br />boro: R","inspection_year: 2024<br />proportion_A: 0.9704918<br />boro: R<br />boro: R<br />boro: R<br />boro: R"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(243,155,127,1)","dash":"dashdot"},"hoveron":"points","name":"R","legendgroup":"R","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.88764510779436157,0.8985868661679135,0.90821256038647347,0.93875906526994357,0.92960579243765085,0.88888888888888884,0.91152597402597402,0.92439024390243907,0.9375,0.90149374243035929],"text":["inspection_year: 2015<br />proportion_A: 0.8876451<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2016<br />proportion_A: 0.8985869<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2017<br />proportion_A: 0.9082126<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2018<br />proportion_A: 0.9387591<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2019<br />proportion_A: 0.9296058<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2020<br />proportion_A: 0.8888889<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2021<br />proportion_A: 0.9115260<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2022<br />proportion_A: 0.9243902<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2023<br />proportion_A: 0.9375000<br />boro: X<br />boro: X<br />boro: X<br />boro: X","inspection_year: 2024<br />proportion_A: 0.9014937<br />boro: X<br />boro: X<br />boro: X<br />boro: X"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(132,145,180,1)","dash":"longdash"},"hoveron":"points","name":"X","legendgroup":"X","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":47.91190782402667,"l":48.949771689497723},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Acceptable Proportion by Year for NYC and Its Boroughs","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2014.55,2024.45],"tickmode":"array","ticktext":["2015.0","2017.5","2020.0","2022.5"],"tickvals":[2015,2017.5,2020,2022.5],"categoryorder":"array","categoryarray":["2015.0","2017.5","2020.0","2022.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.85860128560411508,0.98356177467632266],"tickmode":"array","ticktext":["0.86","0.88","0.90","0.92","0.94","0.96","0.98"],"tickvals":[0.85999999999999999,0.88,0.90000000000000002,0.91999999999999993,0.93999999999999995,0.95999999999999996,0.97999999999999998],"categoryorder":"array","categoryarray":["0.86","0.88","0.90","0.92","0.94","0.96","0.98"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Acceptable Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"boro<br />Borough","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"12e9847d17460":{"x":{},"y":{},"colour":{},"type":"scatter"},"12e983b0d79a8":{"x":{},"y":{},"colour":{},"linetype":{},"size":{}}},"cur_data":"12e9847d17460","visdat":{"12e9847d17460":["function (y) ","x"],"12e983b0d79a8":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Overall Trend</strong>: The overall Acceptable proportion
+for New York City (grey line) shows a steady increase from around 90% in
+2015 to 93% by 2018, followed by a significant decline around 2020, with
+a slight recovery in 2022.<br />
+</li>
+<li><strong>Inter-Borough</strong>: <code>Staten Island</code> and
+<code>Queens</code> show significantly higher cleanliness levels
+compared to other boroughs, whereas the <code>Bronx</code> and
+<code>Brooklyn</code> display noticeably lower cleanliness in certain
+years.<br />
+</li>
+<li>The <code>Bronx</code> exhibits large fluctuations in cleanliness,
+with a sharp decline in 2022 to below 87%, marking it as the borough
+with the lowest cleanliness proportion. <code>Manhattan</code> shows a
+steady increase from 92% in 2015, peaking in 2018, with slight
+fluctuations but maintaining relatively high cleanliness levels.
+<code>Brooklyn</code> sees an improvement after 2017, a notable dip
+around 2020, and a recovery to above 90% by 2022.<br />
+</li>
+<li><code>Staten Island</code> consistently maintains an Acceptable
+proportion above 96%, making it the most stable and cleanest borough
+throughout the period. <code>Queens</code> starts with a high
+cleanliness proportion in 2015, rising significantly after 2018 to
+nearly 97%, and remains one of the leading boroughs despite a slight
+decline.<br />
+</li>
+<li>The decline around 2020 could be attributed to pandemic-related
+resource shortages and increased maintenance challenges.</li>
+</ul>
+</div>
+<div id="acceptable-ratio-of-cleanliness-across-boroughs-vs-season"
+class="section level3">
+<h3>“Acceptable Ratio of cleanliness across Boroughs” VS “Season”</h3>
+<p>To analyze the differences in cleanliness scores in spring, summer,
+fall, and winter over a 10-year period.</p>
+<pre class="r"><code>park_cleanliness_summary &lt;- pip |&gt; 
+  group_by(boro, season, inspection_year) |&gt;
+  summarise(
+    total_count = n(),
+    num_A = sum(cleanliness == &quot;A&quot;),
+    proportion_A = num_A / total_count,
+    .groups = &quot;drop&quot;
+  )</code></pre>
+<pre class="r"><code>ggplot(park_cleanliness_summary, aes(
+  x = inspection_year, 
+  y = proportion_A, 
+  color = boro,
+  group = boro
+  )) + 
+  geom_point(size = 1.5) +
+  geom_line(aes(linetype = boro, size = boro)) +
+  scale_color_npg() +
+  scale_size_manual(
+    values = c(
+      &quot;B&quot; = 0.8, &quot;M&quot; = 0.8, &quot;Q&quot; = 0.8, &quot;R&quot; = 0.8, &quot;X&quot; = 0.8)) +
+  scale_linetype_manual(
+    values = c(
+      &quot;B&quot; = &quot;dashed&quot;, &quot;M&quot; = &quot;dotted&quot;, &quot;Q&quot; = &quot;dotdash&quot;, &quot;R&quot; = &quot;twodash&quot;, &quot;X&quot; = &quot;longdash&quot;)) +
+  labs(
+    title = &quot;Acceptable Proportion by Year for Different NYC Boroughs and Seasons&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Acceptable Proportion&quot;,
+    color = &quot;Borough&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), 
+    legend.position = &quot;top&quot;) +
+  facet_wrap(~ season, nrow = 1)</code></pre>
+<p><img src="Cleanliness_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Overall Trends</strong>: The cleanliness proportions across
+all boroughs remain relatively stable above 0.9, though seasonal
+variations are apparent.<br />
+</li>
+<li><code>Bronx</code> shows relatively lower cleanliness, particularly
+in summer, where it drops below 0.9.<br />
+</li>
+<li><code>Manhattan</code> maintains stable cleanliness with minimal
+fluctuations, especially performing well in winter.<br />
+</li>
+<li><code>Queens</code> generally maintains a higher cleanliness level
+across all seasons, around 0.95.<br />
+</li>
+<li><code>Brooklyn</code> shows significant improvement in cleanliness
+during winter, while summer exhibits slightly lower levels.<br />
+</li>
+<li><code>Staten Island</code> consistently maintains the highest
+cleanliness levels with minimal seasonal variation.<br />
+</li>
+<li>There is missing data point for Staten Island and Manhattan in Fall
+2022, possibly due to disruptions in data collection during the
+pandemic.</li>
+</ul>
+</div>
+</div>
+<div id="association-analysis-of-cleanliness-and-park-category"
+class="section level2">
+<h2>3. Association analysis of cleanliness and park category</h2>
+<p><strong>Objective:</strong> To study the association between park
+types and cleanliness and to assess which park types are more likely to
+accumulate litter.</p>
+<div id="cleanliness-differences-between-different-park-categories"
+class="section level3">
+<h3>Cleanliness differences between different Park categories</h3>
+<p>To analyze cleanliness scores for different categories of parks
+(Greenstreet, Large Center, Large Park, Other, Playground, Property,
+Schoolyard, Small Center, Small Park) and assess which types of parks
+are most likely to be kept clean and which are most likely to have
+problems.</p>
+<p>First, we draw a stacked bar chart to show the cleanliness rating
+distribution of different types of parks.</p>
+<pre class="r"><code>clean_data &lt;- pip |&gt;
+  filter(!is.na(category) &amp; !is.na(rating))
+
+clean_data |&gt;
+  filter(!is.na(category) &amp; !is.na(cleanliness)) |&gt;
+  count(category, cleanliness) |&gt;
+  group_by(category) |&gt;
+  mutate(percentage = n / sum(n) * 100) |&gt;
+  ggplot(aes(x = category, y = percentage, fill = cleanliness)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;stack&quot;) +
+  labs(
+    title = &quot;Proportion of Cleanliness Ratings by Park Category&quot;,
+    x = &quot;Park Category&quot;,
+    y = &quot;Percentage&quot;,
+    fill = &quot;Cleanliness Rating&quot;
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = &quot;Set3&quot;)</code></pre>
+<p><img src="Cleanliness_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>It can be found that the proportion of “N” ratings is small but
+slightly higher in categories like Large Park and Other, suggesting some
+missing or incomplete cleanliness data in these types of parks.</p>
+<p>Then we focuses exclusively on “A” and “U” ratings, removing the
+influence of “N” ratings, thus offering a clearer comparison with a
+point plot.</p>
+<pre class="r"><code>clean_data |&gt;
+  filter(cleanliness %in% c(&quot;A&quot;, &quot;U&quot;)) |&gt;
+  group_by(category, cleanliness) |&gt;
+  summarise(count = n(), .groups = &quot;drop&quot;) |&gt;
+  group_by(category) |&gt;
+  mutate(percentage = count / sum(count) * 100) |&gt;
+  ggplot(aes(x = category, y = percentage, color = cleanliness)) +
+  geom_point(size = 3) +
+  geom_line(aes(group = cleanliness), linetype = &quot;dashed&quot;) +
+  labs(
+    title = &quot;Dot Plot of &#39;U&#39; and &#39;A&#39; Ratings by Park Category&quot;,
+    x = &quot;Park Category&quot;,
+    y = &quot;Percentage&quot;,
+    color = &quot;Cleanliness Rating&quot;
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="Cleanliness_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>The proportion of “A” ratings is consistently high across all park
+categories, almost reaching 100%. This indicates that most parks
+received an acceptable cleanliness rating.<br />
+</li>
+<li>The proportion of “U” ratings is relatively low, with noticeable
+increases in the <code>Large Park</code> and <code>Small Park</code>
+categories. Specifically, <code>Large Park</code> shows a higher
+percentage of “U” ratings.<br />
+</li>
+<li>Other categories, such as <code>Greenstreet</code>,
+<code>Large Center</code>, and <code>Small Center</code>, show almost no
+“U” ratings, with proportions close to 0%.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>Our findings indicate that certain features, seasons, and boroughs
+are associated with lower cleanliness scores. Notably, “Graffiti” and
+“Litter” were consistently found as problematic features. The overall
+cleanliness also fluctuated across different seasons, with winter
+generally showing higher acceptable ratings. Spatially, the boroughs
+showed notable differences, with some boroughs consistently lagging in
+cleanliness ratings. These findings align with our expectations and
+suggest that feature-specific interventions and seasonal adjustments are
+critical for enhancing park cleanliness.</p>
+</div>
 
 
 
@@ -420,7 +1505,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("show" === "show");
+  window.initializeCodeFolding("hide" === "show");
 });
 </script>
 
