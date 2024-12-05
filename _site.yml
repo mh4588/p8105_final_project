@@ -6,6 +6,8 @@ navbar:
     - text: "About"
       href: about.html
       menu:
+       - text: "Report"
+          href: report.html
         - text: "About the Team"
           href: about_team.html
     - text: "Data"
