@@ -8,7 +8,7 @@ navbar:
     - text: "Data"
       href: data.html
     - text: "Crime"
-      href: crime.html
+      href: Crime.html
     - text: "Sanitation"
       menu:
         - text: "Cleanliness"
