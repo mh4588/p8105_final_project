@@ -5,10 +5,8 @@ navbar:
   right:
     - text: "About"
       menu:
-       - text: "About the Project"
-         href: about.html
        - text: "Report"
-          href: report.html
+         href: report.html
         - text: "About the Team"
           href: about_team.html
     - text: "Data"
