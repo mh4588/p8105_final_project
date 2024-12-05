@@ -24,6 +24,8 @@ navbar:
           href: Syringe.html
     - text: "Facility Maps"
       href: maps.html
+    - icon: fa-github fa-lg
+      href: https://github.com/mh4588/p8105_final_project
 
 output:
   html_document:
