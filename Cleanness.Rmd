@@ -1,0 +1,15 @@
+---
+title: "Cleanness in NYC Parks"
+output:   
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+

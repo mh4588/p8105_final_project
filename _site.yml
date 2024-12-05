@@ -1,0 +1,26 @@
+name: "P8105 Final Project"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Data"
+      href: data.html
+    - text: "Crime"
+      href: crime.html
+    - text: "Sanitation"
+      menu:
+        - text: "Cleanness"
+          href: cleanness.html
+        - text: "Restroom"
+          href: restroom.html
+        - text: "Syringe"
+          href: syringe.html
+    - text: "Facility Maps"
+      href: maps.html
+    - text: "About the Team"
+      href: about_team.html
+output:
+  html_document:
+    css: bootstrap.css
