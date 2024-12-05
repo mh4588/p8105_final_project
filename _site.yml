@@ -11,8 +11,8 @@ navbar:
       href: crime.html
     - text: "Sanitation"
       menu:
-        - text: "Cleanness"
-          href: cleanness.html
+        - text: "Cleanliness"
+          href: cleanliess.html
         - text: "Restroom"
           href: restroom.html
         - text: "Syringe"
