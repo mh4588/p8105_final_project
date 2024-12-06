@@ -11,12 +11,12 @@
 
 
 
-<title>Crime</title>
+<title>Crime in NYC Parks</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -29,9 +29,22 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 <html>
@@ -248,6 +261,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -255,6 +331,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -331,21 +417,329 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Crime</h1>
+<h1 class="title toc-ignore">Crime in NYC Parks</h1>
 
 </div>
 
 
-<div id="about-this-site" class="section level3">
-<h3>About this site</h3>
-<p>Sometimes you need to say a bit about the site – how it was made,
-where it’s hosted, where the source code can be found.</p>
-<p>If this is for a project or analysis, I recommend giving some details
-about the R package versions that you used to create the content.</p>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>Exploring park crimes in NYC is essential for several reasons:</p>
+<ul>
+<li><p>Improving Public Safety: Identifying high-risk areas allows for
+targeted interventions, ensuring the protection of parkgoers.</p></li>
+<li><p>Raising Community Awareness: Understanding crime patterns guides
+public education and prevention efforts to reduce risks in
+parks.</p></li>
+<li><p>Addressing Social and Economic Impact: Crime in parks can deter
+park usage, affecting local businesses and community engagement, which
+crime analysis can help mitigate.</p></li>
+<li><p>Targeting Specific Times or Groups: Seasonal and demographic
+crime patterns allow for targeted safety measures tailored to specific
+risks.</p></li>
+</ul>
+</div>
+<div id="dataset" class="section level1">
+<h1>Dataset</h1>
+<p>For this part, we chose <a
+href="https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page">NYC
+Park Crime Statistics</a> provided by NYPD. This dataset contains
+detailed records of reported crimes in New York City’s parks. It
+includes data on various crime types, such as robbery, assault, and
+larceny, categorized by park, borough, and time period. This dataset is
+updated quarterly and aims to enhance public safety by offering
+transparency on crime trends in recreational areas. It serves as a
+valuable resource for researchers, policymakers, and residents
+interested in understanding and addressing crime in NYC parks.</p>
+<p>The data processing process involves several steps to import, clean,
+and filter crime data from various park crime files spanning from 2015
+to 2024. Since crime data is stored quarterly, we wrote a function to
+traverse all data file paths and special files were handled
+individually. The final dataset includes variables:</p>
+<p>-<code>park</code>: park names;<br />
+-<code>borough</code>: parks’ boroughs;<br />
+-<code>size_acres</code>: size in acres;<br />
+-<code>category</code>: categories of parks;<br />
+-Crime types: <code>murder</code>, <code>rape</code>,
+<code>robbery</code>, <code>felony_assault</code>,
+<code>burglary</code>, <code>grand_larceny</code>,
+<code>grand_larceny_of_motor_vehicles</code>;<br />
+-<code>total</code>: total crimes happened in that park;<br />
+-<code>year</code>: statistical year;<br />
+-<code>season</code>: statistical season.</p>
+<p>Each row is a crime record for a park in specific year and
+season.</p>
+<div id="crime-counts-by-year-in-nyc-parks" class="section level2">
+<h2>Crime Counts by Year in NYC Parks</h2>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<p><img src="crime_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>It can be judged from the plot that serious crimes like grand larceny
+of motor vehicle, murder, rape and robbery, have a relative stable
+account and trend. However, crimes like burglary, felony assault and
+grand larceny (not motor vehicle but maybe jewelry or other valuables),
+have some fluctuations. Burglary and robbery has some decrease in 2020,
+largely because COVID-19 exploded and travel restriction was conducted.
+However, felony assault may show a potential increase due to factors
+such as sparse crowds or a limited number of offenders, which create an
+environment conducive to the crime. Psychologically, the perpetrators
+may feel emboldened, believing that the lack of witnesses reduces the
+likelihood of being arrested.</p>
+</div>
+<div id="crime-proportion" class="section level2">
+<h2>Crime Proportion</h2>
+<pre><code>## Warning: There was 1 warning in `summarize()`.
+## ℹ In argument: `across(everything(), sum, na.rm = TRUE)`.
+## Caused by warning:
+## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+## Supply arguments directly to `.fns` through an anonymous function instead.
+## 
+##   # Previously
+##   across(a:b, mean, na.rm = TRUE)
+## 
+##   # Now
+##   across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-349f9c3da82d0bc682bf" style="width:768px;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-349f9c3da82d0bc682bf">{"x":{"visdat":{"1071d1e028e95":["function () ","plotlyVisDat"]},"cur_data":"1071d1e028e95","attrs":{"1071d1e028e95":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>From the pie chart, we can figure out that grand larceny (41.1%),
+robbery (31%) and felony assault (22%) were main crime types during last
+ten years.</p>
+</div>
+<div id="heatmap-of-crime-counts" class="section level2">
+<h2>Heatmap of Crime Counts</h2>
+<p><img src="crime_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>This is a heatmap of total crimes happened in different boroughs by
+year. In this heatmap, the higher the number of crimes, the darker the
+red color. It’s pretty obvious that Manhattan has a high crime rate.
+However, analyzing by years, there is no obvious changing trend.</p>
+</div>
+<div id="crime-statistics-by-borough" class="section level2">
+<h2>Crime Statistics by Borough</h2>
+<p><img src="crime_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>This plot compares crime counts by type and borough in New York City,
+with each panel representing a specific crime type,. Manhattan stands
+out with the highest crime counts for grand larceny and felony assault,
+while Brooklyn leads in grand larceny of motor vehicle. The Bronx shows
+notably high counts for robbery and murder, often surpassing other
+boroughs for these crimes. In contrast, Staten Island and the
+Brooklyn/Queens area consistently report the lowest crime counts across
+all categories. Property crimes like grand larceny and felony assault
+have significantly higher totals compared to violent crimes such as
+murder and rape, which show smaller totals.</p>
+<p>The differences in crime counts across boroughs and crime types may
+stem from several factors. Manhattan, with its dense population and
+economic activity, shows higher grand larceny and felony assault rates
+due to more opportunities for theft and interpersonal conflicts. The
+Bronx, often associated with economic challenges, exhibits higher rates
+of violent crimes like murder and robbery. Brooklyn’s urban sprawl and
+higher car ownership contribute to more grand larceny of motor vehicles.
+Staten Island’s low crime counts may reflect its smaller population or
+underreporting. Variations in tourism, socioeconomic conditions,
+policing, and community infrastructure further influence the
+distribution of crimes.</p>
+</div>
+<div id="distribution-of-crime-counts-by-type-in-top-3-parks"
+class="section level2">
+<h2>Distribution of Crime Counts by Type in Top 3 Parks</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">park</th>
+<th align="right">total_crimes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">flushing_meadows_corona_park</td>
+<td align="right">775</td>
+</tr>
+<tr class="even">
+<td align="left">washington_square_park</td>
+<td align="right">511</td>
+</tr>
+<tr class="odd">
+<td align="left">coney_island_beach_&amp;_boardwalk</td>
+<td align="right">418</td>
+</tr>
+<tr class="even">
+<td align="left">randall’s_island_park</td>
+<td align="right">369</td>
+</tr>
+<tr class="odd">
+<td align="left">prospect_park</td>
+<td align="right">307</td>
+</tr>
+<tr class="even">
+<td align="left">bryant_park</td>
+<td align="right">252</td>
+</tr>
+</tbody>
+</table>
+<p>Above is the top six parks where most crimes occurred. We want to
+have a look at these parks’ crime distribution by type for assisting you
+to determine whether this is truly a dangerous park or if it simply has
+incidents of relatively minor crimes. Thus, we selected the three parks
+with the highest total number of crimes, and then divided them into
+statistics and visualizations according to the types of crimes. The
+following is the statistical table and the chart.</p>
+<table class="table table-striped table-hover table-condensed table" style="font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+Crime Statistics by Park
+</caption>
+<thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1">
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="7">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Crimes
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;font-weight: bold;padding-bottom: 10px;">
+Park Name
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Burglary
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Felony Assault
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Grand Larceny
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Motor Vehicle Theft
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Murder
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Rape
+</th>
+<th style="text-align:right;font-weight: bold;padding-bottom: 10px;">
+Robbery
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 25em; padding-top: 10px; padding-bottom: 10px;">
+coney_island_beach_&amp;_boardwalk
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+4
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+78
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+245
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+1
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+0
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+6
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+81
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 25em; padding-top: 10px; padding-bottom: 10px;">
+flushing_meadows_corona_park
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+42
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+124
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+436
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+48
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+0
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+9
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+116
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 25em; padding-top: 10px; padding-bottom: 10px;">
+washington_square_park
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+1
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+118
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+325
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+0
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+0
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+2
+</td>
+<td style="text-align:right;padding-right: 20px; padding-left: 20px;padding-top: 10px; padding-bottom: 10px;">
+64
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="crime_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>From both the table and the plot, there were no murders in any of the
+three parks, and felonies were relatively rare. It is reasonable to
+assume that the high number of crimes in these parks is due to the high
+number of less serious crimes.</p>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<ol style="list-style-type: decimal">
+<li>Data Quality and Completeness.</li>
+</ol>
+<p>The dataset relies on reported crimes, which may underrepresent
+actual crime occurrences due to underreporting, especially in parks
+located in boroughs with lower socioeconomic conditions.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Lack of Predictive Analysis.</li>
+</ol>
+<p>Insights into causation or actionable triggers for crime remain
+limited, restricting the utility of findings for proactive measures.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Visualization Limitations.</li>
+</ol>
+<p>Although the visualizations are informative, some charts, such as the
+heatmap, might oversimplify trends by aggregating data at the borough
+level. This approach could mask intra-borough variations or
+park-specific patterns.</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -378,6 +772,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
