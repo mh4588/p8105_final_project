@@ -14,6 +14,14 @@ output:
   color: white;
 }
 
+/* Styling for the welcome section */
+.welcome {
+  font-family: 'Arial', sans-serif;  /* Change the font family */
+  font-size: 20px;  /* Increase font size */
+  line-height: 1.5;  /* Adjust line spacing */
+  margin-top: 20px;  /* Add space between the image and the welcome section */
+}
+
 #home-container .image-container {
   position: relative;
   display: inline-block;
@@ -29,8 +37,8 @@ output:
 #home-container .image-container .image-title {
   position: absolute;
   bottom: 100px;  /* Position at the bottom of the image */
-  left: 20px;
-  font-size: 35px;
+  right: 20px;
+  font-size: 40px;
   color: white;  /* Set the title color to white */
   font-weight: bold;
 }
@@ -38,7 +46,7 @@ output:
 #home-container .image-container .sub-title {
   position: absolute;
   bottom: 50px;  /* Adjusted to be a bit higher than the title */
-  left: 20px;
+  right: 20px;
   font-size: 24px;
   color: white;  /* Set the subtitle color to white */
 }
@@ -46,7 +54,7 @@ output:
 #home-container .image-container .authors {
   position: absolute;
   bottom: 10px;  /* Adjusted to be a bit higher than the subtitle */
-  left: 20px;
+  right: 20px;
   font-size: 18px;
   color: white;  /* Set the authors color to white */
 }
@@ -56,11 +64,29 @@ output:
   <div class="image-container">
     <img src="images/central_park.jpg" alt="NYC Parks">
     <!-- Title text -->
-    <div class="image-title">Data Analysis: Central to Understanding NYC Parks</div>
+    <div class="image-title">Behind the Green</div>
     <!-- Subtitle text -->
-    <div class="sub-title">A Data-Driven Stroll Through New York City's Parks</div>
+    <div class="sub-title">Data Insights Into NYC Parks’ Cleanliness and Safety</div>
     <!-- Authors -->
     <div class="authors">Yining Cao, Maggie Hsu, Fengwei Lei, Xueting Li, Liqi Zhou</div>
   </div>
 </div>
 ```
+<p class="welcome">
+
+### Welcome to Our Website!
+
+Our project studies on various aspects that contribute to the overall experience of park visitors, including sanitation, cleanliness, and safety. We focus on four critical areas: crime, cleanliness, restroom, and syringe. Through our analysis, we hope to provide a holistic understanding of NYC parks, helping to guide future improvements and ensure that these public spaces remain clean, safe, and inviting for all.
+</p>
+
+### On Our Websit, You Can See:
+
+ - **About**: The [report content](https://mh4588.github.io/p8105_final_project/report.html) and [our team](https://mh4588.github.io/p8105_final_project/about_team.html) introduction.
+ - [Data](https://mh4588.github.io/p8105_final_project/data.html): What data we used in our report analysis.
+ - [Crime](https://mh4588.github.io/p8105_final_project/crime.html): The safety condition in NYC parks.
+ - **Sanitation**: The [overall cleanliness for NYC parks](https://mh4588.github.io/p8105_final_project/cleanliness.html), [the restroom sanitation conditions](https://mh4588.github.io/p8105_final_project/restroom.html) and [the issue of syringe litter](https://mh4588.github.io/p8105_final_project/syringe.html) in parks.
+  - **Facility Maps**:
+  
+
+
+### Screencast
