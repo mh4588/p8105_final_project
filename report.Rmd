@@ -10,12 +10,17 @@ output:
 
 ## Motivation
 
-The motivation behind exploring sanitation in NYC parks is to enhance park environments, ensuring they remain safe, clean, and inviting spaces for all. Maintaining sanitation not only directly impacts the health of visitors but also significantly influences the overall public experience. This study specifically targets three critical aspects: cleanliness of park areas, the condition of public restrooms, and syringe litter.
+Public parks play a vital role in urban life, offering spaces for recreation, relaxation, and community engagement. However, their value can be compromised by issues like crime, inadequate cleanliness, and poor sanitation. Our project, _Behind the Green: Data Insights Into NYC Parks’ Cleanliness and Safety_, aims to analyze key factors affecting park visitors’ experiences, including crime rates, restroom conditions, cleanliness, and syringe litter. By uncovering insights through data analysis, we hope to guide improvements and ensure NYC parks remain safe, clean, and welcoming for all.
 
-First, we analyze the cleanliness of NYC parks, identifying specific features contributing to lower cleanliness scores, as well as examining temporal and spatial variations. This allows us to pinpoint key factors behind the fluctuations in cleanliness levels and formulate strategies for improvements. Second, understanding and improving the condition of restrooms is crucial as clean restrooms play a significant role in promoting public health and comfort, encouraging greater park use. Lastly, the critical issue of syringe litter, which poses serious health and safety concerns, especially in public areas where children and families gather, demands systematic investigation. Our study aims to gather insights into the extent of this issue to support informed, data-driven decision-making and interventions.
+## Related Work
+
+For the crime in NYC parks, 
+
+About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](cleanliness.html), identifying specific features contributing to lower cleanliness scores, as well as examining temporal and spatial variations. This allows us to pinpoint key factors behind the fluctuations in cleanliness levels and formulate strategies for improvements. Second, understanding and improving the condition of restrooms is crucial as clean [restrooms](restroom.html) play a significant role in promoting public health and comfort, encouraging greater park use. Lastly, the critical issue of [syringe litter](syringe.html), which poses serious health and safety concerns, especially in public areas where children and families gather, demands systematic investigation. Our study aims to gather insights into the extent of this issue to support informed, data-driven decision-making and interventions.
 
 ## Initial Questions
 
+- [**Crime**](crime.html):
 - [**Cleanliness**](cleanliness.html): What are the cleanliness ratings by different features? How do cleanliness ratings vary over different time periods? What is the relationship between cleanliness and park categories?  
 - [**Restroom**](restroom.html): What is the distribution of restroom sanitation conditions in New York City’s public parks? How do sanitation conditions vary by borough and park type? What is the trend in restroom sanitation ratings across different seasons and years (2015-2024)?  
 - [**Syringe**](syringe.html): How does syringe litter differ between parks? How does utilization of safe disposal kiosks change over time? How does utilization of safe disposal kiosks compare with syringe litter?
@@ -23,12 +28,14 @@ First, we analyze the cleanliness of NYC parks, identifying specific features co
 ## Data
 **Data Source**  
 
+- [**Crime**](crime.html):
 - [**Cleanliness**](cleanliness.html): The Cleanliness data comes from the Parks Inspection Program (PIP), which evaluates New York City parks through regular inspections. PIP assesses the cleanliness of parks across 17 features, categorized under cleanliness, structural, and landscape conditions. Each feature is rated either as "Acceptable" (A) or "Unacceptable" (U), providing insight into the cleanliness conditions across different locations and features. Datasets on properties and cleanliness are maintained in this part.  
 - [**Restroom**](restroom.html): Restroom data is also gathered through PIP and records detailed information about public restroom inspections in New York City parks. These inspections rate the restroom facilities for cleanliness and structural quality, contributing to the overall evaluation of park facilities. This dataset allows for the analysis of restroom conditions across different parks and helps to identify potential areas for improvement.  
 - [**Syringe**](syringe.html): The Syringe dataset records syringe collection in NYC Parks, gathered by NYC Parks staff and various organizations under the Syringe Litter Data Collection initiative. The data highlights syringe disposal patterns and is accessible via NYC OpenData. The syringe collection data provides valuable insights into the safety and public health conditions of NYC Parks and is compiled monthly after thorough quality checks.  
 
 **Data Cleaning**  
 
+- [**Crime**](crime.html):
 - [**Cleanliness**](cleanliness.html): Initially, multiple datasets were loaded and cleaned to ensure consistent column names. Relevant cleanliness features, including Litter, Glass, Graffiti, Weeds, and Ice, were selected for focused analysis. The datasets were then merged based on `prop_id` and `inspection_id` to create a comprehensive dataset encompassing park information, feature ratings, and cleanliness inspection data. Finally, the combined dataset was further cleaned and standardized by addressing missing values, removing unnecessary columns, and formatting string values to maintain data consistency.  
 - [**Restroom**](restroom.html): The data cleaning process involved importing three datasets (toilet_inspection, parks_inspection, and sites_inspection) and standardizing their column names using `janitor::clean_names()`. The datasets are then merged based on common identifiers (`inspection_id` and `prop_id`). New features, such as the year column, are created, and unnecessary columns were removed. Data is filtered to include only public restrooms and relevant columns. Missing values in the `pr_litter` column are removed, and categorical values in `season` and `boro` are standardized. Finally, the dataset is filtered to include records from 2015 to 2024, ensuring a clean and consistent dataset for analysis.  
 - [**Syringe**](syringe.html): The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (`ground_syringes`, `kiosk_syringes`, `total_syringes`) and kiosk_numbers were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = “0”) were filtered out. Especially, we updated `kiosk_site` to TRUE where `kiosk_syringes` > 0, this ensures locations with recorded kiosk usage are properly flagged.  
@@ -36,10 +43,25 @@ First, we analyze the cleanliness of NYC parks, identifying specific features co
 
 ## Exploratory Analysis
 
+### 1. Cime in NYC Parks
+
+
+
+
+### 2. Sanitation Conditions of NYC Parks
+
+#### 2.1 Overall Cleanliness
+
+#### 2.2 Restroom Sanitation
+
+#### 2.3 Syringe Litter Issue
+
 
 ## Discussion
 
-The sanitation analysis of NYC parks reveals several critical insights. 
+The analysis of NYC parks reveals several critical insights. 
+
+For [**Crime**](crime.html) in NYC parks,
 
 Regarding [**Cleanliness**](cleanliness.html), certain features, seasons, and boroughs were identified as factors that influence cleanliness levels. Features such as graffiti and litter consistently showed lower cleanliness scores, with cleanliness ratings varying seasonally, generally better in winter. Borough-level differences indicate the need for targeted interventions in areas lagging behind. These results align with our expectations and emphasize the importance of feature-specific solutions and seasonal adjustments.
 
