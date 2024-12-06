@@ -24,7 +24,7 @@ td {
 
 
 table {
-  width: 100%; 
+  width: 150%; 
   border-spacing: 0; 
   table-layout: fixed; 
 }
