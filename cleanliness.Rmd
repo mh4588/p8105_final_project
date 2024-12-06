@@ -6,14 +6,15 @@ output:
     toc_float: true
     toc_depth: 2
     code_folding: hide
+    favicon: "images/cleanliness_icon.png"
 ---
 
 ![](images/central_park_2.jpg)
 
-# Related work
-This project was inspired by the goal of exploring cleanliness in NYC parks, identifying features, temporal and spatial patterns contributing to low cleanliness scores, and discovering key factors influencing overall park cleanliness.
+## Motivation
+This project was inspired by the goal of exploring cleanliness in NYC parks, aiming to understand the current state of park cleanliness and the factors affecting it through detailed data analysis. We focused on identifying specific features that contribute to lower cleanliness scores, as well as examining the temporal and spatial variations in these scores. By pinpointing these influential features and patterns, we aim to uncover the key reasons behind declining cleanliness levels. This analysis not only provides insights into the cleanliness conditions of NYC parks but also lays a foundation for policymakers to implement effective measures to enhance park environments and improve public experience.
 
-# Initial questions
+## Initial questions
 1. Analysis of Cleanliness Ratings by Different Features:
 - How often are different features rated as “Unacceptable” (U) or “Very Unacceptable” (U/S)?
 - What are the top three features that are most likely to be “Acceptable” in each borough?
@@ -24,8 +25,10 @@ This project was inspired by the goal of exploring cleanliness in NYC parks, ide
 3. Analysis of the Relationship Between Cleanliness and Park Categories:
 - How does cleanliness differ among different park categories?
 
-# Data 
-## Data Source
+## Data 
+
+**Data Source**
+
 The data contains related datasets about the Parks Inspection Program (PIP), a comprehensive, outcome-based performance measurement system that generates detailed inspections of parks and buildings. Inspectors perform approximately 6,000 PIP inspections each year, giving each inspected property an “Acceptable” (A) or “Unacceptable” (U) rating for overall condition and cleanliness. Individual “A” or “U” ratings are given to as many as 17 separate park features which fall under three broad categories: cleanliness, structural, and landscape. 
 
 Datasets on properties and cleanliness are maintained in this project, including the following: 
@@ -34,12 +37,14 @@ Datasets on properties and cleanliness are maintained in this project, including
 - [Parks Inspection Program – Feature Ratings](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Feature-Ratings/5mma-5n3h/about_data): Contains ratings for inspected property features, with each row representing a rating for a specific feature. Provides the cleanliness feature IDs, corresponding ratings, etc., for each park.  
 - [Parks Inspection Program – Inspections](https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data): Contains overall ratings related to property inspections, with each row representing an individual inspection. Provides details such as inspection times, park cleanliness ratings, etc.
 
-## Data Processing
+**Data Processing**
+
 - Data Cleaning: Initially, multiple datasets were loaded and cleaned, ensuring consistent column names.  
 - Feature Filtering: Selected relevant cleanliness features, including Litter, Glass, Graffiti, Weeds, and Ice, for focused analysis.  
 - Data Merging: Merged datasets based on `prop_id` and `inspection_id` to build a complete dataset covering park information, feature ratings, and cleanliness inspection data.  
 
 - Data Organization: Further cleaned and standardized the combined dataset, addressing missing values, removing unnecessary columns, and formatting string values to maintain data consistency.
+
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(plotly)
@@ -78,8 +83,8 @@ pip <- pip_all |>
   mutate(rating = toupper(trimws(rating)), boro = toupper(trimws(boro)))
 ```
 
+**Final Dataset**
 
-## Final Dataset
 The variables in the final dataset are:  
 
 - `prop_num`: Unique identification number for each park property.  
@@ -98,13 +103,15 @@ The variables in the final dataset are:
 - `inspection_year`: Inspection year of inspection.  
 - `cleanliness`: Cleanliness rating (A= acceptable; U= unacceptable; N= not rated).
 
-# Analysis
+## Exploratory Analysis
 
-## 1. Cleanliness rating analysis of different features
+### 1. Cleanliness rating analysis of different features
 **Objective:** To understand the differences in cleanliness between different features (Litter, Glass, Graffiti, Weeds, Ice).  
 
-### "U and U/S times" vs. "feature Category"
+**"U and U/S times" vs. "feature Category"**. 
+
 Count the number of times each feature is rated "unacceptable" (U) or "very unacceptable" (U/S) in each park. Find out what kind of features are most unacceptable and analyze the distribution characteristics of these features.
+
 ```{r}
 feature_summary <- pip |>
   group_by(feature) |>
@@ -246,11 +253,13 @@ kable_styling(full_width = FALSE)
 These results suggest significant differences in the cleanliness maintenance of Greenstreets across different regions, while specific parks like Highbridge Park and Dr John's Playground need more attention and improvement.
 
 
-## 2. Analysis of the cleanliness score in different time periods
+### 2. Analysis of the cleanliness score in different time periods
 **Objective:** Explore the impact of different time periods on park cleanliness, including seasons and years.
 
-### "Acceptable Ratio of Borough and City cleanliness" VS "Year"
+**"Acceptable Ratio of Borough and City cleanliness" VS "Year"**
+
 To calculate and compare the overall "A" rating proportion of cleanliness in each borough and the whole New York City each year, and to analyze the cleanliness trend in different boroughs.
+
 ```{r message=FALSE, warning=FALSE}
 annual_cleanliness_summary <- pip |>
   filter(!is.na(cleanliness)) |>
@@ -314,7 +323,8 @@ ggplotly(p2)
 - `Staten Island` consistently maintains an Acceptable proportion above 96%, making it the most stable and cleanest borough throughout the period. `Queens` starts with a high cleanliness proportion in 2015, rising significantly after 2018 to nearly 97%, and remains one of the leading boroughs despite a slight decline.  
 - The decline around 2020 could be attributed to pandemic-related resource shortages and increased maintenance challenges.  
 
-### "Acceptable Ratio of cleanliness across Boroughs" VS "Season"
+**"Acceptable Ratio of cleanliness across Boroughs" VS "Season"**
+
 To analyze the differences in cleanliness scores in spring, summer, fall, and winter over a 10-year period.
 ```{r}
 park_cleanliness_summary <- pip |> 
@@ -367,10 +377,10 @@ ggplot(park_cleanliness_summary, aes(
 - There is missing data point for Staten Island and Manhattan in Fall 2022, possibly due to disruptions in data collection during the pandemic.  
 
 
-## 3. Association analysis of cleanliness and park category
+### 3. Association analysis of cleanliness and park category
 **Objective:** To study the association between park types and cleanliness and to assess which park types are more likely to accumulate litter.
 
-### Cleanliness differences between different Park categories 
+**Cleanliness differences between different Park categories**
 To analyze cleanliness scores for different categories of parks (Greenstreet, Large Center, Large Park, Other, Playground, Property, Schoolyard, Small Center, Small Park) and assess which types of parks are most likely to be kept clean and which are most likely to have problems.
 
 First, we draw a stacked bar chart to show the cleanliness rating distribution of different types of parks.
@@ -426,5 +436,5 @@ clean_data |>
 - The proportion of "U" ratings is relatively low, with noticeable increases in the `Large Park` and `Small Park` categories. Specifically, `Large Park` shows a higher percentage of "U" ratings.  
 - Other categories, such as `Greenstreet`, `Large Center`, and `Small Center`, show almost no "U" ratings, with proportions close to 0%.  
 
-# Discussion
+## Discussion
 Our findings indicate that certain features, seasons, and boroughs are associated with lower cleanliness scores. Notably, "Graffiti" and "Litter" were consistently found as problematic features. The overall cleanliness also fluctuated across different seasons, with winter generally showing higher acceptable ratings. Spatially, the boroughs showed notable differences, with some boroughs consistently lagging in cleanliness ratings. These findings align with our expectations and suggest that feature-specific interventions and seasonal adjustments are critical for enhancing park cleanliness.

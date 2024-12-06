@@ -1,0 +1,28 @@
+
+.navbar {
+  width: 100%;
+  padding-left: 20px;  
+  padding-right: 20px; 
+}
+
+
+.navbar-nav > li > a {
+  font-size: 18px; 
+  padding: 15px 20px; 
+}
+
+
+.navbar-brand {
+  font-size: 24px;  
+}
+
+
+.navbar-nav {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.navbar {
+  background-color: #001f3f;
+}
