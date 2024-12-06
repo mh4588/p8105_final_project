@@ -1,0 +1,66 @@
+---
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{css, echo=FALSE}
+<style>
+#home-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #001f3f;
+  color: white;
+}
+
+#home-container .image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+#home-container img {
+  width: 100%;
+  height: 400px; /* Set a fixed height to make the image longer */
+  object-fit: cover;
+}
+
+#home-container .image-container .image-title {
+  position: absolute;
+  bottom: 100px;  /* Position at the bottom of the image */
+  left: 20px;
+  font-size: 35px;
+  color: white;  /* Set the title color to white */
+  font-weight: bold;
+}
+
+#home-container .image-container .sub-title {
+  position: absolute;
+  bottom: 50px;  /* Adjusted to be a bit higher than the title */
+  left: 20px;
+  font-size: 24px;
+  color: white;  /* Set the subtitle color to white */
+}
+
+#home-container .image-container .authors {
+  position: absolute;
+  bottom: 10px;  /* Adjusted to be a bit higher than the subtitle */
+  left: 20px;
+  font-size: 18px;
+  color: white;  /* Set the authors color to white */
+}
+</style>
+
+<div id="home-container">
+  <div class="image-container">
+    <img src="images/central_park.jpg" alt="NYC Parks">
+    <!-- Title text -->
+    <div class="image-title">Data Analysis: Central to Understanding NYC Parks</div>
+    <!-- Subtitle text -->
+    <div class="sub-title">A Data-Driven Stroll Through New York City's Parks</div>
+    <!-- Authors -->
+    <div class="authors">Yining Cao, Maggie Hsu, Fengwei Lei, Xueting Li, Liqi Zhou</div>
+  </div>
+</div>
+```

@@ -11,13 +11,12 @@
 
 
 
-<title>Data Analysis: Central to Understanding NYC Parks</title>
-<link rel="icon" href="images/favicon.png">
+<title>index.knit</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,9 +29,14 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -59,9 +63,7 @@ if (window.hljs) {
 
 
 
-<link rel="stylesheet" href="bootstrap.css" type="text/css" />
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
 <style type = "text/css">
@@ -222,6 +224,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -229,6 +294,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -241,16 +316,17 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><b>Home</b></a>
+      <a class="navbar-brand" href="index.html">Home</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-       <li class="dropdown">
+        <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    About     
+    About
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -262,7 +338,6 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
-             
 <li>
   <a href="data.html">Data</a>
 </li>
@@ -290,7 +365,12 @@ $(document).ready(function () {
 <li>
   <a href="maps.html">Facility Maps</a>
 </li>
-
+<li>
+  <a href="https://github.com/mh4588/p8105_final_project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -298,43 +378,76 @@ $(document).ready(function () {
 
 <div id="header">
 
+
+
+
+</div>
+
+
+<style type="text/css">
 <style>
-p.padding {
-  padding-top: 3%;
+#home-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #001f3f;
+  color: white;
 }
-</style> 
 
-<p class="padding">
+#home-container .image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
 
-<div class="container">
-  <div class="jumbotron">
-    <h1>Data Analysis: Central to Understanding NYC
-Parks</h1>
-    <h2>A Data-Driven Stroll Through New York City's Parks</h2>
-    <p>Yining Cao, Maggie Hsu, Fengwei Lei, Xueting Li, Liqi Zhou</p>
+#home-container img {
+  width: 100%;
+  height: 400px; /* Set a fixed height to make the image longer */
+  object-fit: cover;
+}
+
+#home-container .image-container .image-title {
+  position: absolute;
+  bottom: 100px;  /* Position at the bottom of the image */
+  left: 20px;
+  font-size: 35px;
+  color: white;  /* Set the title color to white */
+  font-weight: bold;
+}
+
+#home-container .image-container .sub-title {
+  position: absolute;
+  bottom: 50px;  /* Adjusted to be a bit higher than the title */
+  left: 20px;
+  font-size: 24px;
+  color: white;  /* Set the subtitle color to white */
+}
+
+#home-container .image-container .authors {
+  position: absolute;
+  bottom: 10px;  /* Adjusted to be a bit higher than the subtitle */
+  left: 20px;
+  font-size: 18px;
+  color: white;  /* Set the authors color to white */
+}
+</style>
+
+<div id="home-container">
+  <div class="image-container">
+    <img src="images/central_park.jpg" alt="NYC Parks">
+    <!-- Title text -->
+    <div class="image-title">Data Analysis: Central to Understanding NYC Parks</div>
+    <!-- Subtitle text -->
+    <div class="sub-title">A Data-Driven Stroll Through New York City's Parks</div>
+    <!-- Authors -->
+    <div class="authors">Yining Cao, Maggie Hsu, Fengwei Lei, Xueting Li, Liqi Zhou</div>
   </div>
 </div>
+</style>
 
-<p class="padding">
-  
-<div id="about-this-site" class="section level2">
-  
-<h2>Introduction</h2>
 
-<hr>
-<div id="section" class="section level1">
-<h1></h1>
-<div id="about-this-site-1" class="section level3">
-<h3>About this site</h3>
-<p>Sometimes you need to say a bit about the site – how it was made,
-where it’s hosted, where the source code can be found.</p>
-<p>If this is for a project or analysis, I recommend giving some details
-about the R package versions that you used to create the content.</p>
+
 </div>
 </div>
-
-
-
 
 </div>
 
@@ -367,6 +480,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
