@@ -1,11 +1,14 @@
 ---
 title: "Syringes in NYC Parks"
-output:  
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '2'
   html_document:
     toc: true
     toc_float: true
     toc_depth: 2
-    code_folding: show
+    code_folding: hide
 ---
 ## Motivation
 The critical issue of syringe litter in New York City parks was vividly highlighted in a recent YouTube video["Used syringes, needles litter one of the Bronx's largest parks"](https://www.youtube.com/watch?v=E_udp3ewgf0), which documented the disturbing presence of discarded needles in one of the borough's major recreational spaces. This visual evidence of the problem resonated with growing community concerns about public safety and health risks in urban parks, particularly in areas where children and families gather. While this coverage brought public attention to the issue, there remains a critical need for systematic, data-driven analysis of syringe litter patterns across NYC parks to inform evidence-based interventions and policy decisions.
@@ -15,7 +18,7 @@ The critical issue of syringe litter in New York City parks was vividly highligh
 
 </div>
 
-## Main questions we want to answer with this dataset
+## Initial questions
 
 - How does syringe litter differ between parks?  
 - How does utilization of safe disposal kiosks change over time?  
@@ -57,15 +60,16 @@ syringe_df <- read_csv("data/nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Par
     ground_syringes = ifelse(is.na(ground_syringes), 0, ground_syringes),
     kiosk_syringes = ifelse(is.na(kiosk_syringes), 0, kiosk_syringes),
     total_syringes = ifelse(is.na(total_syringes), 0, total_syringes),
-    kiosk_number = ifelse(is.na(kiosk_number), 0, kiosk_number )) %>%
+    kiosk_number = ifelse(is.na(kiosk_number), 0, kiosk_number ),
+    kiosk_site = ifelse(kiosk_syringes > 0, TRUE, kiosk_site)) %>%
   distinct() %>%
   filter(location != "0") %>% 
   select(-c(response_id, gispropnum, omppropid, created_date, precinct, source, kiosk_type, collected_date, time_of_day, group, district, week)) %>% 
   relocate(location, everything())
 ```
-The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (ground_syringes, kiosk_syringes, total_syringes) and kiosk numbers were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = "0") were filtered out. Finally, we streamlined the dataset by removing non-essential administrative fields such as response_id, property numbers, precinct information, and collection details, resulting in a more focused dataset for analysis.
+The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (`ground_syringes`, `kiosk_syringes`, `total_syringes`) and `kiosk_numbers` were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = "0") were filtered out. Especially, we updated `kiosk_site` to TRUE where `kiosk_syringes` > 0, this ensures locations with recorded kiosk usage are properly flagged.
 
-The variable we kept in the dataset are:  
+The variables we kept in the dataset are:  
 - `location`: The name of the park where syringes were collected.  
 - `borough`: Borough in which syringe collection took place.    
 - `property_type`: Describes the location of syringe collection as park, zone, or playground.    
@@ -115,6 +119,7 @@ p10 <- ggplot(head(location_trends, 10),
 
 ggplotly(p10)
 ```
+
 Among the top 10 locations with the highest average annual increase in syringe findings, Aqueduct Walk and St. Mary's Park show significantly higher rates of increase, with approximately 4,000 and 3,500 additional syringes per year respectively. St. James Park ranks third with about 2,000 annual increases, while the remaining locations, including Washington Square Park and Poe Park, show more moderate increases of less than 1,000 syringes per year.
 
 Let's see the summary statistics of syringe count columns
@@ -168,6 +173,7 @@ p2 = ggplot(syringe_df, aes(x = kiosk_syringes)) +
 
 p1 + p2
 ```
+
 The distribution of syringe findings shows markedly different patterns between ground and kiosk collections. Ground syringes show a highly right-skewed distribution with most counts falling between 0-50 and a median around 10 (indicated by the red dashed line). In contrast, kiosk syringes demonstrate a more concentrated distribution within the 0-25 range, with notably fewer occurrences overall and a median near zero, suggesting limited utilization of disposal facilities.
 
 ```{r}
@@ -191,6 +197,7 @@ ggplot(syringe_df, aes(x = total_syringes)) +
     axis.text = element_text(size = 12)
   )
 ```
+
 The total syringes distribution shows a similar pattern to ground syringes, with a right-skewed distribution and a median around 10. 
 
 ```{r}
@@ -200,6 +207,7 @@ location_count <- syringe_df %>%
 print(paste("Total number of unique parks:", location_count))
 
 ```
+
 We identified 477 unique parks in this dataset, indicating a broad representation of NYC's park system in the syringe collection records.
 
 ```{r}
@@ -220,6 +228,7 @@ We identified 477 unique parks in this dataset, indicating a broad representatio
     axis.title = element_text(size = 12)
   )
 ```
+
 Due to the limited utilization of kiosk sites, the distribution of kiosk and non-kiosk locations is highly imbalanced, with a vast majority of syringe collection sites lacking kiosk facilities.
 
 So we want to see the distribution of syringe kiosks, here is the map of syringe kiosks in NYC parks.
@@ -228,7 +237,6 @@ So we want to see the distribution of syringe kiosks, here is the map of syringe
 syringe_map = read_csv("data/nycparks_syringe/Parks_Syringe_Disposal_Kiosks_20241202.csv")
 
 process_data <- function(syringe_map) {
-  # Extract coordinates from POINT column
   syringe_map$POINT_lng <- as.numeric(gsub(".*\\((.*) .*\\)", "\\1", syringe_map$Point))
   syringe_map$POINT_lat <- as.numeric(gsub(".*\\(.* (.*)\\)", "\\1", syringe_map$Point))
   return(syringe_map)
@@ -271,6 +279,7 @@ map <- leaflet(syringe_map) %>%
 map
 
 ```
+
 The map provides a visual representation of syringe kiosk locations in NYC parks, with distinct markers indicating different kiosk types and statuses. The interactive features allow users to explore individual kiosk details and container sizes, providing valuable insights into the distribution and accessibility of safe disposal facilities across the city.
 
 Next, we will explore the temporal trends in syringe findings and kiosk utilization rates to identify patterns and potential correlations between these metrics.
@@ -419,6 +428,7 @@ p6 <- ggplot(property_summary,
 ggplotly(p6, tooltip = "text")
 ```
 
+The distribution of unique locations with syringe findings varies significantly across different property types. Traditional parks (PARK) dominate with approximately 400 unique locations, while other property types - Greenstreets (GREENST), Playgrounds (PLGD), and Zones (ZONE) - each report far fewer locations, around 40-50 sites each. This pattern suggests that syringe-related issues are predominantly concentrated in standard park areas rather than specialized recreational spaces.
 
 ```{r}
 monthly_kiosk_trend <- syringe_df %>%
@@ -449,6 +459,8 @@ p7 <- ggplot(monthly_kiosk_trend,
 
 ggplotly(p7, tooltip = "text")
 ```
+
+The kiosk utilization rate demonstrates a pronounced downward trend from 2018 to 2024. During the early period (2017-2020), utilization fluctuated considerably between 40-70%, with peak rates reaching around 70%. A significant decline occurred post-2021, with rates steadily dropping to approximately 10-15% by 2024. This substantial decrease suggests a concerning trend in the effectiveness or acceptance of the kiosk disposal program over time, particularly in recent years.
 
 
 ```{r}
@@ -494,6 +506,9 @@ p8 <- plot_ly() %>%
   )
 p8
 ```
+
+This plot compares ground-found and kiosk-collected syringes from 2017 to 2024, revealing a stark contrast between collection methods. Ground syringes (shown in blue) demonstrate high variability and an overall increasing trend, with peaks reaching over 25,000 in 2022. In contrast, kiosk collections (shown in green) remain consistently lower, rarely exceeding 5,000 syringes, and show a declining trend toward zero by 2024. This disparity suggests that despite the implementation of kiosk disposal programs, ground collection remains the predominant method of syringe recovery in NYC parks. 
+
 ```{r}
 location_comparison <- syringe_df %>%
   group_by(location) %>%
@@ -538,144 +553,52 @@ ggplotly(p9, tooltip = c("y", "x")) %>%
 
 ```
 
+The boxplot reveals a stark contrast in syringe distribution by kiosk presence, but the majority of parks do not have kiosks installed. While locations with kiosks show higher syringe counts and greater variability (with outliers reaching 300,000), this may reflect a strategic placement of kiosks in areas already known to have higher syringe activity rather than indicating kiosk effectiveness. The compressed distribution for "No Kiosk" locations represents a much larger number of parks, most of which experience lower syringe counts.
+
+### Additional questions——Predictive modeling
+
+We also want to explore the relationship between syringe counts and other factors including `property_type`, `borough`,`year`, `month` and `kiosk_site`. To do this, we built a linear regression model to predict syringe counts based on these variables and evaluate the model's performance.
+
 ```{r}
-# 1. Time Series Model
-monthly_data <- syringe_df %>%
-  group_by(year, month) %>%
-  summarise(
-    total_syringes = sum(total_syringes),
-    ground_syringes = sum(ground_syringes),
-    kiosk_syringes = sum(kiosk_syringes)
-  ) %>%
-  mutate(
-    date = as.Date(paste(year, month, "01", sep = "-")),
-    month_number = as.numeric(month)
-  ) %>%
-  ungroup()
-
-# Fit time series model
-time_model <- lm(total_syringes ~ month_number + factor(month), data = monthly_data)
-
-monthly_data$predicted <- predict(time_model, monthly_data)
-
-```
-```{r}
-# 2. Location-based Model with unique locations
-unique_locations <- syringe_df %>%
-  distinct(location, .keep_all = TRUE) %>%
-  select(location, property_type, kiosk_site)
-
-location_totals <- syringe_df %>%
-  group_by(location) %>%
+model_data <- syringe_df %>%
+  group_by(location, year, month, property_type, borough, kiosk_site) %>%
   summarise(
     total_syringes = sum(total_syringes),
     has_kiosk = any(kiosk_site == TRUE, na.rm = TRUE)
   ) %>%
   ungroup()
 
-location_model_data <- unique_locations %>%
-  left_join(location_totals, by = "location") %>%
-  na.omit()
+model <- lm(total_syringes ~ property_type + has_kiosk + borough + month + year, 
+                    data = model_data)
 
-# Fit location model
-location_model <- lm(total_syringes ~ property_type + has_kiosk, 
-                    data = location_model_data)
+model_data$predicted <- predict(model)
 
-location_model_data$predicted <- predict(location_model, location_model_data)
-```
-
-
-```{r}
-p11 <- ggplot(monthly_data) +
-  geom_line(aes(x = date, y = total_syringes, color = "Actual"), size = 1) +
-  geom_line(aes(x = date, y = predicted, color = "Predicted"), size = 1) +
-  theme_minimal() +
-  labs(title = "Actual vs Predicted Monthly Syringe Counts",
-       x = "Date",
-       y = "Total Syringes",
-       color = "Type") +
-  scale_color_manual(values = c("Actual" = "#FF6B6B", "Predicted" = "#4ECDC4"))
-
-ggplotly(p11)
-```
-
-
-```{r}
-p12 <- ggplot(location_model_data) +
-  geom_point(aes(x = predicted, y = total_syringes, color = property_type)) +
+p11 = ggplot(model_data, aes(x = predicted, y = total_syringes, color = borough)) +
+  geom_point(alpha = 0.6) +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
   theme_minimal() +
-  labs(title = "Model Predictions vs Actual Values (Unique Locations)",
-       x = "Predicted Syringes",
-       y = "Actual Syringes",
-       color = "Property Type")
+  labs(title = "Actual vs Predicted Syringe Counts",
+       x = "Predicted Count",
+       y = "Actual Count") +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
 
-ggplotly(p12)
+  ggplotly(p11)
 ```
+
+The scatter plot of actual versus predicted syringe counts reveals considerable variation in model performance across different boroughs. While there is a positive correlation between predicted and actual counts (indicated by the dashed line), the model appears to underpredict high syringe counts, particularly in the Bronx and Manhattan where several points fall well above the prediction line. Manhattan shows the highest concentration of points at higher predicted values, while Staten Island and Queens cluster at lower predicted counts. The model's predictions range from -500 to about 1,000 syringes, with actual counts reaching up to 10,000, suggesting limitations in capturing extreme cases.
+
 
 ```{r}
-seasonal_effects <- broom::tidy(time_model) %>%
-  filter(grepl("factor\\(month\\)", term)) %>%
-  mutate(
-    month = as.numeric(gsub("factor\\(month\\)", "", term)),
-    significant = p.value < 0.05
-  )
-
-# Visualize seasonal effects
-ggplot(seasonal_effects, 
-             aes(x = factor(month), 
-                 y = estimate, 
-                 fill = significant)) +
-  geom_bar(stat = "identity") +
-  theme_minimal() +
-  labs(title = "Seasonal Effects in Time Series Model",
-       x = "Month",
-       y = "Effect Size",
-       fill = "Statistically\nSignificant") +
-  scale_fill_manual(values = c("grey", "#FF6B6B"))
-
-```
-```{r}
-monthly_data$residuals_time <- residuals(time_model)
-monthly_data$fitted_time <- fitted(time_model)
-
-ggplot(monthly_data, 
-             aes(x = fitted_time, 
-                 y = residuals_time)) +
-  geom_point() +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  theme_minimal() +
-  labs(title = "Residual Plot - Time Series Model",
-       x = "Fitted Values",
-       y = "Residuals")
+par(mfrow=c(2,2))
+plot(model)
 ```
 
-```{r}
-location_effects <- broom::tidy(location_model) %>%
-  mutate(significant = p.value < 0.05)
+The diagnostic plots reveal several concerns with the our model's assumptions. The Residuals vs Fitted plot shows a clear pattern with increasing variance at higher fitted values, indicating heteroscedasticity. The Q-Q plot demonstrates significant deviation from normality, particularly in the upper tail, suggesting the presence of outliers. The Scale-Location plot confirms non-constant variance across fitted values, while the Residuals vs Leverage plot identifies several influential observations (points 1972, 1968, and 129). These diagnostics suggest that model transformations or alternative modeling approaches may be needed to better meet regression assumptions.
 
-vif_results <- vif(location_model)
+## Discussion
+The analysis reveals that syringe findings are predominantly concentrated in traditional PARK locations, which account for approximately 400 Parks, significantly outnumbering other property types such as Greenstreets, Playgrounds, and Zones (each with around 40-50 locations). Geographically, the Bronx leads with over 200 unique locations, followed by Manhattan with approximately 160 sites, while other boroughs like Brooklyn, Queens, and Staten Island show considerably fewer affected areas. Monthly trends indicate higher syringe counts during summer months, with peak findings reaching over 25,000 in mid-2022, suggesting both temporal and spatial patterns in distribution that warrant targeted intervention strategies.
 
-location_model_data$residuals_loc <- residuals(location_model)
-location_model_data$fitted_loc <- fitted(location_model)
+Our analysis of NYC parks' syringe data reveals concerning trends: a sharp decline in kiosk utilization (from 70% to 10-15%) despite increasing ground findings, and significant geographic disparities with the Bronx and Manhattan showing the highest concentrations. Traditional parks face the greatest challenges. 
 
-ggplot(location_model_data, 
-             aes(x = fitted_loc, 
-                 y = residuals_loc,
-                 color = property_type)) +
-  geom_point() +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  theme_minimal() +
-  labs(title = "Residual Plot - Location Model",
-       x = "Fitted Values",
-       y = "Residuals",
-       color = "Property Type")
-```
-
-
-
-
-
-
-
-Discussion: (What were your findings? Are they what you expect? What insights into the data can you make?)
+The regression model highlights the complexity of factors influencing syringe distribution, though its predictive power is limited for extreme cases. These findings suggest the need for a revised harm reduction strategy, focusing on targeted interventions in high-risk areas and reevaluation of the kiosk program's implementation. The model diagnostics reveal heteroscedasticity and non-normality, particularly in high-volume locations, suggesting that the relationship between environmental factors and syringe findings is more complex than initially assumed. Future research should explore additional variables and modeling techniques to improve predictive accuracy and inform evidence-based policy decisions.
