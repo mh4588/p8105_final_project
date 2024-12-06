@@ -40,7 +40,28 @@
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 <html>
 <head>
-<link rel="shortcut icon" href="images/favicon.png" />
+<script>
+  // Dynamically set the favicon based on the page URL
+  const url = window.location.pathname; // Get the current page's URL path
+  let faviconPath = "images/favicon.png"; // Default favicon
+
+  // Set favicon based on specific keywords in the URL
+  if (url.includes("restroom")) {
+    faviconPath = "images/restroom_icon.png";
+  } else if (url.includes("cleanliness")) {
+    faviconPath = "images/cleanliness_icon.jpg";
+  } else if (url.includes("crime")) {
+    faviconPath = "images/crime_icon.png";
+  } else if (url.includes("syringe")) {
+    faviconPath = "images/needle.png";
+  }
+
+  // Dynamically create and append the favicon link
+  const link = document.createElement("link");
+  link.rel = "shortcut icon";
+  link.href = faviconPath;
+  document.head.appendChild(link);
+</script>
 </head>
 </html>
 
@@ -330,7 +351,25 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report.html">Report</a>
+    </li>
+    <li>
+      <a href="about_team.html">About the Team</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="data.html">Data</a>
 </li>
 <li>
@@ -356,23 +395,6 @@ div.tocify {
 </li>
 <li>
   <a href="maps.html">Facility Maps</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    About
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="report.html">Report</a>
-    </li>
-    <li>
-      <a href="about_team.html">About the Team</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="https://github.com/mh4588/p8105_final_project">

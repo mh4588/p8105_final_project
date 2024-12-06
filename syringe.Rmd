@@ -6,7 +6,6 @@ output:
     toc_float: true
     toc_depth: 2
     code_folding: hide
-    favicon: "images/needle.png"
 ---
 
 ## Motivation
@@ -69,7 +68,8 @@ syringe_df <- read_csv("data/nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Par
 
 The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (`ground_syringes`, `kiosk_syringes`, `total_syringes`) and `kiosk_numbers` were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = "0") were filtered out. Especially, we updated `kiosk_site` to TRUE where `kiosk_syringes` > 0, this ensures locations with recorded kiosk usage are properly flagged.
 
-The variables we kept in the dataset are:  
+The variables we kept in the dataset are: 
+
 - `location`: The name of the park where syringes were collected.  
 - `borough`: Borough in which syringe collection took place.    
 - `property_type`: Describes the location of syringe collection as park, zone, or playground.    
@@ -131,7 +131,7 @@ syringe_df %>%
 
 The summary statistics reveal that among 34,867 syringe-related records, the median total syringes found was 10 (IQR: 3-26), while kiosk usage metrics consistently showed zero values, suggesting limited utilization of safe disposal facilities.
 
-```{r warning = FALSE}
+```{r message=FALSE, warning = FALSE}
 
 p1 = ggplot(syringe_df, aes(x = ground_syringes)) +
   geom_histogram(binwidth = 10, fill = "#69b3a2", color = "white", alpha = 0.8) +
@@ -176,7 +176,7 @@ p1 + p2
 
 The distribution of syringe findings shows markedly different patterns between ground and kiosk collections. Ground syringes show a highly right-skewed distribution with most counts falling between 0-50 and a median around 10 (indicated by the red dashed line). In contrast, kiosk syringes demonstrate a more concentrated distribution within the 0-25 range, with notably fewer occurrences overall and a median near zero, suggesting limited utilization of disposal facilities.
 
-```{r warning = FALSE}
+```{r message=FALSE, warning = FALSE}
 ggplot(syringe_df, aes(x = total_syringes)) +
   geom_histogram(binwidth = 10, fill = "#69b3a2", color = "white", alpha = 0.8) +
   xlim(0, 200) +
@@ -200,12 +200,10 @@ ggplot(syringe_df, aes(x = total_syringes)) +
 
 The total syringes distribution shows a similar pattern to ground syringes, with a right-skewed distribution and a median around 10. 
 
-```{r warning = FALSE}
+```{r message=FALSE, warning = FALSE}
 location_count <- syringe_df %>%
   distinct(location) %>%
   nrow()
-print(paste("Total number of unique parks:", location_count))
-
 ```
 
 We identified 477 unique parks in this dataset, indicating a broad representation of NYC's park system in the syringe collection records.

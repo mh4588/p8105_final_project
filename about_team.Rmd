@@ -2,11 +2,75 @@
 title: "About the Team"
 ---
 
-### About us
 
 Welcome to our project! We are a team of MS students in the Biostatistics program at Columbia University Mailman School of Public Health.
 
 Through data-driven storytelling in "Data Analysis: Central to Understanding NYC Parks," we're diving deep into NYC's urban landscape, using numbers to unveil the hidden rhythms of park life and working to make these vital public spaces safer and more welcoming for all New Yorkers!
 
 ### Meet the team
-# <img src="images/Xueting Li.jpg" alt="Avatar" width="300" height="300" style="border:2px solid green"> [Xueting Li](Summer-lxt-32.github.io)
+
+```{css, echo = FALSE}
+img.portrait{
+  width:60%;
+  float:bottom;
+  float:right;
+}
+```
+
+```{=html}
+<table style="width:90%">
+  <tr>
+    <td><h3>Fengwei Lei</h3></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/fengweiL">Fengwei Lei</a> is a lovely girl who loves photography. She enjoys capturing moments that tell a story, whether it's the vibrant colors of nature, the energy of urban life, or the essence of the people she meet along the way.</td>
+    <td><img src="images/Fengwei Lei.jpg" class="portrait"></td>
+
+    
+  </tr>
+  <tr>
+    <td><h3>Liqi Zhou</h3></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/Zhou-cccc">Liqi Zhou</a> loves watching various TV dramas and movies from around the world, covering different genres, and sometimes watches musicals and plays. The most enjoyable thing for her is going out, having fun, and taking photos ^^</td>
+    <td><img src="images/Liqi Zhou.jpg" class="portrait"></td>
+  </tr>
+  
+  <tr>
+    <td><h3>Maggie Hsu</h3></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/mh4588">Maggie Hsu</a> your individual description </td>
+    <td><img src="images/Maggie Hsu.jpg" class="portrait"></td>
+  </tr>
+  
+  <tr>
+    <td><h3>Xueting Li</h3></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="Summer-lxt-32.github.io">Xueting Li</a> is a first year student at CUIMC. She loves the fast-paced nature of table tennis, which sharpens her reflexes and keeps her active while providing endless fun with friends. </td>
+    <td><img src="images/Xueting Li.jpg" class="portrait"></td>
+  </tr>
+  
+  <tr>
+    <td><h3>Yining Cao</h3></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/elyn001">Yining Cao</a> is an artistic and adventurous girl. She loves to paint vibrant scenes and also enjoys immersing herself in the imaginative worlds of video games.</td>
+    <td><img src="images/Yining Cao.jpg" class="portrait"></td>
+  </tr>
+</table>
+```
+
+<br>
+
+---
+
+We hope you enjoy our project and find something useful! 🌳🌿🌺
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>

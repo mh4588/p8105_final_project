@@ -6,7 +6,6 @@ output:
     toc_float: true
     toc_depth: 2
     code_folding: hide
-    favicon: "images/cleanliness_icon.png"
 ---
 
 ![](images/central_park_2.jpg)

@@ -1,5 +1,26 @@
 <html>
 <head>
-<link rel="shortcut icon" href="images/favicon.png" />
+<script>
+  // Dynamically set the favicon based on the page URL
+  const url = window.location.pathname; // Get the current page's URL path
+  let faviconPath = "images/favicon.png"; // Default favicon
+
+  // Set favicon based on specific keywords in the URL
+  if (url.includes("restroom")) {
+    faviconPath = "images/restroom_icon.png";
+  } else if (url.includes("cleanliness")) {
+    faviconPath = "images/cleanliness_icon.jpg";
+  } else if (url.includes("crime")) {
+    faviconPath = "images/crime_icon.png";
+  } else if (url.includes("syringe")) {
+    faviconPath = "images/needle.png";
+  }
+
+  // Dynamically create and append the favicon link
+  const link = document.createElement("link");
+  link.rel = "shortcut icon";
+  link.href = faviconPath;
+  document.head.appendChild(link);
+</script>
 </head>
 </html>
