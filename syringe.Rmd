@@ -1,14 +1,12 @@
 ---
 title: "Syringes in NYC Parks"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: '2'
   html_document:
     toc: true
     toc_float: true
     toc_depth: 2
     code_folding: hide
+    favicon: "images/needle.png"
 ---
 
 ## Motivation
@@ -52,7 +50,7 @@ library(car)
 ```
 
 ### Data cleaning
-```{r}
+```{r message = FALSE}
 syringe_df <- read_csv("data/nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Parks_20241125.csv") %>% 
   mutate(
     collected_date = mdy_hms(collected_date),
@@ -85,7 +83,7 @@ The variables we kept in the dataset are:
 
 ## Exploratory Data Analysis
 
-```{r}
+```{r message = FALSE}
 location_trends <- syringe_df %>%
   group_by(location, year) %>%
   summarise(
@@ -124,7 +122,7 @@ ggplotly(p10)
 Among the top 10 locations with the highest average annual increase in syringe findings, Aqueduct Walk and St. Mary's Park show significantly higher rates of increase, with approximately 4,000 and 3,500 additional syringes per year respectively. St. James Park ranks third with about 2,000 annual increases, while the remaining locations, including Washington Square Park and Poe Park, show more moderate increases of less than 1,000 syringes per year.
 
 Let's see the summary statistics of syringe count columns
-```{r}
+```{r message = FALSE, warning = FALSE}
 syringe_df %>% 
   select(c(6:8)) %>%
   tbl_summary()
@@ -132,7 +130,7 @@ syringe_df %>%
 
 The summary statistics reveal that among 34,867 syringe-related records, the median total syringes found was 10 (IQR: 3-26), while kiosk usage metrics consistently showed zero values, suggesting limited utilization of safe disposal facilities.
 
-```{r}
+```{r warning = FALSE}
 
 p1 = ggplot(syringe_df, aes(x = ground_syringes)) +
   geom_histogram(binwidth = 10, fill = "#69b3a2", color = "white", alpha = 0.8) +
@@ -177,7 +175,7 @@ p1 + p2
 
 The distribution of syringe findings shows markedly different patterns between ground and kiosk collections. Ground syringes show a highly right-skewed distribution with most counts falling between 0-50 and a median around 10 (indicated by the red dashed line). In contrast, kiosk syringes demonstrate a more concentrated distribution within the 0-25 range, with notably fewer occurrences overall and a median near zero, suggesting limited utilization of disposal facilities.
 
-```{r}
+```{r warning = FALSE}
 ggplot(syringe_df, aes(x = total_syringes)) +
   geom_histogram(binwidth = 10, fill = "#69b3a2", color = "white", alpha = 0.8) +
   xlim(0, 200) +
@@ -201,7 +199,7 @@ ggplot(syringe_df, aes(x = total_syringes)) +
 
 The total syringes distribution shows a similar pattern to ground syringes, with a right-skewed distribution and a median around 10. 
 
-```{r}
+```{r warning = FALSE}
 location_count <- syringe_df %>%
   distinct(location) %>%
   nrow()
@@ -211,7 +209,7 @@ print(paste("Total number of unique parks:", location_count))
 
 We identified 477 unique parks in this dataset, indicating a broad representation of NYC's park system in the syringe collection records.
 
-```{r}
+```{r message = FALSE}
   park_syringe = 
   syringe_df %>% 
   filter(!is.na(kiosk_site)) %>%
@@ -234,7 +232,7 @@ Due to the limited utilization of kiosk sites, the distribution of kiosk and non
 
 So we want to see the distribution of syringe kiosks, here is the map of syringe kiosks in NYC parks.
 
-```{r}
+```{r message = FALSE}
 syringe_map = read_csv("data/nycparks_syringe/Parks_Syringe_Disposal_Kiosks_20241202.csv")
 
 process_data <- function(syringe_map) {
@@ -285,7 +283,7 @@ The map provides a visual representation of syringe kiosk locations in NYC parks
 
 Next, we will explore the temporal trends in syringe findings and kiosk utilization rates to identify patterns and potential correlations between these metrics.
 
-```{r}
+```{r message = FALSE}
 yearly_monthly_trends <- syringe_df %>%
   group_by(year, month) %>%
   summarise(total_syringes = sum(total_syringes)) %>%
@@ -353,7 +351,7 @@ yearly_monthly_trends %>%
 
 
 
-```{r}
+```{r message = FALSE}
 monthly_trend <- syringe_df %>%
   group_by(month, month_text) %>%
   summarise(
@@ -376,7 +374,7 @@ all_monthly <- ggplot(monthly_trend, aes(x = month_text, y = total_syringes, gro
 
 The monthly syringe findings from 2017 to 2024 reveal a clear increasing trend over the years, with 2022 showing the highest peak of nearly 30,000 syringes in July. The data demonstrates consistent seasonal patterns, with higher counts typically occurring during summer months (June-September) and lower counts in winter months. Recent years (2021-2024) show notably higher syringe counts compared to earlier years (2017-2019), suggesting an intensifying challenge in urban park maintenance and public health management.
 
-```{r}
+```{r message = FALSE}
 borough_summary <- syringe_df %>%
   group_by(borough) %>%
   summarise(
@@ -403,7 +401,7 @@ ggplotly(p5, tooltip = "text")
 
 The distribution of unique locations with syringe findings varies substantially across NYC boroughs. The Bronx leads with over 200 unique locations, followed by Manhattan with approximately 160 locations. Brooklyn shows a moderate number with about 45 locations, while Queens and Staten Island report significantly fewer sites, with around 25 and 15 locations respectively. This geographic pattern suggests a concentration of syringe-related issues in the northern boroughs of the city.
 
-```{r}
+```{r message = FALSE}
 property_summary <- syringe_df %>%
   group_by(property_type) %>%
   summarise(
@@ -431,7 +429,7 @@ ggplotly(p6, tooltip = "text")
 
 The distribution of unique locations with syringe findings varies significantly across different property types. Traditional parks (PARK) dominate with approximately 400 unique locations, while other property types - Greenstreets (GREENST), Playgrounds (PLGD), and Zones (ZONE) - each report far fewer locations, around 40-50 sites each. This pattern suggests that syringe-related issues are predominantly concentrated in standard park areas rather than specialized recreational spaces.
 
-```{r}
+```{r message = FALSE}
 monthly_kiosk_trend <- syringe_df %>%
   group_by(year, month) %>%
   summarise(
@@ -464,7 +462,7 @@ ggplotly(p7, tooltip = "text")
 The kiosk utilization rate demonstrates a pronounced downward trend from 2018 to 2024. During the early period (2017-2020), utilization fluctuated considerably between 40-70%, with peak rates reaching around 70%. A significant decline occurred post-2021, with rates steadily dropping to approximately 10-15% by 2024. This substantial decrease suggests a concerning trend in the effectiveness or acceptance of the kiosk disposal program over time, particularly in recent years.
 
 
-```{r}
+```{r message = FALSE}
 monthly_comparison <- syringe_df %>%
   group_by(year, month) %>%
   summarise(
@@ -510,7 +508,7 @@ p8
 
 This plot compares ground-found and kiosk-collected syringes from 2017 to 2024, revealing a stark contrast between collection methods. Ground syringes (shown in blue) demonstrate high variability and an overall increasing trend, with peaks reaching over 25,000 in 2022. In contrast, kiosk collections (shown in green) remain consistently lower, rarely exceeding 5,000 syringes, and show a declining trend toward zero by 2024. This disparity suggests that despite the implementation of kiosk disposal programs, ground collection remains the predominant method of syringe recovery in NYC parks. 
 
-```{r}
+```{r message = FALSE}
 location_comparison <- syringe_df %>%
   group_by(location) %>%
   summarise(
@@ -560,7 +558,7 @@ The boxplot reveals a stark contrast in syringe distribution by kiosk presence, 
 
 We also want to explore the relationship between syringe counts and other factors including `property_type`, `borough`,`year`, `month` and `kiosk_site`. To do this, we built a linear regression model to predict syringe counts based on these variables and evaluate the model's performance.
 
-```{r}
+```{r message = FALSE}
 model_data <- syringe_df %>%
   group_by(location, year, month, property_type, borough, kiosk_site) %>%
   summarise(
@@ -590,7 +588,7 @@ p11 = ggplot(model_data, aes(x = predicted, y = total_syringes, color = borough)
 The scatter plot of actual versus predicted syringe counts reveals considerable variation in model performance across different boroughs. While there is a positive correlation between predicted and actual counts (indicated by the dashed line), the model appears to underpredict high syringe counts, particularly in the Bronx and Manhattan where several points fall well above the prediction line. Manhattan shows the highest concentration of points at higher predicted values, while Staten Island and Queens cluster at lower predicted counts. The model's predictions range from -500 to about 1,000 syringes, with actual counts reaching up to 10,000, suggesting limitations in capturing extreme cases.
 
 
-```{r}
+```{r message = FALSE}
 par(mfrow=c(2,2))
 plot(model)
 ```
