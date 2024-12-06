@@ -52,7 +52,12 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
 
 #### 2.1 Overall Cleanliness
 
+
 #### 2.2 Restroom Sanitation
+
+**Distribution of Restroom Sanitation Conditions**
+
+
 
 #### 2.3 Syringe Litter Issue
 
