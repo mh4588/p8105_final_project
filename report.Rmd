@@ -152,6 +152,64 @@ Restrooms with higher visitor counts are more likely to have lower ratings, espe
 
 #### 2.3 Syringe Litter Issue
 
+**Top 10 Locations with the Highest Average Annual Increase in Syringe Findings**
+
+
+<img src="images/report/top_10_locations.png" class="center">
+
+We found that Aqueduct Walk and St. Mary's Park show significantly higher rates of increase, with approximately 4,000 and 3,500 additional syringes per year respectively. These two parks require immediate attention to address the growing syringe litter issue.
+
+**Total Syringe Distribution**
+
+<img src="images/report/total_syringes_distribution.png" class="center">
+
+The total syringes distribution shows a heavily skewed distribution, with a significant number of parks having a very low number of syringes, and a small number of parks having a very high number of syringes.
+
+The data provides important insights into the scale and distribution of this public health and safety concern, which can help policymakers and local authorities determine where to focus their efforts and resources to address the problem of improper syringe disposal in NYC's green spaces.
+
+**Seasonal Trends in Syringe Findings**
+
+```{=html}
+<div class="row">
+  <div class="column2">
+    <img src="images/report/monthly_syringe_trends.png" style="width:100%;">
+  </div>
+  <div class="column2">
+    <img src="images/report/monthly_syringe_trends_all.png" style="width:100%;">
+  </div>
+</div>
+```
+
+The monthly syringe findings from 2017 to 2024 reveal a clear increasing trend over the years, with 2022 showing the highest peak of nearly 30,000 syringes in July. The data demonstrates consistent seasonal patterns, with higher counts typically occurring during summer months (June-September) and lower counts in winter months. Recent years (2021-2024) show notably higher syringe counts compared to earlier years (2017-2019), suggesting an intensifying challenge in urban park maintenance and public health management.
+
+**Syringe Findings by Property Type and Borough**
+
+```{=html}
+<div class="row">
+  <div class="column2">
+    <img src="images/report/borough_summary.png" style="width:100%;">
+  </div>
+  <div class="column2">
+    <img src="images/report/property_summary.png" style="width:100%;">
+  </div>
+</div>
+```
+
+For the boroughs, the graph shows that the Bronx leads with over 200 unique locations, followed by Manhattan with approximately 160 locations, indicating that this issue is more prevalent in these two boroughs compared to others like Brooklyn, Queens, and Staten Island.
+
+For the property types, traditional parks (PARK) dominate with approximately 400 unique locations, while other property types - Greenstreets (GREENST), Playgrounds (PLGD), and Zones (ZONE) - each report far fewer locations, around 40-50 sites each. This pattern suggests that syringe-related issues are predominantly concentrated in standard park areas rather than specialized recreational spaces.
+
+**Kiosk Utilization over Time**
+
+<img src="images/report/kiosk_utilization_rate.png" class="center">
+
+The kiosk utilization rate demonstrates a pronounced downward trend from 2018 to 2024. During the early period (2017-2020), utilization fluctuated considerably between 40-70%, with peak rates reaching around 70%. A significant decline occurred post-2021, with rates steadily dropping to approximately 10-15% by 2024. This substantial decrease suggests a concerning trend in the effectiveness or acceptance of the kiosk disposal program over time, particularly in recent years.
+
+**Ground Findings vs. Kiosk Findings over Time**
+
+<img src="images/report/ground_vs_kiosk_syringes.png" class="center">
+
+This plot compares ground-found and kiosk-collected syringes from 2017 to 2024, revealing a stark contrast between collection methods. Ground syringes (shown in blue) demonstrate high variability and an overall increasing trend, with peaks reaching over 25,000 in 2022. In contrast, kiosk collections (shown in green) remain consistently lower, rarely exceeding 5,000 syringes, and show a declining trend toward zero by 2024. This disparity suggests that despite the implementation of kiosk disposal programs, ground collection remains the predominant method of syringe recovery in NYC parks. 
 
 ## Discussion
 
