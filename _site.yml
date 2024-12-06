@@ -27,4 +27,6 @@ navbar:
       href: https://github.com/mh4588/p8105_final_project
 output:
   html_document:
+    include:
+      in_header: header.html
     theme: flatly
