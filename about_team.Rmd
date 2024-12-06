@@ -5,7 +5,7 @@ title: "About the Team"
 
 Welcome to our project! We are a team of MS students in the Biostatistics program at Columbia University Mailman School of Public Health.
 
-Through data-driven storytelling in "Data Analysis: Central to Understanding NYC Parks," we're diving deep into NYC's urban landscape, using numbers to unveil the hidden rhythms of park life and working to make these vital public spaces safer and more welcoming for all New Yorkers!
+Through data-driven storytelling in "Behind the Green: Data Insights Into NYC Parks’ Cleanliness and Safety," we're diving deep into NYC's urban landscape, using numbers to unveil the hidden rhythms of park life and working to make these vital public spaces safer and more welcoming for all New Yorkers!
 
 ### Meet the team
 
