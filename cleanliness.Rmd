@@ -26,7 +26,7 @@ This project was inspired by the goal of exploring cleanliness in NYC parks, aim
 
 ## Data 
 
-**Data Source**
+### Data Source
 
 The data contains related datasets about the Parks Inspection Program (PIP), a comprehensive, outcome-based performance measurement system that generates detailed inspections of parks and buildings. Inspectors perform approximately 6,000 PIP inspections each year, giving each inspected property an “Acceptable” (A) or “Unacceptable” (U) rating for overall condition and cleanliness. Individual “A” or “U” ratings are given to as many as 17 separate park features which fall under three broad categories: cleanliness, structural, and landscape. 
 
@@ -36,7 +36,7 @@ Datasets on properties and cleanliness are maintained in this project, including
 - [Parks Inspection Program – Feature Ratings](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Feature-Ratings/5mma-5n3h/about_data): Contains ratings for inspected property features, with each row representing a rating for a specific feature. Provides the cleanliness feature IDs, corresponding ratings, etc., for each park.  
 - [Parks Inspection Program – Inspections](https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data): Contains overall ratings related to property inspections, with each row representing an individual inspection. Provides details such as inspection times, park cleanliness ratings, etc.
 
-**Data Processing**
+### Data Processing
 
 - Data Cleaning: Initially, multiple datasets were loaded and cleaned, ensuring consistent column names.  
 - Feature Filtering: Selected relevant cleanliness features, including Litter, Glass, Graffiti, Weeds, and Ice, for focused analysis.  
@@ -82,7 +82,7 @@ pip <- pip_all |>
   mutate(rating = toupper(trimws(rating)), boro = toupper(trimws(boro)))
 ```
 
-**Final Dataset**
+### Final Dataset
 
 The variables in the final dataset are:  
 

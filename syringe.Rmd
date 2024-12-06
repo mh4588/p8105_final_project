@@ -25,6 +25,7 @@ The critical issue of syringe litter in New York City parks was vividly highligh
 ## Data processing
 
 ### Initial Data File
+
 This dataset contains records of syringe collection in New York City's Parks, gathered jointly by NYC Parks staff and partner organizations including [Washington Heights Corner Project](https://www.nycservice.org/organizations/index.php?org_id=1462) and [New York Harm Reduction Educators](https://nyhre.org/). The dataset is part of NYC Parks Syringe Litter Data Collection initiative and is publicly accessible through the [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/Summary-of-Syringe-Data-in-NYC-Parks/t8xi-d5wb/about_data) ([Map data](https://data.cityofnewyork.us/Public-Safety/Parks-Syringe-Disposal-Kiosks-Map/dpfn-5ihn)), demonstrating the city's commitment to transparency in public health and safety data. Daily collection data is compiled and published monthly after thorough quality control processes, making it a reliable source for analyzing syringe disposal patterns in NYC Parks.
 
 <div style="text-align: center;">
@@ -48,7 +49,9 @@ library(broom)
 library(car)
 ```
 
-### Data cleaning
+### Data Cleaning
+
+The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (`ground_syringes`, `kiosk_syringes`, `total_syringes`) and `kiosk_numbers` were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = "0") were filtered out. Especially, we updated `kiosk_site` to TRUE where `kiosk_syringes` > 0, this ensures locations with recorded kiosk usage are properly flagged.
 ```{r message = FALSE}
 syringe_df <- read_csv("data/nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Parks_20241125.csv") %>% 
   mutate(
@@ -65,9 +68,6 @@ syringe_df <- read_csv("data/nycparks_syringe/Summary_of_Syringe_Data_in_NYC_Par
   select(-c(response_id, gispropnum, omppropid, created_date, precinct, source, kiosk_type, collected_date, time_of_day, group, district, week)) %>% 
   relocate(location, everything())
 ```
-
-The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (`ground_syringes`, `kiosk_syringes`, `total_syringes`) and `kiosk_numbers` were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = "0") were filtered out. Especially, we updated `kiosk_site` to TRUE where `kiosk_syringes` > 0, this ensures locations with recorded kiosk usage are properly flagged.
-
 The variables we kept in the dataset are: 
 
 - `location`: The name of the park where syringes were collected.  
