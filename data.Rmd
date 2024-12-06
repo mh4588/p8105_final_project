@@ -1,5 +1,65 @@
 ---
-title: "Data"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
-The Data we 
+### Overview of Data
+
+This project utilizes various datasets related to the cleanliness, sanitation, and safety of New York City parks. Below is a summary of the datasets we used, along with descriptions of their variables and final dataset structures.
+
+### Crime in NYC Parks
+
+### Overall Cleanliness of NYC Parks
+
+The datasets used in this analysis are obtained from the New York City Parks Inspection Program ([PIP](https://data.cityofnewyork.us/browse?Data-Collection_Data-Collection=Parks%20Inspection%20Program%20(PIP)&sortBy=alpha)). The initial datasets used here are[Parks Inspection Program – All Sites (MAPPED)](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-All-Sites-MAPPED-/buk3-3qpr/about_data), [Parks Inspection Program – Feature Ratings](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Feature-Ratings/5mma-5n3h/about_data) and [Parks Inspection Program – Inspections](https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data). After data processing, we get the final dataset. (The specific data processing steps can be viewed [here](cleanliness.html).)
+
+**Final Dataset Variables:**
+
+- `prop_num`: Unique identification number for each park property.
+- `prop_name`: Name of the park property.
+- `prop_id`: Unique ID for a property or part of a property (could be a zone or playground).
+- `site_name`: Name of the specific park or property section.
+- `boro`: Borough (Brooklyn, Manhattan, Queens, Staten Island, Bronx).
+- `zip_code`: Zip code of the park.
+- `category`: Property rating category.
+- `feature`: Feature assigned a cleanliness rating.
+- `rating`: Cleanliness rating (A= acceptable; U= unacceptable; N= not rated).
+- `inspection_id`: Inspection ID associated with a specific feature.
+- `inspection_year`: Year of inspection.
+- `cleanliness`: Cleanliness rating of the park property.
+
+### Restroom Sanitation in NYC Parks
+
+The datasets used in this analysis are also obtained from the PIP program. The initial datasets we used here are [Public Restroom Inspections](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Public-Restroom-Inspectio/mp8v-wjtf/about_data), [Inspections](https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data) and [All Sites](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-All-Sites-MAPPED-/buk3-3qpr/about_data) datasets. After data processing, we get the final dataset. (The specific data processing steps can be viewed [here](restroom.html).)
+
+**Final Dataset Variables:**
+
+- `park_id`: Unique identifier for the park.
+- `park_name`: Name of the park.
+- `category`: Type of park (e.g., small park or large park).
+- `boro`: Borough in which the park is located.
+- `year`: Year of inspection.
+- `season`: Season during the inspection.
+- `round`: Inspection round or phase.
+- `prop_location`: Specific location/address of the park.
+- `visitor_count`: Number of visitors during a specific period.
+- `pr_litter`: Litter condition rating for public restrooms.
+
+### Syringes in NYC Parks
+
+The initial datasets used in this analysis is part of the NYC Parks Syringe Litter Data Collection initiative and is publicly available through [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/Summary-of-Syringe-Data-in-NYC-Parks/t8xi-d5wb/about_data) ([Map data](https://data.cityofnewyork.us/Public-Safety/Parks-Syringe-Disposal-Kiosks-Map/dpfn-5ihn)). The data is compiled daily and published monthly after quality control, providing a reliable source for analyzing syringe disposal patterns in NYC Parks. After data cleaning process, we get the final dataset. (The specific data processing steps can be viewed [here](syringe.html).)
+
+**Final Dataset Variables:**
+
+- `location`: Name of the park where syringes were collected.
+- `borough`: Borough of the park.
+- `property_type`: Type of property (park, zone, playground).
+- `kiosk_site`: Indicates if a kiosk was involved in syringe collection.
+- `ground_syringes`: Number of syringes collected from the ground.
+- `kiosk_syringes`: Number of syringes collected from kiosks.
+- `total_syringes`: Total syringes collected.
+- `year`: Year syringes were collected.
+- `month`: Month syringes were collected.
+- `month_text`: Month of collection in text format.

@@ -11,7 +11,7 @@
 
 
 
-<title>Data</title>
+<title>data.knit</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -248,6 +251,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -255,6 +321,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -303,7 +379,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="cleanliness.html">Cleanliness</a>
+      <a href="cleanliness.html">Overall Cleanliness</a>
     </li>
     <li>
       <a href="restroom.html">Restroom</a>
@@ -331,15 +407,124 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data</h1>
 
 </div>
 
 
-<p>The Data we</p>
+<div id="overview-of-data" class="section level3">
+<h3>Overview of Data</h3>
+<p>This project utilizes various datasets related to the cleanliness,
+sanitation, and safety of New York City parks. Below is a summary of the
+datasets we used, along with descriptions of their variables and final
+dataset structures.</p>
+</div>
+<div id="crime-in-nyc-parks" class="section level3">
+<h3>Crime in NYC Parks</h3>
+</div>
+<div id="overall-cleanliness-of-nyc-parks" class="section level3">
+<h3>Overall Cleanliness of NYC Parks</h3>
+<p>The datasets used in this analysis are obtained from the New York
+City Parks Inspection Program (<a
+href="https://data.cityofnewyork.us/browse?Data-Collection_Data-Collection=Parks%20Inspection%20Program%20(PIP)&amp;sortBy=alpha">PIP</a>).
+The initial datasets used here are<a
+href="https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-All-Sites-MAPPED-/buk3-3qpr/about_data">Parks
+Inspection Program – All Sites (MAPPED)</a>, <a
+href="https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Feature-Ratings/5mma-5n3h/about_data">Parks
+Inspection Program – Feature Ratings</a> and <a
+href="https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data">Parks
+Inspection Program – Inspections</a>. After data processing, we get the
+final dataset. (The specific data processing steps can be viewed <a
+href="cleanliness.html">here</a>.)</p>
+<p><strong>Final Dataset Variables:</strong></p>
+<ul>
+<li><code>prop_num</code>: Unique identification number for each park
+property.</li>
+<li><code>prop_name</code>: Name of the park property.</li>
+<li><code>prop_id</code>: Unique ID for a property or part of a property
+(could be a zone or playground).</li>
+<li><code>site_name</code>: Name of the specific park or property
+section.</li>
+<li><code>boro</code>: Borough (Brooklyn, Manhattan, Queens, Staten
+Island, Bronx).</li>
+<li><code>zip_code</code>: Zip code of the park.</li>
+<li><code>category</code>: Property rating category.</li>
+<li><code>feature</code>: Feature assigned a cleanliness rating.</li>
+<li><code>rating</code>: Cleanliness rating (A= acceptable; U=
+unacceptable; N= not rated).</li>
+<li><code>inspection_id</code>: Inspection ID associated with a specific
+feature.</li>
+<li><code>inspection_year</code>: Year of inspection.</li>
+<li><code>cleanliness</code>: Cleanliness rating of the park
+property.</li>
+</ul>
+</div>
+<div id="restroom-sanitation-in-nyc-parks" class="section level3">
+<h3>Restroom Sanitation in NYC Parks</h3>
+<p>The datasets used in this analysis are also obtained from the PIP
+program. The initial datasets we used here are <a
+href="https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Public-Restroom-Inspectio/mp8v-wjtf/about_data">Public
+Restroom Inspections</a>, <a
+href="https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data">Inspections</a>
+and <a
+href="https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-All-Sites-MAPPED-/buk3-3qpr/about_data">All
+Sites</a> datasets. After data processing, we get the final dataset.
+(The specific data processing steps can be viewed <a
+href="restroom.html">here</a>.)</p>
+<p><strong>Final Dataset Variables:</strong></p>
+<ul>
+<li><code>park_id</code>: Unique identifier for the park.</li>
+<li><code>park_name</code>: Name of the park.</li>
+<li><code>category</code>: Type of park (e.g., small park or large
+park).</li>
+<li><code>boro</code>: Borough in which the park is located.</li>
+<li><code>year</code>: Year of inspection.</li>
+<li><code>season</code>: Season during the inspection.</li>
+<li><code>round</code>: Inspection round or phase.</li>
+<li><code>prop_location</code>: Specific location/address of the
+park.</li>
+<li><code>visitor_count</code>: Number of visitors during a specific
+period.</li>
+<li><code>pr_litter</code>: Litter condition rating for public
+restrooms.</li>
+</ul>
+</div>
+<div id="syringes-in-nyc-parks" class="section level3">
+<h3>Syringes in NYC Parks</h3>
+<p>The initial datasets used in this analysis is part of the NYC Parks
+Syringe Litter Data Collection initiative and is publicly available
+through <a
+href="https://data.cityofnewyork.us/Public-Safety/Summary-of-Syringe-Data-in-NYC-Parks/t8xi-d5wb/about_data">NYC
+OpenData</a> (<a
+href="https://data.cityofnewyork.us/Public-Safety/Parks-Syringe-Disposal-Kiosks-Map/dpfn-5ihn">Map
+data</a>). The data is compiled daily and published monthly after
+quality control, providing a reliable source for analyzing syringe
+disposal patterns in NYC Parks. After data cleaning process, we get the
+final dataset. (The specific data processing steps can be viewed <a
+href="syringe.html">here</a>.)</p>
+<p><strong>Final Dataset Variables:</strong></p>
+<ul>
+<li><code>location</code>: Name of the park where syringes were
+collected.</li>
+<li><code>borough</code>: Borough of the park.</li>
+<li><code>property_type</code>: Type of property (park, zone,
+playground).</li>
+<li><code>kiosk_site</code>: Indicates if a kiosk was involved in
+syringe collection.</li>
+<li><code>ground_syringes</code>: Number of syringes collected from the
+ground.</li>
+<li><code>kiosk_syringes</code>: Number of syringes collected from
+kiosks.</li>
+<li><code>total_syringes</code>: Total syringes collected.</li>
+<li><code>year</code>: Year syringes were collected.</li>
+<li><code>month</code>: Month syringes were collected.</li>
+<li><code>month_text</code>: Month of collection in text format.</li>
+</ul>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -372,6 +557,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
