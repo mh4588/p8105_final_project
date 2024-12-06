@@ -2,8 +2,11 @@
 title: "About the Team"
 ---
 
-### About this site
+### About us
 
-Sometimes you need to say a bit about the site -- how it was made, where it's hosted, where the source code can be found. 
+Welcome to our project! We are a team of MS students in the Biostatistics program at Columbia University Mailman School of Public Health.
 
-If this is for a project or analysis, I recommend giving some details about the R package versions that you used to create the content.
+Through data-driven storytelling in "Data Analysis: Central to Understanding NYC Parks," we're diving deep into NYC's urban landscape, using numbers to unveil the hidden rhythms of park life and working to make these vital public spaces safer and more welcoming for all New Yorkers!
+
+### Meet the team
+# <img src="images/Xueting Li.jpg" alt="Avatar" width="300" height="300" style="border:2px solid green"> [Xueting Li](Summer-lxt-32.github.io)
