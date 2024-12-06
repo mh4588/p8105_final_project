@@ -1,0 +1,46 @@
+---
+title: "Fountain"
+author: "Maggie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+For cleaning the fountain dataset before loading onto the shiny app.
+```{r loading}
+library(tidyverse)
+#Load data
+fountains <- read.csv("fountains.csv") |>
+  janitor::clean_names()#is it read.csv or read_csv just checking
+```
+
+```{r}
+#Clean data
+fountain_location = fountains |>
+  dplyr::select(prop_name, point, fountain_type, feature_status)
+
+#Clean point variable
+points_cleaned = as.vector(pull(fountains, name="point")) |>
+  str_remove_all("POINT ") |>
+  str_split(pattern=" ",n=2, simplify = TRUE) |>
+  str_remove_all("\\(") |>
+  str_remove_all("\\)")
+
+#Separate into longitude latitude variables and add to fountain data
+longitude_points = points_cleaned[1:3849] |>
+  as.numeric() |>
+  as.data.frame()
+latitude_points = points_cleaned[3850:7698] |>
+  as.numeric() |>
+  as.data.frame()
+
+  
+fountain_location = dplyr::select(fountain_location, -point)|> #remove original point variable
+  mutate(latitude = latitude_points, longitude = longitude_points) #add cleaned coords.
+
+colnames(fountain_location) = c("prop_name","fountain_type","feature_status","latitude","longitude")
+
+```
+
+
+```{r export}
+write_csv(fountain_location, "fountain_location.csv")
+```

@@ -11,6 +11,19 @@ This project utilizes various datasets related to the cleanliness, sanitation, a
 
 ### Crime in NYC Parks
 
+For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page) provided by NYPD. This dataset is updated quarterly and aims to enhance public safety by offering transparency on crime trends in recreational areas. It serves as a valuable resource for researchers, policymakers, and residents interested in understanding and addressing crime in NYC parks. After data processing, we get the final dataset. (The specific data processing steps can be viewed [here](crime.html).)
+
+**Final Dataset Variables:**
+
+ - `park`: park names;  
+ - `borough`: parks' boroughs;  
+ - `size_acres`: size in acres;  
+ - `category`: categories of parks;  
+ - Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
+ - `total`: total crimes happened in that park;  
+ - `year`: statistical year;  
+ - `season`: statistical season.
+
 ### Overall Cleanliness of NYC Parks
 
 The datasets used in this analysis are obtained from the New York City Parks Inspection Program ([PIP](https://data.cityofnewyork.us/browse?Data-Collection_Data-Collection=Parks%20Inspection%20Program%20(PIP)&sortBy=alpha)). The initial datasets used here are[Parks Inspection Program – All Sites (MAPPED)](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-All-Sites-MAPPED-/buk3-3qpr/about_data), [Parks Inspection Program – Feature Ratings](https://data.cityofnewyork.us/City-Government/Parks-Inspection-Program-Feature-Ratings/5mma-5n3h/about_data) and [Parks Inspection Program – Inspections](https://data.cityofnewyork.us/dataset/Parks-Inspection-Program-Inspections/yg3y-7juh/about_data). After data processing, we get the final dataset. (The specific data processing steps can be viewed [here](cleanliness.html).)
