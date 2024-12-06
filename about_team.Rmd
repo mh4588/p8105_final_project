@@ -43,7 +43,7 @@ img.portrait{
     <td></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/mh4588">Maggie Hsu</a> is a Biostatistics student who loves exploring all data visualization out there. Jessie loves to doodle some anime art in her freetime.</td>
+    <td><a href="https://github.com/mh4588">Maggie Hsu</a> your individual description </td>
     <td><img src="images/Maggie Hsu.jpg" class="portrait"></td>
   </tr>
   
@@ -61,7 +61,7 @@ img.portrait{
     <td></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/xz3173">Yining Cao</a> is an artistic and adventurous girl. She loves to paint vibrant scenes and also enjoys immersing herself in the imaginative worlds of video games.</td>
+    <td><a href="https://github.com/elyn001">Yining Cao</a> is an artistic and adventurous girl. She loves to paint vibrant scenes and also enjoys immersing herself in the imaginative worlds of video games.</td>
     <td><img src="images/Yining Cao.jpg" class="portrait"></td>
   </tr>
 </table>

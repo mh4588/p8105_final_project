@@ -36,7 +36,28 @@
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 <html>
 <head>
-<link rel="shortcut icon" href="images/favicon.png" />
+<script>
+  // Dynamically set the favicon based on the page URL
+  const url = window.location.pathname; // Get the current page's URL path
+  let faviconPath = "images/favicon.png"; // Default favicon
+
+  // Set favicon based on specific keywords in the URL
+  if (url.includes("restroom")) {
+    faviconPath = "images/restroom_icon.png";
+  } else if (url.includes("cleanliness")) {
+    faviconPath = "images/cleanliness_icon.png";
+  } else if (url.includes("crime")) {
+    faviconPath = "images/crime_icon.png";
+  } else if (url.includes("syringe")) {
+    faviconPath = "images/syringe_icon.png";
+  }
+
+  // Dynamically create and append the favicon link
+  const link = document.createElement("link");
+  link.rel = "shortcut icon";
+  link.href = faviconPath;
+  document.head.appendChild(link);
+</script>
 </head>
 </html>
 
@@ -250,7 +271,25 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report.html">Report</a>
+    </li>
+    <li>
+      <a href="about_team.html">About the Team</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="data.html">Data</a>
 </li>
 <li>
@@ -276,23 +315,6 @@ $(document).ready(function () {
 </li>
 <li>
   <a href="maps.html">Facility Maps</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    About
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="report.html">Report</a>
-    </li>
-    <li>
-      <a href="about_team.html">About the Team</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="https://github.com/mh4588/p8105_final_project">
@@ -356,7 +378,7 @@ img.portrait{
     <td></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/mh4588">Maggie Hsu</a> is a Biostatistics student who loves exploring all data visualization out there. Jessie loves to doodle some anime art in her freetime.</td>
+    <td><a href="https://github.com/mh4588">Maggie Hsu</a> your individual description </td>
     <td><img src="images/Maggie Hsu.jpg" class="portrait"></td>
   </tr>
   
@@ -374,7 +396,7 @@ img.portrait{
     <td></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/xz3173">Yining Cao</a> is an artistic and adventurous girl. She loves to paint vibrant scenes and also enjoys immersing herself in the imaginative worlds of video games.</td>
+    <td><a href="https://github.com/elyn001">Yining Cao</a> is an artistic and adventurous girl. She loves to paint vibrant scenes and also enjoys immersing herself in the imaginative worlds of video games.</td>
     <td><img src="images/Yining%20Cao.JPG" class="portrait"></td>
   </tr>
 </table>
