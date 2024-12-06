@@ -11,7 +11,7 @@
 
 
 
-<title>index.knit</title>
+<title>Project Report</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -33,6 +33,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -227,6 +228,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -383,71 +387,171 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
+
+<h1 class="title toc-ignore">Project Report</h1>
 
 </div>
 
 
-<style type="text/css">
-<style>
-#home-container {
-  text-align: center;
-  padding: 20px;
-  background-color: #001f3f;
-  color: white;
-}
-
-#home-container .image-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-#home-container img {
-  width: 100%;
-  height: 400px; /* Set a fixed height to make the image longer */
-  object-fit: cover;
-}
-
-#home-container .image-container .image-title {
-  position: absolute;
-  bottom: 100px;  /* Position at the bottom of the image */
-  left: 20px;
-  font-size: 35px;
-  color: white;  /* Set the title color to white */
-  font-weight: bold;
-}
-
-#home-container .image-container .sub-title {
-  position: absolute;
-  bottom: 50px;  /* Adjusted to be a bit higher than the title */
-  left: 20px;
-  font-size: 24px;
-  color: white;  /* Set the subtitle color to white */
-}
-
-#home-container .image-container .authors {
-  position: absolute;
-  bottom: 10px;  /* Adjusted to be a bit higher than the subtitle */
-  left: 20px;
-  font-size: 18px;
-  color: white;  /* Set the authors color to white */
-}
-</style>
-
-<div id="home-container">
-  <div class="image-container">
-    <img src="images/central_park.jpg" alt="NYC Parks">
-    <!-- Title text -->
-    <div class="image-title">Data Analysis: Central to Understanding NYC Parks</div>
-    <!-- Subtitle text -->
-    <div class="sub-title">A Data-Driven Stroll Through New York City's Parks</div>
-    <!-- Authors -->
-    <div class="authors">Yining Cao, Maggie Hsu, Fengwei Lei, Xueting Li, Liqi Zhou</div>
-  </div>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>The motivation behind exploring sanitation in NYC parks is to enhance
+park environments, ensuring they remain safe, clean, and inviting spaces
+for all. Maintaining sanitation not only directly impacts the health of
+visitors but also significantly influences the overall public
+experience. This study specifically targets three critical aspects:
+cleanliness of park areas, the condition of public restrooms, and
+syringe litter.</p>
+<p>First, we analyze the cleanliness of NYC parks, identifying specific
+features contributing to lower cleanliness scores, as well as examining
+temporal and spatial variations. This allows us to pinpoint key factors
+behind the fluctuations in cleanliness levels and formulate strategies
+for improvements. Second, understanding and improving the condition of
+restrooms is crucial as clean restrooms play a significant role in
+promoting public health and comfort, encouraging greater park use.
+Lastly, the critical issue of syringe litter, which poses serious health
+and safety concerns, especially in public areas where children and
+families gather, demands systematic investigation. Our study aims to
+gather insights into the extent of this issue to support informed,
+data-driven decision-making and interventions.</p>
 </div>
-</style>
+<div id="initial-questions" class="section level2">
+<h2>Initial Questions</h2>
+<ul>
+<li><a href="cleanliness.html"><strong>Cleanliness</strong></a>: What
+are the cleanliness ratings by different features? How do cleanliness
+ratings vary over different time periods? What is the relationship
+between cleanliness and park categories?<br />
+</li>
+<li><a href="restroom.html"><strong>Restroom</strong></a>: What is the
+distribution of restroom sanitation conditions in New York City’s public
+parks? How do sanitation conditions vary by borough and park type? What
+is the trend in restroom sanitation ratings across different seasons and
+years (2015-2024)?<br />
+</li>
+<li><a href="syringe.html"><strong>Syringe</strong></a>: How does
+syringe litter differ between parks? How does utilization of safe
+disposal kiosks change over time? How does utilization of safe disposal
+kiosks compare with syringe litter?</li>
+</ul>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p><strong>Data Source</strong></p>
+<ul>
+<li><a href="cleanliness.html"><strong>Cleanliness</strong></a>: The
+Cleanliness data comes from the Parks Inspection Program (PIP), which
+evaluates New York City parks through regular inspections. PIP assesses
+the cleanliness of parks across 17 features, categorized under
+cleanliness, structural, and landscape conditions. Each feature is rated
+either as “Acceptable” (A) or “Unacceptable” (U), providing insight into
+the cleanliness conditions across different locations and features.
+Datasets on properties and cleanliness are maintained in this
+part.<br />
+</li>
+<li><a href="restroom.html"><strong>Restroom</strong></a>: Restroom data
+is also gathered through PIP and records detailed information about
+public restroom inspections in New York City parks. These inspections
+rate the restroom facilities for cleanliness and structural quality,
+contributing to the overall evaluation of park facilities. This dataset
+allows for the analysis of restroom conditions across different parks
+and helps to identify potential areas for improvement.<br />
+</li>
+<li><a href="syringe.html"><strong>Syringe</strong></a>: The Syringe
+dataset records syringe collection in NYC Parks, gathered by NYC Parks
+staff and various organizations under the Syringe Litter Data Collection
+initiative. The data highlights syringe disposal patterns and is
+accessible via NYC OpenData. The syringe collection data provides
+valuable insights into the safety and public health conditions of NYC
+Parks and is compiled monthly after thorough quality checks.</li>
+</ul>
+<p><strong>Data Cleaning</strong></p>
+<ul>
+<li><a href="cleanliness.html"><strong>Cleanliness</strong></a>:
+Initially, multiple datasets were loaded and cleaned to ensure
+consistent column names. Relevant cleanliness features, including
+Litter, Glass, Graffiti, Weeds, and Ice, were selected for focused
+analysis. The datasets were then merged based on <code>prop_id</code>
+and <code>inspection_id</code> to create a comprehensive dataset
+encompassing park information, feature ratings, and cleanliness
+inspection data. Finally, the combined dataset was further cleaned and
+standardized by addressing missing values, removing unnecessary columns,
+and formatting string values to maintain data consistency.<br />
+</li>
+<li><a href="restroom.html"><strong>Restroom</strong></a>: The data
+cleaning process involved importing three datasets (toilet_inspection,
+parks_inspection, and sites_inspection) and standardizing their column
+names using <code>janitor::clean_names()</code>. The datasets are then
+merged based on common identifiers (<code>inspection_id</code> and
+<code>prop_id</code>). New features, such as the year column, are
+created, and unnecessary columns were removed. Data is filtered to
+include only public restrooms and relevant columns. Missing values in
+the <code>pr_litter</code> column are removed, and categorical values in
+<code>season</code> and <code>boro</code> are standardized. Finally, the
+dataset is filtered to include records from 2015 to 2024, ensuring a
+clean and consistent dataset for analysis.<br />
+</li>
+<li><a href="syringe.html"><strong>Syringe</strong></a>: The dataset on
+syringe findings in NYC parks was processed through several key cleaning
+steps. First, we standardized the date-time information by converting
+the collected_date field to a consistent format and extracting the year
+component. We also standardized the month names using the abbreviated
+format. Missing values in syringe counts (<code>ground_syringes</code>,
+<code>kiosk_syringes</code>, <code>total_syringes</code>) and
+kiosk_numbers were replaced with zeros to ensure consistent numerical
+analysis. Duplicate entries were removed using distinct(), and records
+with invalid location values (where location = “0”) were filtered out.
+Especially, we updated <code>kiosk_site</code> to TRUE where
+<code>kiosk_syringes</code> &gt; 0, this ensures locations with recorded
+kiosk usage are properly flagged.</li>
+</ul>
+</div>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory Analysis</h2>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>The sanitation analysis of NYC parks reveals several critical
+insights.</p>
+<p>Regarding <a
+href="cleanliness.html"><strong>Cleanliness</strong></a>, certain
+features, seasons, and boroughs were identified as factors that
+influence cleanliness levels. Features such as graffiti and litter
+consistently showed lower cleanliness scores, with cleanliness ratings
+varying seasonally, generally better in winter. Borough-level
+differences indicate the need for targeted interventions in areas
+lagging behind. These results align with our expectations and emphasize
+the importance of feature-specific solutions and seasonal
+adjustments.</p>
+<p>For <a href="restroom.html"><strong>Restroom</strong></a> conditions,
+the findings show a disparity across boroughs, with Brooklyn and
+Manhattan often reporting higher rates of unacceptable conditions. The
+data also suggest that higher visitor counts, particularly during spring
+and summer, lead to a decline in sanitation. Although many restrooms
+maintain acceptable conditions, a notable number still fall under
+“Unacceptable” or “Very Unacceptable” categories, highlighting areas
+that require improvement.</p>
+<p>In terms of <a href="syringe.html"><strong>Syringe</strong></a>
+litter, the analysis points out that traditional parks are the primary
+locations for syringe findings, significantly outnumbering other
+property types like Greenstreets and Playgrounds. The Bronx and
+Manhattan have the highest number of affected locations, and the peak
+findings during summer suggest seasonal trends that need attention.
+Regression analysis reveals the need for revising harm reduction
+strategies, focusing on more effective interventions in high-risk areas,
+particularly given the reduced utilization of kiosks and increasing
+ground findings. Addressing these issues requires further research into
+environmental factors and targeted policy adjustments.</p>
+</div>
 
 
 
@@ -484,6 +588,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
@@ -498,7 +607,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
