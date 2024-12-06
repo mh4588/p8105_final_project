@@ -100,13 +100,33 @@ From the bar chart below, we can observe the proportions of three rating types �
 
 **The least error-prone feature in different boroughs**
 
-<img src="images/report/least_error.png" class="center">
+<img src="images/report/least_error.png" class="center" style="width: 50%;">
 
 The table shows the feature in each borough with the highest proportion of "A" cleanliness ratings, indicating which features are the least error-prone in terms of cleanliness for each borough. The data includes results for five boroughs: Brooklyn (B), Manhattan (M), Queens (Q), Staten Island (R), and Bronx (X).
 
 Ice is the best-maintained feature in Brooklyn, Manhattan, Queens, and Bronx, with "A" rating proportions ranging from 97.91% to 98.85%. This indicates consistent cleanliness management across these boroughs. In Staten Island, Glass has the highest "A" rating at 98.87%, suggesting a different focus in cleanliness efforts. Overall, Ice appears to be easier to maintain across multiple boroughs, while Glass is notably well-managed in Staten Island.  
 
-**The cleanliness ratings of NYC and its boroughs during the decade**
+**The cleanliness ratings of NYC and its boroughs during the decade**  
+
+We calculated and compared the overall “A” rating proportion of cleanliness in each borough and the whole New York City each year, and analyzed the cleanliness trend in different boroughs.  
+
+<img src="images/report/2_A_ratio_of_boro.png" class="center">  
+
+- **Overall Trend**: The overall Acceptable proportion for New York City (grey line) shows a steady increase from around 90% in 2015 to 93% by 2018, followed by a significant decline around 2020, with a slight recovery in 2022.  
+- **Inter-Borough**: `Staten Island` and `Queens` show significantly higher cleanliness levels compared to other boroughs, whereas the `Bronx` and `Brooklyn` display noticeably lower cleanliness in certain years.  
+- The `Bronx` exhibits large fluctuations in cleanliness, with a sharp decline in 2022 to below 87%, marking it as the borough with the lowest cleanliness proportion. `Manhattan` shows a steady increase from 92% in 2015, peaking in 2018, with slight fluctuations but maintaining relatively high cleanliness levels. `Brooklyn` sees an improvement after 2017, a notable dip around 2020, and a recovery to above 90% by 2022.  
+- `Staten Island` consistently maintains an Acceptable proportion above 96%, making it the most stable and cleanest borough throughout the period. `Queens` starts with a high cleanliness proportion in 2015, rising significantly after 2018 to nearly 97%, and remains one of the leading boroughs despite a slight decline.  
+- The decline around 2020 could be attributed to pandemic-related resource shortages and increased maintenance challenges.  
+
+**Analysis of cleanliness and park category**  
+ Then, we studied the association between park types and cleanliness and analyzed which park types were more likely to accumulate litter.
+ 
+<img src="images/report/3_prop_by_category.png" class="center"> 
+ 
+- It can be found that the proportion of "N" ratings is small but slightly higher in categories like Large Park and Other, suggesting some missing or incomplete cleanliness data in these types of parks.  
+- The proportion of "A" ratings is consistently high across all park categories, almost reaching 100%. This indicates that most parks received an acceptable cleanliness rating.  
+- The proportion of "U" ratings is relatively low, with noticeable increases in the `Large Park` and `Small Park` categories. Specifically, `Large Park` shows a higher percentage of "U" ratings.  
+- Other categories, such as `Greenstreet`, `Large Center`, and `Small Center`, show almost no "U" ratings, with proportions close to 0%.  
 
 #### 2.2 Restroom Sanitation
 

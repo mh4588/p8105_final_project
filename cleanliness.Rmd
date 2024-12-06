@@ -128,9 +128,7 @@ feature_summary <- pip |>
 
 kable(head(feature_summary)) |> 
 kable_styling(full_width = FALSE) 
-```
 
-```{r}
 feature_summary_long <- feature_summary |>
   pivot_longer(cols = c(proportion_U, proportion_US, proportion_U_US), names_to = "rating_type", values_to = "proportion") |>
   mutate(rating_type = case_when(
