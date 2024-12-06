@@ -30,3 +30,4 @@ output:
     include:
       in_header: header.html
     theme: flatly
+    css: styles.css
