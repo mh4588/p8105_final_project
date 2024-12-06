@@ -13,10 +13,10 @@
 
 <title>About the Team</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -32,34 +32,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
-<html>
-<head>
-<script>
-  // Dynamically set the favicon based on the page URL
-  const url = window.location.pathname; // Get the current page's URL path
-  let faviconPath = "images/favicon.png"; // Default favicon
-
-  // Set favicon based on specific keywords in the URL
-  if (url.includes("restroom")) {
-    faviconPath = "images/restroom_icon.png";
-  } else if (url.includes("cleanliness")) {
-    faviconPath = "images/cleanliness_icon.jpg";
-  } else if (url.includes("crime")) {
-    faviconPath = "images/crime_icon.png";
-  } else if (url.includes("syringe")) {
-    faviconPath = "images/needle.png";
-  }
-
-  // Dynamically create and append the favicon link
-  const link = document.createElement("link");
-  link.rel = "shortcut icon";
-  link.href = faviconPath;
-  document.head.appendChild(link);
-</script>
-</head>
-</html>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -86,7 +58,7 @@ if (window.hljs) {
 
 
 
-<link rel="stylesheet" href="styles.css" type="text/css" />
+<link rel="stylesheet" href="bootstrap.css" type="text/css" />
 
 
 
@@ -274,20 +246,8 @@ $(document).ready(function () {
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    About
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="report.html">Report</a>
-    </li>
-    <li>
-      <a href="about_team.html">About the Team</a>
-    </li>
-  </ul>
+        <li>
+  <a href="about.html">About</a>
 </li>
 <li>
   <a href="data.html">Data</a>
@@ -295,32 +255,14 @@ $(document).ready(function () {
 <li>
   <a href="crime.html">Crime</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sanitation
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="cleanliness.html">Overall Cleanliness</a>
-    </li>
-    <li>
-      <a href="restroom.html">Restroom</a>
-    </li>
-    <li>
-      <a href="syringe.html">Syringe</a>
-    </li>
-  </ul>
+<li>
+  <a href="sanitation.html">Sanitation</a>
 </li>
 <li>
   <a href="maps.html">Facility Maps</a>
 </li>
 <li>
-  <a href="https://github.com/mh4588/p8105_final_project">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
+  <a href="about_team.html">About the Team</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -372,7 +314,7 @@ td:nth-child(2) {
 </style>
 <table style="width:80%">
   <tr>
-    <td><img src="images/Fengwei%20Lei.jpg" class="portrait"></td>
+    <td><img src="images/Fengwei Lei.jpg" class="portrait"></td>
     <td>
       <h3>Fengwei Lei</h3>
       <a href="https://github.com/fengweiL">Fengwei Lei</a> is a first year student at CUIMC who loves photography. She enjoys capturing moments that tell a story, whether it's the vibrant colors of nature, the energy of urban life, or the essence of the people she meet along the way.
@@ -381,7 +323,7 @@ td:nth-child(2) {
   <tr style="height: 30px;"></tr>
 
   <tr>
-    <td><img src="images/Liqi%20Zhou.jpg" class="portrait"></td>
+    <td><img src="images/Liqi Zhou.jpg" class="portrait"></td>
     <td>
       <h3>Liqi Zhou</h3>
       <a href="https://github.com/Zhou-cccc">Liqi Zhou</a> loves watching various TV dramas and movies from around the world, covering different genres, and sometimes watches musicals and plays. The most enjoyable thing for her is going out, having fun, and taking photos ^^
@@ -390,16 +332,16 @@ td:nth-child(2) {
   <tr style="height: 30px;"></tr>
 
   <tr>
-    <td><img src="images/Maggie Hsu.jpg" class="portrait"></td>
+    <td><img src="images/maggie2.jpg" class="portrait"></td>
     <td>
       <h3>Maggie Hsu</h3>
-      <a href="https://github.com/mh4588">Maggie Hsu</a> your individual description.
+      <a href="https://github.com/mh4588">Maggie Hsu</a> is a first-year student at CUIMC who is interested in utilizing statistical methods in health and social science applications. In her spare time, she likes to draw pictures, learn to cook various foods, and explore the city.
     </td>
   </tr>
   <tr style="height: 30px;"></tr>
 
   <tr>
-    <td><img src="images/Xueting%20Li.jpg" class="portrait"></td>
+    <td><img src="images/Xueting Li.jpg" class="portrait"></td>
     <td>
       <h3>Xueting Li</h3>
       <a href="https://Summer-lxt-32.github.io">Xueting Li</a> is a first year student at CUIMC. She loves the fast-paced nature of table tennis, which sharpens her reflexes and keeps her active while providing endless fun with friends.
@@ -408,7 +350,7 @@ td:nth-child(2) {
   <tr style="height: 30px;"></tr>
 
   <tr>
-    <td><img src="images/Yining%20Cao.jpg" class="portrait"></td>
+    <td><img src="images/Yining Cao.jpg" class="portrait"></td>
     <td>
       <h3>Yining Cao</h3>
       <a href="https://github.com/elyn001">Yining Cao</a> is an artistic and adventurous girl. She loves to paint vibrant scenes and also enjoys immersing herself in the imaginative worlds of video games.

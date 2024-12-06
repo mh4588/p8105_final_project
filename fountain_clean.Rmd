@@ -25,9 +25,9 @@ points_cleaned = as.vector(pull(fountains, name="point")) |>
   str_remove_all("\\)")
 
 #Separate into longitude latitude variables and add to fountain data
-longitude_points = points_cleaned[1:3849] |>
-  as.numeric() |>
-  as.data.frame()
+longitude_points = points_cleaned |>
+  slice(1:3849) |>
+  mutate()
 latitude_points = points_cleaned[3850:7698] |>
   as.numeric() |>
   as.data.frame()

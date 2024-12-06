@@ -100,7 +100,7 @@ From the bar chart below, we can observe the proportions of three rating types â
 
 **The least error-prone feature in different boroughs**
 
-<img src="images/report/least_error.png" class="center">
+<img src="images/report/least_error.png" class="center" style="width: 50%;">
 
 The table shows the feature in each borough with the highest proportion of "A" cleanliness ratings, indicating which features are the least error-prone in terms of cleanliness for each borough. The data includes results for five boroughs: Brooklyn (B), Manhattan (M), Queens (Q), Staten Island (R), and Bronx (X).
 
