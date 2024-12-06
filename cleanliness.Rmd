@@ -107,7 +107,7 @@ The variables in the final dataset are:
 ### 1. Cleanliness rating analysis of different features
 **Objective:** To understand the differences in cleanliness between different features (Litter, Glass, Graffiti, Weeds, Ice).  
 
-**"U and U/S times" vs. "feature Category"**. 
+#### "U and U/S times" vs. "feature Category". 
 
 Count the number of times each feature is rated "unacceptable" (U) or "very unacceptable" (U/S) in each park. Find out what kind of features are most unacceptable and analyze the distribution characteristics of these features.
 
@@ -169,7 +169,7 @@ From the bar chart, we can observe the proportions of three rating types — Una
 
 - For all features, the proportion of "U/S" is relatively low compared to the "U" rating, suggesting that while some features may have been rated very unacceptable, the majority of issues fall into the unacceptable category without additional safety concerns.  
 
-### Find the least error-prone feature in different boroughs
+#### Find the least error-prone feature in different boroughs
 To find out the feature that is the least unacceptable by calculating the A proportion of each feature score in different regions.
 ```{r}
 feature_summary_boro <- pip |>
@@ -200,7 +200,7 @@ The table shows the feature in each borough with the highest proportion of "A" c
 Ice is the best-maintained feature in Brooklyn, Manhattan, Queens, and Bronx, with "A" rating proportions ranging from 97.91% to 98.85%. This indicates consistent cleanliness management across these boroughs. In Staten Island, Glass has the highest "A" rating at 98.87%, suggesting a different focus in cleanliness efforts. Overall, Ice appears to be easier to maintain across multiple boroughs, while Glass is notably well-managed in Staten Island.
 
 
-### Find the top three cleanest and least clean park areas in each district over the decade
+#### Find the top three cleanest and least clean park areas in each district over the decade
 To find out the top three parks with the largest number of "A" rating and the top three parks with the largest number of "U+U/S" rating over the past ten years
 ```{r}
 park_cleanliness_summary <- pip |>
@@ -255,7 +255,7 @@ These results suggest significant differences in the cleanliness maintenance of 
 ### 2. Analysis of the cleanliness score in different time periods
 **Objective:** Explore the impact of different time periods on park cleanliness, including seasons and years.
 
-**"Acceptable Ratio of Borough and City cleanliness" VS "Year"**
+#### "Acceptable Ratio of Borough and City cleanliness" VS "Year"
 
 To calculate and compare the overall "A" rating proportion of cleanliness in each borough and the whole New York City each year, and to analyze the cleanliness trend in different boroughs.
 
@@ -322,7 +322,7 @@ ggplotly(p2)
 - `Staten Island` consistently maintains an Acceptable proportion above 96%, making it the most stable and cleanest borough throughout the period. `Queens` starts with a high cleanliness proportion in 2015, rising significantly after 2018 to nearly 97%, and remains one of the leading boroughs despite a slight decline.  
 - The decline around 2020 could be attributed to pandemic-related resource shortages and increased maintenance challenges.  
 
-**"Acceptable Ratio of cleanliness across Boroughs" VS "Season"**
+#### "Acceptable Ratio of cleanliness across Boroughs" VS "Season"
 
 To analyze the differences in cleanliness scores in spring, summer, fall, and winter over a 10-year period.
 ```{r}
