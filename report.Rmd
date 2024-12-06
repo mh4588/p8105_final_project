@@ -8,6 +8,40 @@ output:
     code_folding: hide
 ---
 
+```{css echo = FALSE}
+.center {
+  width: 75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.column3 {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+.column2 {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+.column2, .column3 p{
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+```
+
 ## Motivation
 
 Public parks play a vital role in urban life, offering spaces for recreation, relaxation, and community engagement. However, their value can be compromised by issues like crime, inadequate cleanliness, and poor sanitation. Our project, _Behind the Green: Data Insights Into NYC Parks’ Cleanliness and Safety_, aims to analyze key factors affecting park visitors’ experiences, including crime rates, restroom conditions, cleanliness, and syringe litter. By uncovering insights through data analysis, we hope to guide improvements and ensure NYC parks remain safe, clean, and welcoming for all.
@@ -57,6 +91,42 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
 
 **Distribution of Restroom Sanitation Conditions**
 
+We analyzed the distribution of restroom sanitation ratings, with categories “Acceptable (A),” “Unacceptable (U),” “Not Rated (N),” and “Very Unacceptable (U/S).” 
+
+<img src="images/report/restroom_report_1.png" class="center">
+
+The majority (78.7%) of restrooms are rated as “Acceptable,” while 18.9% remain “Not Rated.” Only small percentages are classified as “Unacceptable” (1.37%) or “Very Unacceptable” (1.06%).
+
+**Restroom Sanitation by Borough and Park Type**
+
+Next, we examined how sanitation conditions vary by borough and park type (category).
+
+```{=html}
+<div class="row">
+  <div class="column2">
+    <img src="images/report/restroom_report_2.png" style="width:100%;">
+  </div>
+  <div class="column2">
+    <img src="images/report/restroom_report_3.png" style="width:100%;">
+  </div>
+</div>
+```
+
+By borough, the Bronx has the highest percentage of “Acceptable” restrooms (84.3%), followed by Queens (80.8%). Other boroughs report similar low percentages for “Unacceptable” and “Very Unacceptable.” By park type, Restrooms in both large and small parks are mostly rated as “Acceptable” (79.1% and 78.5%, respectively). Small parks have slightly higher “Not Rated” percentages (19.2%) compared to large parks (18%), but “Unacceptable” and “Very Unacceptable” ratings are consistently low across both types.
+
+**Trends in Restroom Sanitation Ratings by Season-Year**
+
+<img src="images/report/restroom_report_4.png" class="center">
+
+Seasonal trends show that restroom sanitation is generally better in summer and fall, with “Acceptable” ratings reaching 80%-90%. Winter sees a drop to 75%-80%, possibly due to weather-related maintenance challenges, while spring ratings improve as weather warms.
+
+**Visitor Count and Restroom Sanitation**
+
+We examined the relationship between restroom sanitation and visitor counts.
+
+<img src="images/report/restroom_report_5.png" class="center">
+
+Restrooms with higher visitor counts are more likely to have lower ratings, especially “Very Unacceptable” conditions, emphasizing the need for focused maintenance in high-traffic areas.
 
 
 #### 2.3 Syringe Litter Issue
