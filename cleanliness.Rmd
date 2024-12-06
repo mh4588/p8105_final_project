@@ -15,14 +15,14 @@ output:
 This project was inspired by the goal of exploring cleanliness in NYC parks, aiming to understand the current state of park cleanliness and the factors affecting it through detailed data analysis. We focused on identifying specific features that contribute to lower cleanliness scores, as well as examining the temporal and spatial variations in these scores. By pinpointing these influential features and patterns, we aim to uncover the key reasons behind declining cleanliness levels. This analysis not only provides insights into the cleanliness conditions of NYC parks but also lays a foundation for policymakers to implement effective measures to enhance park environments and improve public experience.
 
 ## Initial questions
-1. Analysis of Cleanliness Ratings by Different Features:
-- How often are different features rated as “Unacceptable” (U) or “Very Unacceptable” (U/S)?
-- What are the top three features that are most likely to be “Acceptable” in each borough?
-- Which boroughs are the cleanest and least clean over the past decade?
-2. Analysis of Cleanliness Ratings over Different Time Periods:
-- What is the acceptable proportion of cleanliness by boroughs and citywide over the years?
-- What is the acceptable proportion of cleanliness by boroughs and citywide across different seasons?
-3. Analysis of the Relationship Between Cleanliness and Park Categories:
+1. Analysis of Cleanliness Ratings by Different Features:  
+- How often are different features rated as “Unacceptable” (U) or “Very Unacceptable” (U/S)?  
+- What are the top three features that are most likely to be “Acceptable” in each borough?  
+- Which boroughs are the cleanest and least clean over the past decade?  
+2. Analysis of Cleanliness Ratings over Different Time Periods:  
+- What is the acceptable proportion of cleanliness by boroughs and citywide over the years?  
+- What is the acceptable proportion of cleanliness by boroughs and citywide across different seasons?  
+3. Analysis of the Relationship Between Cleanliness and Park Categories:  
 - How does cleanliness differ among different park categories?
 
 ## Data 
