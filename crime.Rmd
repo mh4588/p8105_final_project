@@ -19,7 +19,8 @@ library(purrr)
 library(ggridges)
 library(kableExtra)
 ```
-# Motivation
+
+## Motivation
 
 Exploring park crimes in NYC is essential for several reasons:  
 
@@ -31,8 +32,12 @@ Exploring park crimes in NYC is essential for several reasons:
 
 + Targeting Specific Times or Groups: Seasonal and demographic crime patterns allow for targeted safety measures tailored to specific risks.
 
+<div style="text-align: center;">
+![](images/NYPD.jpg)
+Image source: [NYPD in Central Park](https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG)
+</div>
 
-# Dataset
+## Dataset
 
 For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page) provided by NYPD. This dataset contains detailed records of reported crimes in New York City's parks. It includes data on various crime types, such as robbery, assault, and larceny, categorized by park, borough, and time period. This dataset is updated quarterly and aims to enhance public safety by offering transparency on crime trends in recreational areas. It serves as a valuable resource for researchers, policymakers, and residents interested in understanding and addressing crime in NYC parks.
 
@@ -46,6 +51,7 @@ The data processing process involves several steps to import, clean, and filter 
 - `total`: total crimes happened in that park;  
 - `year`: statistical year;  
 - `season`: statistical season.
+
   
 Each row is a crime record for a park in specific year and season.
 
@@ -127,9 +133,9 @@ all_park_crime_data = all_park_crime_data |>
 
 
 
-# Exploratory Data Analysis
+## Exploratory Data Analysis
 
-## Crime Counts by Year in NYC Parks
+### Crime Counts by Year in NYC Parks
    
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Prepare data for plotting
@@ -178,7 +184,7 @@ ggsave("images/report/crime_1.png", p1, width = 8, height = 6, dpi = 300)
 
 It can be judged from the plot that serious crimes like grand larceny of motor vehicle, murder, rape and robbery, have a relative stable account and trend. However, crimes like burglary, felony assault and grand larceny (not motor vehicle but maybe jewelry or other valuables), have some fluctuations. Burglary and robbery has some decrease in 2020, largely because COVID-19 exploded and travel restriction was conducted. However, felony assault may show a potential increase due to factors such as sparse crowds or a limited number of offenders, which create an environment conducive to the crime. Psychologically, the perpetrators may feel emboldened, believing that the lack of witnesses reduces the likelihood of being arrested.
 
-## Crime Proportion
+### Crime Proportion
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(plotly)
@@ -211,7 +217,7 @@ p2
 From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.  
 The observed crime patterns in parks suggest that property-related offenses, particularly Grand Larceny and Robbery, are the most frequent, likely due to the ease of committing such crimes in less monitored areas, such as parks, where large-scale or repeat offenses can occur. Physical crimes like Felony Assault, while present, are less common, possibly due to lower reporting rates or a focus by law enforcement on non-violent offenses in park settings. Violent crimes like Murder and Rape are rare in parks, reflecting their overall low frequency but higher severity, likely influenced by deterrent measures, stronger enforcement, or the generally lower prevalence of such crimes in public spaces. The low incidence of Grand Larceny of Motor Vehicles in parks might indicate the effectiveness of targeted law enforcement efforts or security measures, such as surveillance, to deter such offenses.
 
-## Heatmap of Crime Counts
+### Heatmap of Crime Counts
 
 ```{r echo=FALSE, message=FALSE}
 crime_heatmap = all_park_crime_data |>
@@ -246,7 +252,9 @@ ggsave("images/report/crime_3.png", p3, width = 8, height = 6, dpi = 300)
 
 This is a heatmap of total crimes happened in different boroughs by year. In this heatmap, the higher the number of crimes, the darker the red color. It's pretty obvious that Manhattan has a high crime rate. However, analyzing by years, there is no obvious changing trend.
 
-## Crime Statistics by Borough
+The observed crime patterns across NYC boroughs reveal several underlying factors. Manhattan and Brooklyn, being densely populated and economically active, experience higher crime rates, with Manhattan's concentration of businesses, tourist attractions, and nightlife further amplifying incidents. Socioeconomic challenges in the Bronx may contribute to its moderate crime levels, while Queens’ residential nature and diversity correlate with comparatively lower rates. Staten Island’s minimal crime totals could reflect its suburban character and potential differences in law enforcement focus or reporting practices. Over time, crime levels across boroughs remain relatively stable, with slight variations possibly influenced by shifts in policies, enforcement, or socio-economic dynamics.
+
+### Crime Statistics by Borough
 ```{r echo=FALSE, message=FALSE}
 # Pivot data to a longer format for plotting
 crime_by_borough = all_park_crime_data |>
@@ -301,7 +309,7 @@ The differences in crime counts across boroughs and crime types may stem from se
 
 
 
-## Distribution of Crime Counts by Type in Top 3 Parks
+### Distribution of Crime Counts by Type in Top 3 Parks
 
 ```{r echo=FALSE, message=FALSE}
 # Calculate the total crimes per park
@@ -423,23 +431,19 @@ ggsave("images/report/crime_4.png", p4, width = 8, height = 6, dpi = 300)
 
 From both the table and the plot, there were no murders in any of the three parks, and felonies were relatively rare. It is reasonable to assume that the high number of crimes in these parks is due to the high number of less serious crimes.
 
-
 The plot highlights crime distribution across three NYC parks: Coney Island Beach & Boardwalk, Flushing Meadows-Corona Park, and Washington Square Park. Grand larceny is the most frequent crime, particularly in Flushing Meadows-Corona Park and Washington Square Park, likely due to high foot traffic and the presence of valuables. Robbery and felony assault are also significant, especially in Flushing Meadows-Corona Park, which may result from its size and varied spaces that create opportunities for such offenses. Burglary rates are minimal, concentrated primarily in Flushing Meadows-Corona Park, likely due to the limited number of vulnerable structures. Grand larceny of motor vehicles is notable only in Flushing Meadows-Corona Park, possibly reflecting its extensive parking areas. Violent crimes like rape are rare, with no mention of murder, aligning with broader trends of low violent crime rates in public spaces due to deterrent measures and enforcement. These patterns reflect park-specific factors such as size, usage, accessibility, and monitoring.
-# Discussion
-1. Data Quality and Completeness. 
+
+
+## Discussion
+**1.Data Quality and Completeness.**
 
 The dataset relies on reported crimes, which may underrepresent actual crime occurrences due to underreporting, especially in parks located in boroughs with lower socioeconomic conditions.
 
-2. Lack of Predictive Analysis. 
+**2.Lack of Predictive Analysis.**
 
 Insights into causation or actionable triggers for crime remain limited, restricting the utility of findings for proactive measures.
 
-3. Visualization Limitations.
+**3.Visualization Limitations.**
 
 Although the visualizations are informative, some charts, such as the heatmap, might oversimplify trends by aggregating data at the borough level. This approach could mask intra-borough variations or park-specific patterns.
-
-
-
-
-
 

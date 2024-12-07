@@ -40,3 +40,91 @@
 body {
     font-size: 1.6rem; 
 }
+
+/* Fade in animation for the main container */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide in animation for title and subtitles */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Gentle bounce animation for links */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Apply animations to elements */
+#home-container {
+  animation: fadeIn 1.5s ease-out;
+}
+
+.image-title {
+  animation: slideInRight 1s ease-out 0.5s both;
+}
+
+.sub-title {
+  animation: slideInRight 1s ease-out 0.8s both;
+}
+
+.authors {
+  animation: slideInRight 1s ease-out 1.1s both;
+}
+
+.welcome {
+  animation: fadeIn 1.5s ease-out 1.3s both;
+}
+
+/* Hover effects for links */
+a {
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* List item animations */
+li {
+  transition: transform 0.3s ease;
+}
+
+li:hover {
+  transform: translateX(5px);
+}
+
+/* Image hover effect */
+.image-container img {
+  transition: transform 0.5s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.02);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

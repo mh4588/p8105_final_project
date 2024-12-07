@@ -14,9 +14,7 @@ fountains <- read.csv("data/fountains.csv") |>
 
 ```{r}
 #Clean data
-fountain_location = fountains |>
-  select(prop_name, point, fountain_type, feature_status)
-
+fountain_location = fountains
 #Clean point variable
 fount_loc_with_points = fountain_location |>
   mutate(
@@ -24,11 +22,18 @@ fount_loc_with_points = fountain_location |>
     longitude = as.numeric(coords[,1]),
     latitude = as.numeric(coords[,2])
   ) |>
-  select(prop_name, longitude, latitude, fountain_type, feature_status)
+  select(prop_name, borough,longitude, latitude, fountain_type, feature_status) |>
+  mutate(
+    borough=str_replace(borough, "B","Brooklyn"),
+    borough=str_replace(borough, "M","Manhattan"),
+    borough=str_replace(borough, "Q","Queens"),
+    borough=str_replace(borough, "R","Staten Island"),
+    borough=str_replace(borough, "X","Bronx")
+  )
 
 ```
 
 not sure if you needs the following
 ```{r export}
-write_csv(fountain_location, "fountain_location.csv")
+write_csv(fount_loc_with_points, "fountain_location.csv")
 ```

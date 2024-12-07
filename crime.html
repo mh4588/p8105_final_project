@@ -434,8 +434,8 @@ div.tocify {
 </div>
 
 
-<div id="motivation" class="section level1">
-<h1>Motivation</h1>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
 <p>Exploring park crimes in NYC is essential for several reasons:</p>
 <ul>
 <li><p>Improving Public Safety: Identifying high-risk areas allows for
@@ -450,9 +450,14 @@ crime analysis can help mitigate.</p></li>
 crime patterns allow for targeted safety measures tailored to specific
 risks.</p></li>
 </ul>
+<div style="text-align: center;">
+<p><img src="images/NYPD.jpg" /> Image source: <a
+href="https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG">NYPD
+in Central Park</a></p>
 </div>
-<div id="dataset" class="section level1">
-<h1>Dataset</h1>
+</div>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
 <p>For this part, we chose <a
 href="https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page">NYC
 Park Crime Statistics</a> provided by NYPD. This dataset contains
@@ -468,24 +473,33 @@ and filter crime data from various park crime files spanning from 2015
 to 2024. Since crime data is stored quarterly, we wrote a function to
 traverse all data file paths and special files were handled
 individually. The final dataset includes variables:</p>
-<p>-<code>park</code>: park names;<br />
--<code>borough</code>: parks’ boroughs;<br />
--<code>size_acres</code>: size in acres;<br />
--<code>category</code>: categories of parks;<br />
--Crime types: <code>murder</code>, <code>rape</code>,
+<ul>
+<li><code>park</code>: park names;<br />
+</li>
+<li><code>borough</code>: parks’ boroughs;<br />
+</li>
+<li><code>size_acres</code>: size in acres;<br />
+</li>
+<li><code>category</code>: categories of parks;<br />
+</li>
+<li>Crime types: <code>murder</code>, <code>rape</code>,
 <code>robbery</code>, <code>felony_assault</code>,
 <code>burglary</code>, <code>grand_larceny</code>,
 <code>grand_larceny_of_motor_vehicles</code>;<br />
--<code>total</code>: total crimes happened in that park;<br />
--<code>year</code>: statistical year;<br />
--<code>season</code>: statistical season.</p>
+</li>
+<li><code>total</code>: total crimes happened in that park;<br />
+</li>
+<li><code>year</code>: statistical year;<br />
+</li>
+<li><code>season</code>: statistical season.</li>
+</ul>
 <p>Each row is a crime record for a park in specific year and
 season.</p>
 </div>
-<div id="exploratory-data-analysis" class="section level1">
-<h1>Exploratory Data Analysis</h1>
-<div id="crime-counts-by-year-in-nyc-parks" class="section level2">
-<h2>Crime Counts by Year in NYC Parks</h2>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<div id="crime-counts-by-year-in-nyc-parks" class="section level3">
+<h3>Crime Counts by Year in NYC Parks</h3>
 <p><img src="crime_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>It can be judged from the plot that serious crimes like grand larceny
 of motor vehicle, murder, rape and robbery, have a relative stable
@@ -499,28 +513,53 @@ environment conducive to the crime. Psychologically, the perpetrators
 may feel emboldened, believing that the lack of witnesses reduces the
 likelihood of being arrested.</p>
 </div>
-<div id="crime-proportion" class="section level2">
-<h2>Crime Proportion</h2>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-841aa6defa015886c91c" style="width:768px;height:576px;"></div>
-<script type="application/json" data-for="htmlwidget-841aa6defa015886c91c">{"x":{"visdat":{"10b4c6058dc3d":["function () ","plotlyVisDat"]},"cur_data":"10b4c6058dc3d","attrs":{"10b4c6058dc3d":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="crime-proportion" class="section level3">
+<h3>Crime Proportion</h3>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-d29d61918a8d2a8612fa" style="width:768px;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-d29d61918a8d2a8612fa">{"x":{"visdat":{"118f93b8df66b":["function () ","plotlyVisDat"]},"cur_data":"118f93b8df66b","attrs":{"118f93b8df66b":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>From the pie chart, we can figure out that grand larceny (41.1%),
 robbery (31%) and felony assault (22%) were main crime types during last
-ten years.</p>
+ten years.<br />
+The observed crime patterns in parks suggest that property-related
+offenses, particularly Grand Larceny and Robbery, are the most frequent,
+likely due to the ease of committing such crimes in less monitored
+areas, such as parks, where large-scale or repeat offenses can occur.
+Physical crimes like Felony Assault, while present, are less common,
+possibly due to lower reporting rates or a focus by law enforcement on
+non-violent offenses in park settings. Violent crimes like Murder and
+Rape are rare in parks, reflecting their overall low frequency but
+higher severity, likely influenced by deterrent measures, stronger
+enforcement, or the generally lower prevalence of such crimes in public
+spaces. The low incidence of Grand Larceny of Motor Vehicles in parks
+might indicate the effectiveness of targeted law enforcement efforts or
+security measures, such as surveillance, to deter such offenses.</p>
 </div>
-<div id="heatmap-of-crime-counts" class="section level2">
-<h2>Heatmap of Crime Counts</h2>
-<p><img src="crime_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div id="heatmap-of-crime-counts" class="section level3">
+<h3>Heatmap of Crime Counts</h3>
+<p><img src="crime_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>This is a heatmap of total crimes happened in different boroughs by
 year. In this heatmap, the higher the number of crimes, the darker the
 red color. It’s pretty obvious that Manhattan has a high crime rate.
 However, analyzing by years, there is no obvious changing trend.</p>
+<p>The observed crime patterns across NYC boroughs reveal several
+underlying factors. Manhattan and Brooklyn, being densely populated and
+economically active, experience higher crime rates, with Manhattan’s
+concentration of businesses, tourist attractions, and nightlife further
+amplifying incidents. Socioeconomic challenges in the Bronx may
+contribute to its moderate crime levels, while Queens’ residential
+nature and diversity correlate with comparatively lower rates. Staten
+Island’s minimal crime totals could reflect its suburban character and
+potential differences in law enforcement focus or reporting practices.
+Over time, crime levels across boroughs remain relatively stable, with
+slight variations possibly influenced by shifts in policies,
+enforcement, or socio-economic dynamics.</p>
 </div>
-<div id="crime-statistics-by-borough" class="section level2">
-<h2>Crime Statistics by Borough</h2>
-<p><img src="crime_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div id="crime-statistics-by-borough" class="section level3">
+<h3>Crime Statistics by Borough</h3>
+<p><img src="crime_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>This plot compares crime counts by type and borough in New York City,
-with each panel representing a specific crime type,. Manhattan stands
-out with the highest crime counts for grand larceny and felony assault,
+with each panel representing a specific crime type. Manhattan stands out
+with the highest crime counts for grand larceny and felony assault,
 while Brooklyn leads in grand larceny of motor vehicle. The Bronx shows
 notably high counts for robbery and murder, often surpassing other
 boroughs for these crimes. In contrast, Staten Island and the
@@ -541,8 +580,8 @@ policing, and community infrastructure further influence the
 distribution of crimes.</p>
 </div>
 <div id="distribution-of-crime-counts-by-type-in-top-3-parks"
-class="section level2">
-<h2>Distribution of Crime Counts by Type in Top 3 Parks</h2>
+class="section level3">
+<h3>Distribution of Crime Counts by Type in Top 3 Parks</h3>
 <table>
 <thead>
 <tr class="header">
@@ -706,29 +745,39 @@ washington_square_park
 </tr>
 </tbody>
 </table>
-<p><img src="crime_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="crime_files/figure-html/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>From both the table and the plot, there were no murders in any of the
 three parks, and felonies were relatively rare. It is reasonable to
 assume that the high number of crimes in these parks is due to the high
 number of less serious crimes.</p>
+<p>The plot highlights crime distribution across three NYC parks: Coney
+Island Beach &amp; Boardwalk, Flushing Meadows-Corona Park, and
+Washington Square Park. Grand larceny is the most frequent crime,
+particularly in Flushing Meadows-Corona Park and Washington Square Park,
+likely due to high foot traffic and the presence of valuables. Robbery
+and felony assault are also significant, especially in Flushing
+Meadows-Corona Park, which may result from its size and varied spaces
+that create opportunities for such offenses. Burglary rates are minimal,
+concentrated primarily in Flushing Meadows-Corona Park, likely due to
+the limited number of vulnerable structures. Grand larceny of motor
+vehicles is notable only in Flushing Meadows-Corona Park, possibly
+reflecting its extensive parking areas. Violent crimes like rape are
+rare, with no mention of murder, aligning with broader trends of low
+violent crime rates in public spaces due to deterrent measures and
+enforcement. These patterns reflect park-specific factors such as size,
+usage, accessibility, and monitoring.</p>
 </div>
 </div>
-<div id="discussion" class="section level1">
-<h1>Discussion</h1>
-<ol style="list-style-type: decimal">
-<li>Data Quality and Completeness.</li>
-</ol>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p><strong>1.Data Quality and Completeness.</strong></p>
 <p>The dataset relies on reported crimes, which may underrepresent
 actual crime occurrences due to underreporting, especially in parks
 located in boroughs with lower socioeconomic conditions.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Lack of Predictive Analysis.</li>
-</ol>
+<p><strong>2.Lack of Predictive Analysis.</strong></p>
 <p>Insights into causation or actionable triggers for crime remain
 limited, restricting the utility of findings for proactive measures.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Visualization Limitations.</li>
-</ol>
+<p><strong>3.Visualization Limitations.</strong></p>
 <p>Although the visualizations are informative, some charts, such as the
 heatmap, might oversimplify trends by aggregating data at the borough
 level. This approach could mask intra-borough variations or
