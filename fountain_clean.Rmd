@@ -30,5 +30,5 @@ fount_loc_with_points = fountain_location |>
 
 not sure if you needs the following
 ```{r export}
-write_csv(fountain_location, "fountain_location.csv")
+write_csv(fount_loc_with_points, "fountain_location.csv")
 ```
