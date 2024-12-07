@@ -19,7 +19,8 @@ library(purrr)
 library(ggridges)
 library(kableExtra)
 ```
-# Motivation
+
+## Motivation
 
 Exploring park crimes in NYC is essential for several reasons:  
 
@@ -31,8 +32,12 @@ Exploring park crimes in NYC is essential for several reasons:
 
 + Targeting Specific Times or Groups: Seasonal and demographic crime patterns allow for targeted safety measures tailored to specific risks.
 
+<div style="text-align: center;">
+![](images/NYPD.jpg)
+Image source: [NYPD in Central Park](https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG)
+</div>
 
-# Dataset
+## Dataset
 
 For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page) provided by NYPD. This dataset contains detailed records of reported crimes in New York City's parks. It includes data on various crime types, such as robbery, assault, and larceny, categorized by park, borough, and time period. This dataset is updated quarterly and aims to enhance public safety by offering transparency on crime trends in recreational areas. It serves as a valuable resource for researchers, policymakers, and residents interested in understanding and addressing crime in NYC parks.
 
@@ -127,9 +132,9 @@ all_park_crime_data = all_park_crime_data |>
 
 
 
-# Exploratory Data Analysis
+## Exploratory Data Analysis
 
-## Crime Counts by Year in NYC Parks
+### Crime Counts by Year in NYC Parks
    
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Prepare data for plotting
@@ -173,7 +178,7 @@ ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, group
 
 It can be judged from the plot that serious crimes like grand larceny of motor vehicle, murder, rape and robbery, have a relative stable account and trend. However, crimes like burglary, felony assault and grand larceny (not motor vehicle but maybe jewelry or other valuables), have some fluctuations. Burglary and robbery has some decrease in 2020, largely because COVID-19 exploded and travel restriction was conducted. However, felony assault may show a potential increase due to factors such as sparse crowds or a limited number of offenders, which create an environment conducive to the crime. Psychologically, the perpetrators may feel emboldened, believing that the lack of witnesses reduces the likelihood of being arrested.
 
-## Crime Proportion
+### Crime Proportion
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(plotly)
@@ -200,7 +205,7 @@ plot_ly(
 
 From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.
 
-## Heatmap of Crime Counts
+### Heatmap of Crime Counts
 
 ```{r echo=FALSE, message=FALSE}
 crime_heatmap = all_park_crime_data |>
@@ -229,7 +234,7 @@ ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum), fil
 
 This is a heatmap of total crimes happened in different boroughs by year. In this heatmap, the higher the number of crimes, the darker the red color. It's pretty obvious that Manhattan has a high crime rate. However, analyzing by years, there is no obvious changing trend.
 
-## Crime Statistics by Borough
+### Crime Statistics by Borough
 ```{r echo=FALSE, message=FALSE}
 # Pivot data to a longer format for plotting
 crime_by_borough = all_park_crime_data |>
@@ -284,7 +289,7 @@ The differences in crime counts across boroughs and crime types may stem from se
 
 
 
-## Distribution of Crime Counts by Type in Top 3 Parks
+### Distribution of Crime Counts by Type in Top 3 Parks
 
 ```{r echo=FALSE, message=FALSE}
 # Calculate the total crimes per park
@@ -403,21 +408,16 @@ From both the table and the plot, there were no murders in any of the three park
 
 
 
-# Discussion
-1. Data Quality and Completeness. 
+## Discussion
+1.**Data Quality and Completeness.**
 
 The dataset relies on reported crimes, which may underrepresent actual crime occurrences due to underreporting, especially in parks located in boroughs with lower socioeconomic conditions.
 
-2. Lack of Predictive Analysis. 
+2.**Lack of Predictive Analysis.**
 
 Insights into causation or actionable triggers for crime remain limited, restricting the utility of findings for proactive measures.
 
-3. Visualization Limitations.
+3.**Visualization Limitations.**
 
 Although the visualizations are informative, some charts, such as the heatmap, might oversimplify trends by aggregating data at the borough level. This approach could mask intra-borough variations or park-specific patterns.
-
-
-
-
-
 

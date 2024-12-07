@@ -8,10 +8,17 @@ output:
     code_folding: hide
 ---
 
-![](images/central_park_2.jpg)
-
 ## Motivation
 This project was inspired by the goal of exploring cleanliness in NYC parks, aiming to understand the current state of park cleanliness and the factors affecting it through detailed data analysis. We focused on identifying specific features that contribute to lower cleanliness scores, as well as examining the temporal and spatial variations in these scores. By pinpointing these influential features and patterns, we aim to uncover the key reasons behind declining cleanliness levels. This analysis not only provides insights into the cleanliness conditions of NYC parks but also lays a foundation for policymakers to implement effective measures to enhance park environments and improve public experience.
+
+![](images/central_park_2.jpg)
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(plotly)
+library(ggsci)
+library(kableExtra)
+```
 
 ## Initial Questions
 1. Cleanliness rating analysis of different features:  
@@ -43,13 +50,6 @@ Datasets on properties and cleanliness are maintained in this project, including
 - Data Merging: Merged datasets based on `prop_id` and `inspection_id` to build a complete dataset covering park information, feature ratings, and cleanliness inspection data.  
 
 - Data Organization: Further cleaned and standardized the combined dataset, addressing missing values, removing unnecessary columns, and formatting string values to maintain data consistency.
-
-```{r message=FALSE, warning=FALSE}
-library(tidyverse)
-library(plotly)
-library(ggsci)
-library(kableExtra)
-```
 
 ```{r message=FALSE, warning=FALSE}
 parks_properties <- read_csv("./data/nycparks_cleanliness/parks_properties.csv") |>
