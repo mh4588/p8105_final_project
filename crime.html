@@ -16,7 +16,7 @@
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -33,6 +33,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
@@ -258,6 +259,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -415,6 +419,14 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Crime in NYC Parks</h1>
@@ -469,13 +481,11 @@ individually. The final dataset includes variables:</p>
 -<code>season</code>: statistical season.</p>
 <p>Each row is a crime record for a park in specific year and
 season.</p>
+</div>
+<div id="exploratory-data-analysis" class="section level1">
+<h1>Exploratory Data Analysis</h1>
 <div id="crime-counts-by-year-in-nyc-parks" class="section level2">
 <h2>Crime Counts by Year in NYC Parks</h2>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
 <p><img src="crime_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>It can be judged from the plot that serious crimes like grand larceny
 of motor vehicle, murder, rape and robbery, have a relative stable
@@ -491,19 +501,8 @@ likelihood of being arrested.</p>
 </div>
 <div id="crime-proportion" class="section level2">
 <h2>Crime Proportion</h2>
-<pre><code>## Warning: There was 1 warning in `summarize()`.
-## ℹ In argument: `across(everything(), sum, na.rm = TRUE)`.
-## Caused by warning:
-## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
-## Supply arguments directly to `.fns` through an anonymous function instead.
-## 
-##   # Previously
-##   across(a:b, mean, na.rm = TRUE)
-## 
-##   # Now
-##   across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-349f9c3da82d0bc682bf" style="width:768px;height:576px;"></div>
-<script type="application/json" data-for="htmlwidget-349f9c3da82d0bc682bf">{"x":{"visdat":{"1071d1e028e95":["function () ","plotlyVisDat"]},"cur_data":"1071d1e028e95","attrs":{"1071d1e028e95":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-841aa6defa015886c91c" style="width:768px;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-841aa6defa015886c91c">{"x":{"visdat":{"10b4c6058dc3d":["function () ","plotlyVisDat"]},"cur_data":"10b4c6058dc3d","attrs":{"10b4c6058dc3d":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>From the pie chart, we can figure out that grand larceny (41.1%),
 robbery (31%) and felony assault (22%) were main crime types during last
 ten years.</p>
@@ -771,6 +770,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
@@ -785,7 +789,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
