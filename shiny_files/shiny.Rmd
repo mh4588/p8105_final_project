@@ -176,7 +176,8 @@ server <- function(input, output) {
         theme_minimal() +
         labs(title = paste("Visitor Counts by Restroom (", input$year_range[1], "-", input$year_range[2], ")", sep = ""),
              x = "Park Name",
-             y = "Visitor Count")
+             y = "Visitor Count",
+             fill = "Year of Visit")
     } else {
       NULL
     }
