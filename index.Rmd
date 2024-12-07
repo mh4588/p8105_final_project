@@ -94,7 +94,7 @@ Our project examines key factors that shape the overall experience of NYC park v
  - [Data](https://mh4588.github.io/p8105_final_project/data.html): What data we used in our report analysis.
  - [Crime](https://mh4588.github.io/p8105_final_project/crime.html): The safety condition in NYC parks.
  - **Sanitation**: The [overall cleanliness for NYC parks](https://mh4588.github.io/p8105_final_project/cleanliness.html), [the restroom sanitation conditions](https://mh4588.github.io/p8105_final_project/restroom.html) and [the issue of syringe litter](https://mh4588.github.io/p8105_final_project/syringe.html) in parks.
-  - **Facility Maps**:
+  - [Facility Maps](https://summer-lxt-32.shinyapps.io/shiny/): A shiny app about drinking fountain map and annual park population.
   
 
 
