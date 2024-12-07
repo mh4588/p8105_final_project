@@ -1,9 +1,422 @@
 ---
-title: "Crime"
+title: Crime in NYC Parks
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
 ---
 
-### About this site
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", fig.width = 8, fig.height = 6)
+library(ggplot2)
+library(ggridges)
+library(tidyverse)
+library(readxl)
+library(stringr)
+library(purrr)
+library(ggridges)
+library(kableExtra)
+```
+# Motivation
 
-Sometimes you need to say a bit about the site -- how it was made, where it's hosted, where the source code can be found. 
+Exploring park crimes in NYC is essential for several reasons:  
 
-If this is for a project or analysis, I recommend giving some details about the R package versions that you used to create the content.
++ Improving Public Safety: Identifying high-risk areas allows for targeted interventions, ensuring the protection of parkgoers.  
+
++ Raising Community Awareness: Understanding crime patterns guides public education and prevention efforts to reduce risks in parks.  
+
++ Addressing Social and Economic Impact: Crime in parks can deter park usage, affecting local businesses and community engagement, which crime analysis can help mitigate.  
+
++ Targeting Specific Times or Groups: Seasonal and demographic crime patterns allow for targeted safety measures tailored to specific risks.
+
+
+# Dataset
+
+For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page) provided by NYPD. This dataset contains detailed records of reported crimes in New York City's parks. It includes data on various crime types, such as robbery, assault, and larceny, categorized by park, borough, and time period. This dataset is updated quarterly and aims to enhance public safety by offering transparency on crime trends in recreational areas. It serves as a valuable resource for researchers, policymakers, and residents interested in understanding and addressing crime in NYC parks.
+
+The data processing process involves several steps to import, clean, and filter crime data from various park crime files spanning from 2015 to 2024. Since crime data is stored quarterly, we wrote a function to traverse all data file paths and special files were handled individually. The final dataset includes variables:  
+
+-`park`: park names;  
+-`borough`: parks' boroughs;  
+-`size_acres`: size in acres;  
+-`category`: categories of parks;  
+-Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
+-`total`: total crimes happened in that park;  
+-`year`: statistical year;  
+-`season`: statistical season.
+  
+Each row is a crime record for a park in specific year and season.
+
+
+```{r include=FALSE, message=FALSE, warning=FALSE}
+# Define a function to import and clean a single file with exceptions
+import_park_crime_data = function(year, season) {
+  # Skip 2024 Q4
+  if (year == 2024 && season == "q4") {
+    return(NULL)
+  }
+  
+  # Determine the file path
+  file_path = sprintf("data/nycparks_crime/%d/nyc-park-crime-stats-%s-%d.xlsx", year, season, year)
+  
+  # Use skip = 4 for specific files, otherwise skip = 3
+  skip_rows = ifelse((year == 2015 && season %in% c("q1", "q2", "q3")) || (year == 2018 && season == "q2"), 4, 3)
+  
+  # Attempt to read the file
+  data = tryCatch(
+    {
+      read_excel(file_path, skip = skip_rows) |>
+        janitor::clean_names()
+    },
+    error = function(e) {
+      warning(sprintf("Failed to read file: %s. Error: %s", file_path, e$message))
+      return(NULL) # Skip problematic files
+    }
+  )
+  
+  # Check if the 'park' column exists, and proceed accordingly
+  if (!"park" %in% names(data)) {
+    warning(sprintf("Column 'park' not found in file: %s", file_path))
+    return(NULL) # Return NULL for this file if 'park' is missing
+  }
+  
+    # List of columns to ensure numeric
+  numeric_columns = c(
+    "size_acres", "murder", "rape", "robbery", "felony_assault", 
+    "burglary", "grand_larceny", "grand_larceny_of_motor_vehicle", "total"
+  )
+  
+  # Add missing numeric columns as NA
+  missing_columns = setdiff(numeric_columns, names(data))
+  if (length(missing_columns) > 0) {
+    data[missing_columns] = NA
+  }
+  
+  # Ensure these columns are numeric
+  data = data |>
+    mutate(across(all_of(numeric_columns), as.numeric))
+  
+  # Perform cleaning and filtering
+  data |>
+    mutate(
+      park = str_replace_all(str_to_lower(park), " ", "_"),
+      borough = str_replace_all(str_to_lower(borough), " ", "_"),
+      category = str_replace_all(str_to_lower(category), " ", "_"),
+      year = year,
+      season = season
+    ) |>
+    filter(total > 0)
+}
+
+# Generate a data frame with all combinations of years and seasons
+years = 2015:2024
+seasons = c("q1", "q2", "q3", "q4")
+year_season_combinations = expand.grid(year = years, season = seasons)
+
+# Import and combine all the data
+all_park_crime_data = year_season_combinations |>
+  pmap_dfr(~ import_park_crime_data(..1, ..2))
+
+all_park_crime_data = all_park_crime_data |>
+  filter(
+    park != "total"
+  )
+```
+
+
+
+
+
+## Crime Counts by Year in NYC Parks
+   
+```{r echo=FALSE}
+# Prepare data for plotting
+crime_data_long = all_park_crime_data |>
+  select(year, murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle) |>
+  pivot_longer(
+    cols = c(murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle),
+    names_to = "crime_type",
+    values_to = "count"
+  ) |>
+  group_by(year, crime_type) |>
+  summarize(total_count = sum(count, na.rm = TRUE), .groups = "drop")
+
+crime_data_long$year = as.factor(crime_data_long$year)
+
+# Plot the data
+ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, group = crime_type)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Crime Counts by Year in NYC Parks",
+    x = "Year",
+    y = "Total Count",
+    color = "Crime Type"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top", # Move the legend to the top
+    legend.title = element_text(size = 12, face = "bold"), # Style the legend title
+    legend.text = element_text(size = 10), # Style the legend text
+    legend.margin = margin(t = 5, b = 5), # Adjust spacing around the legend
+    legend.key.width = unit(1, "cm") # Adjust the key width for better readability
+  )
+
+
+```
+
+It can be judged from the plot that serious crimes like grand larceny of motor vehicle, murder, rape and robbery, have a relative stable account and trend. However, crimes like burglary, felony assault and grand larceny (not motor vehicle but maybe jewelry or other valuables), have some fluctuations. Burglary and robbery has some decrease in 2020, largely because COVID-19 exploded and travel restriction was conducted. However, felony assault may show a potential increase due to factors such as sparse crowds or a limited number of offenders, which create an environment conducive to the crime. Psychologically, the perpetrators may feel emboldened, believing that the lack of witnesses reduces the likelihood of being arrested.
+
+## Crime Proportion
+
+```{r echo=FALSE, message=FALSE}
+library(plotly)
+
+crime_types = all_park_crime_data |>
+  select(murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle) |>
+  summarize(across(everything(), sum, na.rm = TRUE)) |>
+  pivot_longer(cols = everything(), names_to = "crime_type", values_to = "total_crimes")
+
+# Create a pie chart
+plot_ly(
+  data = crime_types,
+  labels = ~crime_type,
+  values = ~total_crimes,
+  type = 'pie',
+  textinfo = 'label+percent',
+  insidetextorientation = 'radial'
+) |>
+  layout(
+    title = "Proportion of Different Crime Types (2015–2024)",
+    showlegend = TRUE
+  )
+```
+
+From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.
+
+## Heatmap of Crime Counts
+
+```{r echo=FALSE, message=FALSE}
+crime_heatmap = all_park_crime_data |>
+  group_by(year, borough) |>
+  mutate(
+    year = as.factor(year)
+  ) |>
+  filter(
+    park != "total"
+  )|>
+  summarize(total_crimes = sum(total, na.rm = TRUE))
+
+
+ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum), fill = total_crimes)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(
+    title = "Heatmap of Crimes by Year and Borough",
+    x = "Year",
+    y = "Borough",
+    fill = "Total Crimes"
+  ) +
+  theme_minimal()
+
+```
+
+This is a heatmap of total crimes happened in different boroughs by year. In this heatmap, the higher the number of crimes, the darker the red color. It's pretty obvious that Manhattan has a high crime rate. However, analyzing by years, there is no obvious changing trend.
+
+## Crime Statistics by Borough
+```{r echo=FALSE, message=FALSE}
+# Pivot data to a longer format for plotting
+crime_by_borough = all_park_crime_data |>
+    replace_na(list(
+    murder = 0,
+    rape = 0,
+    robbery = 0,
+    felony_assault = 0,
+    burglary = 0,
+    grand_larceny = 0,
+    grand_larceny_of_motor_vehicle = 0
+  )) |>
+  pivot_longer(
+    cols = c(murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle),
+    names_to = "crime_type",
+    values_to = "crime_count"
+  ) |>
+  filter(
+    borough != "NA"
+  ) |>
+  group_by(
+    crime_type, borough
+  ) |>
+  summarise(
+    crime_count = sum(crime_count)
+  ) |>
+  ungroup() |>
+  mutate(
+    borough = fct_reorder(borough, crime_count, .fun = sum, na.rm = TRUE)
+  )
+
+
+# Plot with facet_wrap
+ggplot(crime_by_borough, aes(x = borough, y = crime_count, fill = borough)) +
+  geom_col(show.legend = TRUE) +
+  facet_wrap(~crime_type, scales = "free_y") +
+  labs(
+    title = "Crime Counts by Type and Borough",
+    x = "Borough",
+    y = "Crime Count"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    strip.text = element_text(face = "bold", size = 10)
+  )
+```
+
+This plot compares crime counts by type and borough in New York City, with each panel representing a specific crime type,. Manhattan stands out with the highest crime counts for grand larceny and felony assault, while Brooklyn leads in grand larceny of motor vehicle. The Bronx shows notably high counts for robbery and murder, often surpassing other boroughs for these crimes. In contrast, Staten Island and the Brooklyn/Queens area consistently report the lowest crime counts across all categories. Property crimes like grand larceny and felony assault have significantly higher totals compared to violent crimes such as murder and rape, which show smaller totals.
+
+The differences in crime counts across boroughs and crime types may stem from several factors. Manhattan, with its dense population and economic activity, shows higher grand larceny and felony assault rates due to more opportunities for theft and interpersonal conflicts. The Bronx, often associated with economic challenges, exhibits higher rates of violent crimes like murder and robbery. Brooklyn's urban sprawl and higher car ownership contribute to more grand larceny of motor vehicles. Staten Island’s low crime counts may reflect its smaller population or underreporting. Variations in tourism, socioeconomic conditions, policing, and community infrastructure further influence the distribution of crimes.
+
+
+
+## Distribution of Crime Counts by Type in Top 3 Parks
+
+```{r echo=FALSE, message=FALSE}
+# Calculate the total crimes per park
+crime_data_summary = all_park_crime_data |> 
+  group_by(park) |>
+  filter(
+    park != "total"
+  ) |>
+  summarize(total_crimes = sum(total, na.rm = TRUE)) |> 
+  arrange(desc(total_crimes))
+
+
+# Get the top 3 parks with the most crimes
+top_parks = crime_data_summary |> head(3) |> pull(park)
+
+# Filter the original data to include only the top 3 parks
+crime_data_top_parks = all_park_crime_data |> 
+  filter(park %in% top_parks) |>
+  pivot_longer(
+    cols = murder:grand_larceny_of_motor_vehicle,
+    names_to = "crime_type",
+    values_to = "total_count"
+  )
+
+knitr::kable(crime_data_summary |>
+               head())
+
+```
+
+Above is the top six parks where most crimes occurred. We want to have a look at these parks' crime distribution by type for assisting you to determine whether this is truly a dangerous park or if it simply has incidents of relatively minor crimes. Thus, we selected the three parks with the highest total number of crimes, and then divided them into statistics and visualizations according to the types of crimes. The following is the statistical table and the chart.
+
+
+
+```{r echo=FALSE, message=FALSE}
+top_3_crime_park = crime_data_top_parks |>
+  group_by(
+    park, crime_type
+  ) |>
+  summarise(
+    count = sum(total_count)
+  ) |>
+  pivot_wider(
+    names_from = crime_type,
+    values_from = count
+  ) |>
+  replace_na(
+    list(murder = 0)
+  )
+
+top3_crime_table = top_3_crime_park |>
+  kbl(
+    col.names = c(
+      "Park Name", 
+      rep(c("Burglary", "Felony Assault", "Grand Larceny", 
+            "Motor Vehicle Theft", "Murder", "Rape", "Robbery"), 1)
+    ),
+    caption = "Crime Statistics by Park"
+  ) |>
+  add_header_above(c(" " = 1, "Crimes" = 7)) |>
+  kable_styling(
+    full_width = FALSE, 
+    bootstrap_options = c("striped", "hover", "condensed"),
+    position = "center",
+    font_size = 14
+  ) |>
+  column_spec(1, width = "25em") |> 
+  column_spec(2:8, extra_css = "padding-right: 20px; padding-left: 20px;") |>
+  row_spec(0, bold = TRUE, extra_css = "padding-bottom: 10px;") |> # Add spacing to header row
+  kable_styling(latex_options = "hold_position") |> 
+  row_spec(1:3, extra_css = "padding-top: 10px; padding-bottom: 10px;")
+
+top3_crime_table
+
+```
+
+
+```{r echo=FALSE}
+# Prepare the data for plotting
+top_3_crime_park_long = top_3_crime_park |>
+  pivot_longer(
+    cols = -park, # All columns except "park"
+    names_to = "crime_type",
+    values_to = "count"
+  ) |>
+  filter(
+    crime_type != "murder"
+  )
+
+# Plot using ggplot2
+ggplot(top_3_crime_park_long, aes(x = park, y = count, fill = park)) +
+  geom_bar(stat = "identity", alpha = 0.8, show.legend = TRUE) +
+  facet_wrap(~ crime_type, scales = "free_y", ncol = 3) + # Facet by crime type
+  theme_minimal() +
+  theme(
+    text = element_text(size = 12),
+    axis.text.x = element_blank(), # Rotate x-axis labels for readability
+    axis.text.y = element_text(size = 10),
+    plot.title = element_text(size = 16, hjust = 0.5, face = "bold"), # Center and bold title
+    strip.text = element_text(size = 8, face = "bold"), # Style facet titles
+    panel.spacing = unit(2, "lines"),
+    legend.key.size = unit(0.4, "cm"), # Reduce legend key size
+    legend.text = element_text(size = 10), # Adjust legend text size
+    legend.title = element_text(size = 11, face = "bold"), # Adjust legend title
+    legend.position = "top" # Place legend at the top
+  ) +
+  labs(
+    title = "Crime Distribution by Type Across Top Parks",
+    x = "Park",
+    y = "Crime Count"
+  )
+
+```
+
+
+From both the table and the plot, there were no murders in any of the three parks, and felonies were relatively rare. It is reasonable to assume that the high number of crimes in these parks is due to the high number of less serious crimes.
+
+
+
+# Discussion
+1. Data Quality and Completeness. 
+
+The dataset relies on reported crimes, which may underrepresent actual crime occurrences due to underreporting, especially in parks located in boroughs with lower socioeconomic conditions.
+
+2. Lack of Predictive Analysis. 
+
+Insights into causation or actionable triggers for crime remain limited, restricting the utility of findings for proactive measures.
+
+3. Visualization Limitations.
+
+Although the visualizations are informative, some charts, such as the heatmap, might oversimplify trends by aggregating data at the borough level. This approach could mask intra-borough variations or park-specific patterns.
+
+
+
+
+
+
