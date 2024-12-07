@@ -77,7 +77,7 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
 
 ## Exploratory Analysis
 
-### 1. Cime in NYC Parks
+### 1. Crime in NYC Parks
 
 
 

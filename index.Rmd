@@ -85,10 +85,10 @@ output:
 
 ### Welcome to Our Website!
 
-Our project studies on various aspects that contribute to the overall experience of park visitors, including sanitation, cleanliness, and safety. We focus on four critical areas: crime, cleanliness, restroom, and syringe. Through our analysis, we hope to provide a holistic understanding of NYC parks, helping to guide future improvements and ensure that these public spaces remain clean, safe, and inviting for all.
+Our project examines key factors that shape the overall experience of NYC park visitors, focusing on two main areas: crime and sanitation. Within sanitation, we studies on three critical aspects: overall cleanliness, restroom conditions, and syringe litter. Through this comprehensive analysis, we aim to provide valuable insights into NYC parks, guiding future improvements to ensure these public spaces remain clean, safe, and welcoming for all.
 </p>
 
-### On Our Websit, You Can See:
+### On Our Website, You Can See:
 
  - **About**: The [report content](https://mh4588.github.io/p8105_final_project/report.html) and [our team](https://mh4588.github.io/p8105_final_project/about_team.html) introduction.
  - [Data](https://mh4588.github.io/p8105_final_project/data.html): What data we used in our report analysis.
