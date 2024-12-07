@@ -214,7 +214,8 @@ p2
 
 
 
-From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.  
+From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.
+
 The observed crime patterns in parks suggest that property-related offenses, particularly Grand Larceny and Robbery, are the most frequent, likely due to the ease of committing such crimes in less monitored areas, such as parks, where large-scale or repeat offenses can occur. Physical crimes like Felony Assault, while present, are less common, possibly due to lower reporting rates or a focus by law enforcement on non-violent offenses in park settings. Violent crimes like Murder and Rape are rare in parks, reflecting their overall low frequency but higher severity, likely influenced by deterrent measures, stronger enforcement, or the generally lower prevalence of such crimes in public spaces. The low incidence of Grand Larceny of Motor Vehicles in parks might indicate the effectiveness of targeted law enforcement efforts or security measures, such as surveillance, to deter such offenses.
 
 ### Heatmap of Crime Counts
