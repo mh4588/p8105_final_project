@@ -48,9 +48,7 @@ Public parks play a vital role in urban life, offering spaces for recreation, re
 
 ## Related Work
 
-For the crime in NYC parks, 
-
-About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](cleanliness.html), identifying specific features contributing to lower cleanliness scores, as well as examining temporal and spatial variations. This allows us to pinpoint key factors behind the fluctuations in cleanliness levels and formulate strategies for improvements. Second, understanding and improving the condition of restrooms is crucial as clean [restrooms](restroom.html) play a significant role in promoting public health and comfort, encouraging greater park use. Lastly, the critical issue of [syringe litter](syringe.html), which poses serious health and safety concerns, especially in public areas where children and families gather, demands systematic investigation. Our study aims to gather insights into the extent of this issue to support informed, data-driven decision-making and interventions.
+Our project draws inspiration from [research](https://www.mdpi.com/2071-1050/15/21/15262) on the impact of public park quality on urban communities. We aim to use data-driven approaches to examine park safety and cleanliness, highlighting the importance of addressing issues like crime rates, restroom conditions, and waste management. We utilize the data from sources like [NYC Open Data](https://opendata.cityofnewyork.us/) and the NYC Parks Department, which have been instrumental in guiding our analysis of park cleanliness and safety. Our goal is to build on these insights to improve the overall experience in NYC parks.
 
 ## Initial Questions
 

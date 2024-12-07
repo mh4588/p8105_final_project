@@ -342,24 +342,12 @@ $(document).ready(function () {
 
 <p>For cleaning the fountain dataset before loading onto the shiny
 app.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>#Load data
+<pre class="r"><code>library(tidyverse)
+#Load data
 fountains &lt;- read.csv(&quot;data/fountains.csv&quot;) |&gt;
   janitor::clean_names()#is it read.csv or read_csv just checking</code></pre>
 <pre class="r"><code>#Clean data
-fountain_location = fountains |&gt;
-  select(prop_name, point, fountain_type, feature_status)
-
+fountain_location = fountains
 #Clean point variable
 fount_loc_with_points = fountain_location |&gt;
   mutate(
@@ -367,7 +355,14 @@ fount_loc_with_points = fountain_location |&gt;
     longitude = as.numeric(coords[,1]),
     latitude = as.numeric(coords[,2])
   ) |&gt;
-  select(prop_name, longitude, latitude, fountain_type, feature_status)</code></pre>
+  select(prop_name, borough,longitude, latitude, fountain_type, feature_status) |&gt;
+  mutate(
+    borough=str_replace(borough, &quot;B&quot;,&quot;Brooklyn&quot;),
+    borough=str_replace(borough, &quot;M&quot;,&quot;Manhattan&quot;),
+    borough=str_replace(borough, &quot;Q&quot;,&quot;Queens&quot;),
+    borough=str_replace(borough, &quot;R&quot;,&quot;Staten Island&quot;),
+    borough=str_replace(borough, &quot;X&quot;,&quot;Bronx&quot;)
+  )</code></pre>
 <p>not sure if you needs the following</p>
 <pre class="r"><code>write_csv(fount_loc_with_points, &quot;fountain_location.csv&quot;)</code></pre>
 
