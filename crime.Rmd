@@ -18,6 +18,12 @@ library(purrr)
 library(ggridges)
 library(kableExtra)
 ```
+
+<div style="text-align: center;">
+![](images/NYPD.jpg)
+Image source: [NYPD in Central Park](https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG)
+</div>
+
 # Motivation
 
 Exploring park crimes in NYC is essential for several reasons:  
