@@ -43,14 +43,14 @@ For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nyp
 
 The data processing process involves several steps to import, clean, and filter crime data from various park crime files spanning from 2015 to 2024. Since crime data is stored quarterly, we wrote a function to traverse all data file paths and special files were handled individually. The final dataset includes variables:  
 
--`park`: park names;  
--`borough`: parks' boroughs;  
--`size_acres`: size in acres;  
--`category`: categories of parks;  
--Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
--`total`: total crimes happened in that park;  
--`year`: statistical year;  
--`season`: statistical season.
+ - `park`: park names;  
+ - `borough`: parks' boroughs;  
+ - `size_acres`: size in acres;  
+ - `category`: categories of parks;  
+ - Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
+ - `total`: total crimes happened in that park;  
+ - `year`: statistical year;  
+ - `season`: statistical season.
   
 Each row is a crime record for a park in specific year and season.
 
@@ -409,15 +409,15 @@ From both the table and the plot, there were no murders in any of the three park
 
 
 ## Discussion
-1.**Data Quality and Completeness.**
+**1.Data Quality and Completeness.**
 
 The dataset relies on reported crimes, which may underrepresent actual crime occurrences due to underreporting, especially in parks located in boroughs with lower socioeconomic conditions.
 
-2.**Lack of Predictive Analysis.**
+**2.Lack of Predictive Analysis.**
 
 Insights into causation or actionable triggers for crime remain limited, restricting the utility of findings for proactive measures.
 
-3.**Visualization Limitations.**
+**3.Visualization Limitations.**
 
 Although the visualizations are informative, some charts, such as the heatmap, might oversimplify trends by aggregating data at the borough level. This approach could mask intra-borough variations or park-specific patterns.
 
