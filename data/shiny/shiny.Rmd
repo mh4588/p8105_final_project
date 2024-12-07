@@ -1,0 +1,121 @@
+---
+title: "New York City's Water Cycle: Drinking Fountains and Restroom Locations"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    code_folding: hide
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+#Load libraries
+library(shiny)
+library(flexdashboard)
+library(tidyverse)
+library(viridis)
+library(plotly)
+library(shinythemes)
+library(rsconnect)
+library(leaflet)
+
+fountain_location = read_csv("fountain_location.csv")
+restroom_location = read_csv("restroom_data.csv")
+```
+
+## Water Fountains in NYC Parks
+ {.sidebar}
+-----------------------------------------------------------------------
+
+```{r echo = FALSE}
+#Selection menus to filter by borough and fountain status
+boroughs = fountain_location |> 
+  distinct(borough) |>
+  pull()
+
+status = fountain_location |> 
+  distinct(feature_status) |>
+  pull()
+
+#Input values
+borough_vec = c("All", boroughs)
+selectInput(
+  inputId = "borough_choice", 
+  label = h3("Select borough"),
+  choices = borough_vec,
+  selected = "All"
+)
+  
+selectInput(
+  inputId = "status_choice", 
+  label = h3("Select fountain status"),
+  choices = c(status, "All"),selected = "All")
+```
+ {data-width=650}
+-----------------------------------------------------------------------
+
+```{r echo=FALSE}
+
+#Subset the fountain datapoints
+fountain_location = fountain_location |>
+  mutate(
+    fountain_types_simplified = case_when(
+    fountain_type %in% c("E", "E and Dog", "E High Low") ~ "E",
+    fountain_type %in% c("F", "F and Dog", "F High Low", "F High Low and Dog") ~ "F",
+    fountain_type %in% c("Bottle Filler", "Bottle Filler Fountain", "Bottle Filler High Low", "Bottle Filler Wall") ~ "Bottle Filler", #combine similar types of  observations
+    fountain_type %in% c("CS Concrete", "CS Metal", "CS Metal High Low!" ) ~ "CS",
+    fountain_type %in% c("Pedestal", "Pedestal High Low", "Pedestal High Low and Dog", "Pedestal Wall") ~ "Pedestal",
+    TRUE ~ fountain_type  # Keep other values unchanged
+      
+  ))
+
+
+renderPlotly({
+
+    
+    borough_choice == input[["borough_choice"]]
+    if(borough_choice != "All")
+      {
+      fountain_location <- fountain_location |>
+        filter(borough == borough_choice)
+    }
+  
+    status_choice == input[["status_choice"]]
+    if(status_choice != "All") {
+      fountain_location <-  fountain_location |>
+        filter(status == status_choice)
+    } 
+  
+  fountain_map |>
+    mutate(description = str_c(prop_name, "", borough, "Fountain type: ", fountain_types_simplified, sep = "<br />")) |>
+    plot_ly(
+      lat = ~latitude,
+      lon = ~longitude,
+      color = ~fountain_types_simplified,
+      hovertext = ~description,
+      type = "scattermapbox") |>
+    layout(
+        mapbox = list(
+        style = "carto-positron",
+        zoom = 8.5,
+        center = list(lat = 40.7, lon = -74) #center at NYC
+      )
+    )
+      
+})
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+```
+
+### Chart C
+
+```{r}
+
+```
+
