@@ -54,7 +54,7 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
 
 ## Initial Questions
 
-- [**Crime**](crime.html):
+- [**Crime**](crime.html): What is the trend of different crime types over the years in NYC parks? How do crime patterns vary across different boroughs of NYC parks? Is there a pattern of crime types in parks with a higher number of crimes?  
 - [**Cleanliness**](cleanliness.html): What are the cleanliness ratings by different features? How do cleanliness ratings vary over different time periods? What is the relationship between cleanliness and park categories?  
 - [**Restroom**](restroom.html): What is the distribution of restroom sanitation conditions in New York City’s public parks? How do sanitation conditions vary by borough and park type? What is the trend in restroom sanitation ratings across different seasons and years (2015-2024)?  
 - [**Syringe**](syringe.html): How does syringe litter differ between parks? How does utilization of safe disposal kiosks change over time? How does utilization of safe disposal kiosks compare with syringe litter?
@@ -62,25 +62,95 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
 ## Data
 **Data Source**  
 
-- [**Crime**](crime.html):
-- [**Cleanliness**](cleanliness.html): The Cleanliness data comes from the Parks Inspection Program (PIP), which evaluates New York City parks through regular inspections. PIP assesses the cleanliness of parks across 17 features, categorized under cleanliness, structural, and landscape conditions. Each feature is rated either as "Acceptable" (A) or "Unacceptable" (U), providing insight into the cleanliness conditions across different locations and features. Datasets on properties and cleanliness are maintained in this part.  
+- [**Crime**](crime.html):The park crime data comes from [NYC Park Crime Statistics](https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page) provided by NYPD. This dataset contains detailed records of reported crimes in New York City's parks. It includes data on various crime types, such as robbery, assault, and larceny, categorized by park, borough, and time period. This dataset is updated quarterly and aims to enhance public safety by offering transparency on crime trends in recreational areas. It serves as a valuable resource for researchers, policymakers, and residents interested in understanding and addressing crime in NYC parks.  
+- [**Cleanliness**](cleanliness.html): The Cleanliness data comes from the Parks Inspection Program (PIP), which evaluates New York City parks through regular inspections. PIP assesses the cleanliness of parks across 17 features, categorized under cleanliness, structural, and landscape conditions. Each feature is rated either as "Acceptable" (A) or "Unacceptable" (U), providing insight into the cleanliness conditions across different locations and features.   Datasets on properties and cleanliness are maintained in this part.  
 - [**Restroom**](restroom.html): Restroom data is also gathered through PIP and records detailed information about public restroom inspections in New York City parks. These inspections rate the restroom facilities for cleanliness and structural quality, contributing to the overall evaluation of park facilities. This dataset allows for the analysis of restroom conditions across different parks and helps to identify potential areas for improvement.  
 - [**Syringe**](syringe.html): The Syringe dataset records syringe collection in NYC Parks, gathered by NYC Parks staff and various organizations under the Syringe Litter Data Collection initiative. The data highlights syringe disposal patterns and is accessible via NYC OpenData. The syringe collection data provides valuable insights into the safety and public health conditions of NYC Parks and is compiled monthly after thorough quality checks.  
 
 **Data Cleaning**  
 
-- [**Crime**](crime.html):
-- [**Cleanliness**](cleanliness.html): Initially, multiple datasets were loaded and cleaned to ensure consistent column names. Relevant cleanliness features, including Litter, Glass, Graffiti, Weeds, and Ice, were selected for focused analysis. The datasets were then merged based on `prop_id` and `inspection_id` to create a comprehensive dataset encompassing park information, feature ratings, and cleanliness inspection data. Finally, the combined dataset was further cleaned and standardized by addressing missing values, removing unnecessary columns, and formatting string values to maintain data consistency.  
-- [**Restroom**](restroom.html): The data cleaning process involved importing three datasets (toilet_inspection, parks_inspection, and sites_inspection) and standardizing their column names using `janitor::clean_names()`. The datasets are then merged based on common identifiers (`inspection_id` and `prop_id`). New features, such as the year column, are created, and unnecessary columns were removed. Data is filtered to include only public restrooms and relevant columns. Missing values in the `pr_litter` column are removed, and categorical values in `season` and `boro` are standardized. Finally, the dataset is filtered to include records from 2015 to 2024, ensuring a clean and consistent dataset for analysis.  
-- [**Syringe**](syringe.html): The dataset on syringe findings in NYC parks was processed through several key cleaning steps. First, we standardized the date-time information by converting the collected_date field to a consistent format and extracting the year component. We also standardized the month names using the abbreviated format. Missing values in syringe counts (`ground_syringes`, `kiosk_syringes`, `total_syringes`) and kiosk_numbers were replaced with zeros to ensure consistent numerical analysis. Duplicate entries were removed using distinct(), and records with invalid location values (where location = “0”) were filtered out. Especially, we updated `kiosk_site` to TRUE where `kiosk_syringes` > 0, this ensures locations with recorded kiosk usage are properly flagged.  
+- [**Crime**](crime.html):The data processing process involves several steps to import, clean, and filter crime data from various park crime files spanning from 2015 to 2024. Since crime data is stored quarterly, we wrote a function to traverse all data file paths and special files were handled individually. The final dataset includes variables:  
+
+  - `park`: park names;  
+  - `borough`: parks' boroughs;  
+  - `size_acres`: size in acres;  
+  - `category`: categories of parks;  
+  - Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
+  - `total`: total crimes happened in that park;  
+  - `year`: statistical year;  
+  - `season`: statistical season.
+  
+Each row is a crime record for a park in specific year and season.  
+
+- [**Cleanliness**](cleanliness.html): Multiple datasets were loaded and cleaned to ensure consistent column names. Key features, including Litter, Glass, Graffiti, Weeds, and Ice, were selected for analysis. The datasets were merged using `prop_id` and `inspection_id`, resulting in a comprehensive dataset with park information, feature ratings, and cleanliness inspection data. The dataset was then further cleaned by handling missing values, removing unnecessary columns, and standardizing string values to maintain consistency. The final dataset includes variables:
+
+  - `prop_num`: Unique identification number for each park property.  
+  - `prop_name`: Name of park property.  
+  - `prop_id`: Unique identification number for a property or portion of a property.  
+  - `site_name`: Name of park property or portion of a property.  
+  - `boro`: Borough in which property is located.  
+  - `zip_code`: Zip Code in which the property is located.  
+  - `category`: Property rating category for Parks Inspection Program.  
+  - `feature`: Property feature assigned a rating.  
+  - `rating`: Feature rating.  
+  - `inspection_id`: Inspection ID associated with feature.  
+  - `feature_number`: Unique feature identification number.  
+  - `season`: Inspection season of inspection.  
+  - `date`: Date of inspection.  
+  - `inspection_year`: Inspection year of inspection.  
+  - `cleanliness`: Cleanliness rating.  
+
+- [**Restroom**](restroom.html): Three datasets (toilet_inspection, parks_inspection, and sites_inspection) were imported and standardized for consistency. They were merged based on common identifiers (inspection_id and prop_id). New features, such as the year column, were added, and unnecessary columns were removed. The data was filtered to focus on public restrooms and relevant attributes. Missing values in key columns were addressed, and categorical values like season and borough were standardized. The dataset was then filtered to include records from 2015 to 2024, ensuring a clean and consistent dataset for analysis. The final dataset includes variables:
+
+  - `park_id`: A unique identifier for the park.  
+  - `park_name`: The name of the park.  
+  - `category`: The category of the park.  
+  - `boro`: The borough in which the park is located.  
+  - `year`: The year of the data record.  
+  - `season`: The season during which the data was recorded.  
+  - `round`: The inspection round.  
+  - `prop_location`: The specific location or address of the park.  
+  - `visitor_count`: The number of visitors to the park.  
+  - `pr_litter`: The litter condition rating for the public restrooms.  
+
+- [**Syringe**](syringe.html): The dataset on syringe findings in NYC parks was cleaned through several steps. Date-time information was standardized by converting the `collected_date` field to a consistent format and extracting the year. Month names were also standardized to their abbreviated format. Missing values in syringe counts and kiosk numbers were replaced with zeros for consistency. Duplicate entries were removed, and records with invalid location values were filtered out. Additionally, the `kiosk_site` field was updated to TRUE where `kiosk_syringes` > 0, ensuring locations with recorded kiosk usage were properly flagged. The final dataset includes variables:
+
+  - `location`: The name of the park where syringes were collected.  
+  - `borough`: Borough in which syringe collection took place.    
+  - `property_type`: Describes the location of syringe collection as park, zone, or playground.    
+  - `kiosk_site`: Marks the location where syringes were collected as a site with a kiosk or not.   
+  - `kiosk_numbe`r: The identification number assigned to a kiosk.   
+  - `ground_syringes`: The number of syringes collected off the ground.   
+  - `kiosk_syringes`: The number of syringes collected from kiosks.   
+  - `total_syringes`: The total number of syringes collected.   
+  - `year`: The year syringes were collected.   
+  - `month`: The month syringes were collected.   
+  - `month_text`: The month syringes were collected in text format.  
 
 
 ## Exploratory Analysis
 
-### 1. Cime in NYC Parks
+### 1. Crime in NYC Parks
 
+**Crime Counts by Year in NYC Parks**
+<img src="images/report/crime_1.png" class="center">
 
+The plot shows that serious crimes like grand larceny of motor vehicles, murder, rape, and robbery maintain a relatively stable trend, while burglary, felony assault, and grand larceny (excluding motor vehicles) exhibit some fluctuations. Burglary and robbery declined in 2020, likely due to COVID-19 restrictions, whereas felony assault shows a potential rise, possibly influenced by sparse crowds and fewer witnesses, which may embolden offenders.
 
+**Crime Proportion in NYC Parks**
+<img src="images/report/crime_2.png" class="center">
+
+The pie chart reveals that grand larceny (41.1%), robbery (31%), and felony assault (22%) are the most common crime types in parks over the past decade. Property crimes like grand larceny and robbery dominate, likely due to the ease of committing such offenses in less monitored park areas. Felony assault is less frequent, possibly due to underreporting or a law enforcement focus on non-violent crimes in parks. Violent crimes such as murder and rape are rare, reflecting their low overall frequency and the impact of deterrent measures or enforcement efforts. Similarly, the low rate of grand larceny of motor vehicles in parks may result from effective security measures and targeted policing.
+
+**Heatmap of Crime Counts in NYC Parks (by Year and Borough)**
+<img src="images/report/crime_3.png" class="center">
+
+The heatmap shows total crimes across NYC boroughs by year, with darker red indicating higher crime rates. Manhattan stands out with consistently high crime, driven by its dense population, economic activity, and attractions. Brooklyn follows due to similar factors, while the Bronx’s moderate crime levels may reflect socioeconomic challenges. Queens’ residential nature and diversity align with its lower rates, and Staten Island’s minimal crime totals suggest its suburban character and differing law enforcement focus. Over the years, crime patterns remain stable, with minor variations possibly linked to policy or socio-economic changes.
+
+**Distribution of Crime Counts by Type in Top 3 Parks**
+<img src="images/report/crime_4.png" class="center">
+
+The plot shows no murders (thus deleted in the plot) and few felonies in the three parks, with most crimes being less severe. Grand larceny is the most common, particularly in Flushing Meadows-Corona Park and Washington Square Park, due to high foot traffic and valuables. Robbery and felony assault are also notable in Flushing Meadows-Corona Park, possibly due to its size and diverse spaces. Burglary and grand larceny of motor vehicles are rare and mainly occur in Flushing Meadows-Corona Park, likely linked to limited structures and extensive parking. Violent crimes like rape are minimal, aligning with broader trends of low violent crime in public spaces. These patterns reflect park-specific factors such as size, usage, and monitoring.
 
 ### 2. Sanitation Conditions of NYC Parks
 
@@ -235,7 +305,7 @@ This plot compares ground-found and kiosk-collected syringes from 2017 to 2024, 
 
 The analysis of NYC parks reveals several critical insights. 
 
-For [**Crime**](crime.html) in NYC parks,
+For [**Crime**](crime.html) in NYC parks, the analysis is subject to several limitations. The dataset, based on reported crimes, may underrepresent actual crime occurrences due to underreporting, particularly in lower socioeconomic boroughs, potentially skewing the findings. Additionally, the analysis lacks predictive insights or an exploration of causative factors, limiting its utility for proactive crime prevention measures. While visualizations provide helpful overviews, some, such as heatmaps, aggregate data at the borough level, which can oversimplify trends and mask intra-borough or park-specific variations. These limitations reduce the depth and effectiveness of the analysis in understanding crime patterns and informing future strategies.
 
 Regarding [**Cleanliness**](cleanliness.html), certain features, seasons, and boroughs were identified as factors that influence cleanliness levels. Features such as graffiti and litter consistently showed lower cleanliness scores, with cleanliness ratings varying seasonally, generally better in winter. Borough-level differences indicate the need for targeted interventions in areas lagging behind. These results align with our expectations and emphasize the importance of feature-specific solutions and seasonal adjustments.
 

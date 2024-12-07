@@ -80,7 +80,7 @@ The variables we kept in the dataset are:
 - `kiosk_syringes`: The number of syringes collected from kiosks.   
 - `total_syringes`: The total number of syringes collected.   
 - `year`: The year syringes were collected.   
-- `month`: The month syringes were collected: The month syringes were collected.   
+- `month`: The month syringes were collected.   
 - `month_text`: The month syringes were collected in text format.   
 
 ## Exploratory Data Analysis

@@ -38,14 +38,14 @@ For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nyp
 
 The data processing process involves several steps to import, clean, and filter crime data from various park crime files spanning from 2015 to 2024. Since crime data is stored quarterly, we wrote a function to traverse all data file paths and special files were handled individually. The final dataset includes variables:  
 
--`park`: park names;  
--`borough`: parks' boroughs;  
--`size_acres`: size in acres;  
--`category`: categories of parks;  
--Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
--`total`: total crimes happened in that park;  
--`year`: statistical year;  
--`season`: statistical season.
+- `park`: park names;  
+- `borough`: parks' boroughs;  
+- `size_acres`: size in acres;  
+- `category`: categories of parks;  
+- Crime types: `murder`, `rape`, `robbery`, `felony_assault`, `burglary`, `grand_larceny`, `grand_larceny_of_motor_vehicles`;  
+- `total`: total crimes happened in that park;  
+- `year`: statistical year;  
+- `season`: statistical season.
   
 Each row is a crime record for a park in specific year and season.
 
@@ -146,7 +146,7 @@ crime_data_long = all_park_crime_data |>
 crime_data_long$year = as.factor(crime_data_long$year)
 
 # Plot the data
-ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, group = crime_type)) +
+p1 = ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, group = crime_type)) +
   geom_line(size = 1) +
   geom_point(size = 2) +
   labs(
@@ -168,8 +168,13 @@ ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, group
     legend.key.width = unit(1, "cm") # Adjust the key width for better readability
   )
 
-
+p1
 ```
+
+```{r echo=FALSE,message=FALSE}
+ggsave("images/report/crime_1.png", p1, width = 8, height = 6, dpi = 300)
+```
+
 
 It can be judged from the plot that serious crimes like grand larceny of motor vehicle, murder, rape and robbery, have a relative stable account and trend. However, crimes like burglary, felony assault and grand larceny (not motor vehicle but maybe jewelry or other valuables), have some fluctuations. Burglary and robbery has some decrease in 2020, largely because COVID-19 exploded and travel restriction was conducted. However, felony assault may show a potential increase due to factors such as sparse crowds or a limited number of offenders, which create an environment conducive to the crime. Psychologically, the perpetrators may feel emboldened, believing that the lack of witnesses reduces the likelihood of being arrested.
 
@@ -184,7 +189,7 @@ crime_types = all_park_crime_data |>
   pivot_longer(cols = everything(), names_to = "crime_type", values_to = "total_crimes")
 
 # Create a pie chart
-plot_ly(
+p2 = plot_ly(
   data = crime_types,
   labels = ~crime_type,
   values = ~total_crimes,
@@ -196,9 +201,15 @@ plot_ly(
     title = "Proportion of Different Crime Types (2015–2024)",
     showlegend = TRUE
   )
+
+p2
+
 ```
 
-From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.
+
+
+From the pie chart, we can figure out that grand larceny (41.1%), robbery (31%) and felony assault (22%) were main crime types during last ten years.  
+The observed crime patterns in parks suggest that property-related offenses, particularly Grand Larceny and Robbery, are the most frequent, likely due to the ease of committing such crimes in less monitored areas, such as parks, where large-scale or repeat offenses can occur. Physical crimes like Felony Assault, while present, are less common, possibly due to lower reporting rates or a focus by law enforcement on non-violent offenses in park settings. Violent crimes like Murder and Rape are rare in parks, reflecting their overall low frequency but higher severity, likely influenced by deterrent measures, stronger enforcement, or the generally lower prevalence of such crimes in public spaces. The low incidence of Grand Larceny of Motor Vehicles in parks might indicate the effectiveness of targeted law enforcement efforts or security measures, such as surveillance, to deter such offenses.
 
 ## Heatmap of Crime Counts
 
@@ -214,7 +225,7 @@ crime_heatmap = all_park_crime_data |>
   summarize(total_crimes = sum(total, na.rm = TRUE))
 
 
-ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum), fill = total_crimes)) +
+p3 = ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum), fill = total_crimes)) +
   geom_tile(color = "white") +
   scale_fill_gradient(low = "white", high = "red") +
   labs(
@@ -225,7 +236,13 @@ ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum), fil
   ) +
   theme_minimal()
 
+p3
 ```
+
+```{r echo=FALSE,message=FALSE}
+ggsave("images/report/crime_3.png", p3, width = 8, height = 6, dpi = 300)
+```
+
 
 This is a heatmap of total crimes happened in different boroughs by year. In this heatmap, the higher the number of crimes, the darker the red color. It's pretty obvious that Manhattan has a high crime rate. However, analyzing by years, there is no obvious changing trend.
 
@@ -278,7 +295,7 @@ ggplot(crime_by_borough, aes(x = borough, y = crime_count, fill = borough)) +
   )
 ```
 
-This plot compares crime counts by type and borough in New York City, with each panel representing a specific crime type,. Manhattan stands out with the highest crime counts for grand larceny and felony assault, while Brooklyn leads in grand larceny of motor vehicle. The Bronx shows notably high counts for robbery and murder, often surpassing other boroughs for these crimes. In contrast, Staten Island and the Brooklyn/Queens area consistently report the lowest crime counts across all categories. Property crimes like grand larceny and felony assault have significantly higher totals compared to violent crimes such as murder and rape, which show smaller totals.
+This plot compares crime counts by type and borough in New York City, with each panel representing a specific crime type. Manhattan stands out with the highest crime counts for grand larceny and felony assault, while Brooklyn leads in grand larceny of motor vehicle. The Bronx shows notably high counts for robbery and murder, often surpassing other boroughs for these crimes. In contrast, Staten Island and the Brooklyn/Queens area consistently report the lowest crime counts across all categories. Property crimes like grand larceny and felony assault have significantly higher totals compared to violent crimes such as murder and rape, which show smaller totals.
 
 The differences in crime counts across boroughs and crime types may stem from several factors. Manhattan, with its dense population and economic activity, shows higher grand larceny and felony assault rates due to more opportunities for theft and interpersonal conflicts. The Bronx, often associated with economic challenges, exhibits higher rates of violent crimes like murder and robbery. Brooklyn's urban sprawl and higher car ownership contribute to more grand larceny of motor vehicles. Staten Island’s low crime counts may reflect its smaller population or underreporting. Variations in tourism, socioeconomic conditions, policing, and community infrastructure further influence the distribution of crimes.
 
@@ -374,7 +391,7 @@ top_3_crime_park_long = top_3_crime_park |>
   )
 
 # Plot using ggplot2
-ggplot(top_3_crime_park_long, aes(x = park, y = count, fill = park)) +
+p4 = ggplot(top_3_crime_park_long, aes(x = park, y = count, fill = park)) +
   geom_bar(stat = "identity", alpha = 0.8, show.legend = TRUE) +
   facet_wrap(~ crime_type, scales = "free_y", ncol = 3) + # Facet by crime type
   theme_minimal() +
@@ -396,8 +413,13 @@ ggplot(top_3_crime_park_long, aes(x = park, y = count, fill = park)) +
     y = "Crime Count"
   )
 
+p4
+
 ```
 
+```{r echo=FALSE,message=FALSE}
+ggsave("images/report/crime_4.png", p4, width = 8, height = 6, dpi = 300)
+```
 
 From both the table and the plot, there were no murders in any of the three parks, and felonies were relatively rare. It is reasonable to assume that the high number of crimes in these parks is due to the high number of less serious crimes.
 
