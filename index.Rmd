@@ -5,13 +5,12 @@ output:
     toc_float: true
     css: 
       - styles.css
-      - animation.css
+      - animation_home.css
 ---
 
-```{css, echo=FALSE}
-
+{=html}
 <div class="splash-screen">
-  <img class="splash-image" src="images/park.JPG" alt="Splash Image">
+  <img class="splash-image" src="images/park.jpg" alt="Splash Image">
 </div>
 
 <!-- Main Content -->
@@ -22,6 +21,7 @@ output:
   </div>
 </div>
 
+```{css, echo=FALSE}
 <style>
 #home-container {
   text-align: center;
