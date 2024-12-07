@@ -424,7 +424,7 @@ ggsave("images/report/crime_4.png", p4, width = 8, height = 6, dpi = 300)
 From both the table and the plot, there were no murders in any of the three parks, and felonies were relatively rare. It is reasonable to assume that the high number of crimes in these parks is due to the high number of less serious crimes.
 
 
-
+The plot highlights crime distribution across three NYC parks: Coney Island Beach & Boardwalk, Flushing Meadows-Corona Park, and Washington Square Park. Grand larceny is the most frequent crime, particularly in Flushing Meadows-Corona Park and Washington Square Park, likely due to high foot traffic and the presence of valuables. Robbery and felony assault are also significant, especially in Flushing Meadows-Corona Park, which may result from its size and varied spaces that create opportunities for such offenses. Burglary rates are minimal, concentrated primarily in Flushing Meadows-Corona Park, likely due to the limited number of vulnerable structures. Grand larceny of motor vehicles is notable only in Flushing Meadows-Corona Park, possibly reflecting its extensive parking areas. Violent crimes like rape are rare, with no mention of murder, aligning with broader trends of low violent crime rates in public spaces due to deterrent measures and enforcement. These patterns reflect park-specific factors such as size, usage, accessibility, and monitoring.
 # Discussion
 1. Data Quality and Completeness. 
 
