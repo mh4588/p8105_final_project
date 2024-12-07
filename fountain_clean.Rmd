@@ -24,11 +24,11 @@ fount_loc_with_points = fountain_location |>
   ) |>
   select(prop_name, borough,longitude, latitude, fountain_type, feature_status) |>
   mutate(
-    boro=str_replace(borough, "B","Brooklyn"),
-    boro=str_replace(borough, "M","Manhattan"),
-    boro=str_replace(borough, "Q","Queens"),
-    boro=str_replace(borough, "R","Staten Island"),
-    boro=str_replace(borough, "X","Bronx")
+    borough=str_replace(borough, "B","Brooklyn"),
+    borough=str_replace(borough, "M","Manhattan"),
+    borough=str_replace(borough, "Q","Queens"),
+    borough=str_replace(borough, "R","Staten Island"),
+    borough=str_replace(borough, "X","Bronx")
   )
 
 ```
