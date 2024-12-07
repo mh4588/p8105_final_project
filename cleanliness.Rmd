@@ -8,10 +8,10 @@ output:
     code_folding: hide
 ---
 
-![](images/central_park_2.jpg)
-
 ## Motivation
 This project was inspired by the goal of exploring cleanliness in NYC parks, aiming to understand the current state of park cleanliness and the factors affecting it through detailed data analysis. We focused on identifying specific features that contribute to lower cleanliness scores, as well as examining the temporal and spatial variations in these scores. By pinpointing these influential features and patterns, we aim to uncover the key reasons behind declining cleanliness levels. This analysis not only provides insights into the cleanliness conditions of NYC parks but also lays a foundation for policymakers to implement effective measures to enhance park environments and improve public experience.
+
+![](images/central_park_2.jpg)
 
 ## Initial Questions
 1. Cleanliness rating analysis of different features:  

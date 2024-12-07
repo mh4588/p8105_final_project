@@ -20,11 +20,6 @@ library(ggridges)
 library(kableExtra)
 ```
 
-<div style="text-align: center;">
-![](images/NYPD.jpg)
-Image source: [NYPD in Central Park](https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG)
-</div>
-
 # Motivation
 
 Exploring park crimes in NYC is essential for several reasons:  
@@ -37,6 +32,10 @@ Exploring park crimes in NYC is essential for several reasons:
 
 + Targeting Specific Times or Groups: Seasonal and demographic crime patterns allow for targeted safety measures tailored to specific risks.
 
+<div style="text-align: center;">
+![](images/NYPD.jpg)
+Image source: [NYPD in Central Park](https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG)
+</div>
 
 # Dataset
 
