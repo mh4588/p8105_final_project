@@ -434,8 +434,8 @@ div.tocify {
 </div>
 
 
-<div id="motivation" class="section level1">
-<h1>Motivation</h1>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
 <p>Exploring park crimes in NYC is essential for several reasons:</p>
 <ul>
 <li><p>Improving Public Safety: Identifying high-risk areas allows for
@@ -456,8 +456,8 @@ href="https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park
 in Central Park</a></p>
 </div>
 </div>
-<div id="dataset" class="section level1">
-<h1>Dataset</h1>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
 <p>For this part, we chose <a
 href="https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page">NYC
 Park Crime Statistics</a> provided by NYPD. This dataset contains
@@ -487,10 +487,10 @@ individually. The final dataset includes variables:</p>
 <p>Each row is a crime record for a park in specific year and
 season.</p>
 </div>
-<div id="exploratory-data-analysis" class="section level1">
-<h1>Exploratory Data Analysis</h1>
-<div id="crime-counts-by-year-in-nyc-parks" class="section level2">
-<h2>Crime Counts by Year in NYC Parks</h2>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<div id="crime-counts-by-year-in-nyc-parks" class="section level3">
+<h3>Crime Counts by Year in NYC Parks</h3>
 <p><img src="crime_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>It can be judged from the plot that serious crimes like grand larceny
 of motor vehicle, murder, rape and robbery, have a relative stable
@@ -504,24 +504,24 @@ environment conducive to the crime. Psychologically, the perpetrators
 may feel emboldened, believing that the lack of witnesses reduces the
 likelihood of being arrested.</p>
 </div>
-<div id="crime-proportion" class="section level2">
-<h2>Crime Proportion</h2>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-48a8582abca0895ace46" style="width:768px;height:576px;"></div>
-<script type="application/json" data-for="htmlwidget-48a8582abca0895ace46">{"x":{"visdat":{"b3447b781561":["function () ","plotlyVisDat"]},"cur_data":"b3447b781561","attrs":{"b3447b781561":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="crime-proportion" class="section level3">
+<h3>Crime Proportion</h3>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-859376a307ed7e6dad16" style="width:768px;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-859376a307ed7e6dad16">{"x":{"visdat":{"100699c436c8":["function () ","plotlyVisDat"]},"cur_data":"100699c436c8","attrs":{"100699c436c8":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>From the pie chart, we can figure out that grand larceny (41.1%),
 robbery (31%) and felony assault (22%) were main crime types during last
 ten years.</p>
 </div>
-<div id="heatmap-of-crime-counts" class="section level2">
-<h2>Heatmap of Crime Counts</h2>
+<div id="heatmap-of-crime-counts" class="section level3">
+<h3>Heatmap of Crime Counts</h3>
 <p><img src="crime_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>This is a heatmap of total crimes happened in different boroughs by
 year. In this heatmap, the higher the number of crimes, the darker the
 red color. It’s pretty obvious that Manhattan has a high crime rate.
 However, analyzing by years, there is no obvious changing trend.</p>
 </div>
-<div id="crime-statistics-by-borough" class="section level2">
-<h2>Crime Statistics by Borough</h2>
+<div id="crime-statistics-by-borough" class="section level3">
+<h3>Crime Statistics by Borough</h3>
 <p><img src="crime_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>This plot compares crime counts by type and borough in New York City,
 with each panel representing a specific crime type,. Manhattan stands
@@ -546,8 +546,8 @@ policing, and community infrastructure further influence the
 distribution of crimes.</p>
 </div>
 <div id="distribution-of-crime-counts-by-type-in-top-3-parks"
-class="section level2">
-<h2>Distribution of Crime Counts by Type in Top 3 Parks</h2>
+class="section level3">
+<h3>Distribution of Crime Counts by Type in Top 3 Parks</h3>
 <table>
 <thead>
 <tr class="header">
@@ -718,22 +718,16 @@ assume that the high number of crimes in these parks is due to the high
 number of less serious crimes.</p>
 </div>
 </div>
-<div id="discussion" class="section level1">
-<h1>Discussion</h1>
-<ol style="list-style-type: decimal">
-<li>Data Quality and Completeness.</li>
-</ol>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>1.<strong>Data Quality and Completeness.</strong></p>
 <p>The dataset relies on reported crimes, which may underrepresent
 actual crime occurrences due to underreporting, especially in parks
 located in boroughs with lower socioeconomic conditions.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Lack of Predictive Analysis.</li>
-</ol>
+<p>2.<strong>Lack of Predictive Analysis.</strong></p>
 <p>Insights into causation or actionable triggers for crime remain
 limited, restricting the utility of findings for proactive measures.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Visualization Limitations.</li>
-</ol>
+<p>3.<strong>Visualization Limitations.</strong></p>
 <p>Although the visualizations are informative, some charts, such as the
 heatmap, might oversimplify trends by aggregating data at the borough
 level. This approach could mask intra-borough variations or
