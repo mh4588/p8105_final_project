@@ -8,18 +8,11 @@ output:
       - animation_home.css
 ---
 
-{=html}
+```{=html}
 <div class="splash-screen">
   <img class="splash-image" src="images/park.jpg" alt="Splash Image">
 </div>
-
-<!-- Main Content -->
-<div class="main-content">
-  <!-- Your existing content here -->
-  <div id="home-container">
-    ...
-  </div>
-</div>
+```
 
 ```{css, echo=FALSE}
 <style>
