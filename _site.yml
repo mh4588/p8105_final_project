@@ -22,7 +22,7 @@ navbar:
         - text: "Syringe"
           href: syringe.html
     - text: "Facility Maps"
-      href: maps.html
+      href: https://summer-lxt-32.shinyapps.io/shiny/
     - icon: fa-github fa-lg
       href: https://github.com/mh4588/p8105_final_project
 output:
