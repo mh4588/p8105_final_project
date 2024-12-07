@@ -13,6 +13,13 @@ This project was inspired by the goal of exploring cleanliness in NYC parks, aim
 
 ![](images/central_park_2.jpg)
 
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(plotly)
+library(ggsci)
+library(kableExtra)
+```
+
 ## Initial Questions
 1. Cleanliness rating analysis of different features:  
 - How often are different features rated as “Unacceptable” (U) or “Very Unacceptable” (U/S)?  
@@ -43,13 +50,6 @@ Datasets on properties and cleanliness are maintained in this project, including
 - Data Merging: Merged datasets based on `prop_id` and `inspection_id` to build a complete dataset covering park information, feature ratings, and cleanliness inspection data.  
 
 - Data Organization: Further cleaned and standardized the combined dataset, addressing missing values, removing unnecessary columns, and formatting string values to maintain data consistency.
-
-```{r message=FALSE, warning=FALSE}
-library(tidyverse)
-library(plotly)
-library(ggsci)
-library(kableExtra)
-```
 
 ```{r message=FALSE, warning=FALSE}
 parks_properties <- read_csv("./data/nycparks_cleanliness/parks_properties.csv") |>
