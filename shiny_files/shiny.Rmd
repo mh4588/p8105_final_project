@@ -1,0 +1,187 @@
+---
+title: "NYC's Water Cycle: Drinking Fountains and Restroom Locations"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(DT)
+library(leaflet)
+
+fountain_location <- read_csv("fountain_location.csv") |>
+  filter(
+    is.na(fountain_type) == FALSE
+  )
+restroom_location <- read_csv("restroom_data.csv") |> 
+  select(-rated, -round, -pr_litter) |> 
+  rename(
+    park_name=prop_name, 
+    borough=boro,
+    location=prop_location,
+    overall_condition=pr_overall_condition
+  ) |>
+  filter(
+    is.na(visitor_count) == FALSE
+  )
+
+
+
+
+```
+
+
+Select Fountain Details {.sidebar}
+-----------------------------------------------------------------------
+
+### Select Fountain Details
+
+```{r}
+borough_vec <- c("All", unique(fountain_location$borough))
+status_vec <- c("All", unique(fountain_location$feature_status))
+type_vec <- c("All", unique(fountain_location$fountain_type))
+
+selectInput(
+  inputId = "borough_choice",
+  label = "Borough",
+  choices = borough_vec,
+  selected = "All"
+)
+
+selectInput(
+  inputId = "status_choice",
+  label = "Fountain Status",
+  choices = status_vec,
+  selected = "All"
+)
+
+selectInput(
+  inputId = "type_choice",
+  label = "Fountain Type",
+  choices = type_vec,
+  selected = "All"
+)
+```
+
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+### Fountain Map
+
+```{r}
+renderLeaflet({
+  fountain_graph <- fountain_location
+
+  borough_choice <- input[["borough_choice"]]
+  if (borough_choice != "All") {
+    fountain_graph <- fountain_graph |> filter(borough == borough_choice)
+  }
+
+  status_choice <- input[["status_choice"]]
+  if (status_choice != "All") {
+    fountain_graph <- fountain_graph |> filter(feature_status == status_choice)
+  }
+
+  type_choice <- input[["type_choice"]]
+  if (type_choice != "All") {
+    fountain_graph <- fountain_graph |> filter(fountain_type == type_choice)
+  }
+
+  palette <- colorFactor(palette = "Set2", domain = fountain_graph$fountain_type)
+  leaflet(data = fountain_graph) |> 
+  addProviderTiles("CartoDB.Positron") |> 
+  addCircleMarkers(
+    ~longitude, ~latitude,
+    radius = 2,
+    color = ~palette(fountain_type),  # Use the palette function for colors
+    fillOpacity = 0.7,
+    label = ~paste0("Type: ", fountain_type, "<br>Status: ", feature_status)
+  )
+})
+```
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+### Park Population by Year
+
+```{r}
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("borough_choice", "Select Borough", c("All", unique(restroom_location$borough))),
+      selectInput("park_type", "Select Park Type", c("All", unique(restroom_location$category))),
+      sliderInput("visitor_range", "Select Visitor Count Range", 
+                  min = 0, 
+                  max = max(restroom_location$visitor_count, na.rm = TRUE), 
+                  value = c(0, max(restroom_location$visitor_count, na.rm = TRUE))),
+      sliderInput("year_range", "Select Year Range", 
+                  min = min(restroom_location$year, na.rm = TRUE), 
+                  max = max(restroom_location$year, na.rm = TRUE), 
+                  value = c(min(restroom_location$year, na.rm = TRUE), max(restroom_location$year, na.rm = TRUE)),
+                  sep = "")
+    ),
+    mainPanel(
+      DT::dataTableOutput("filtered_table"),
+      plotOutput("visitor_plot")
+    )
+  )
+)
+
+server <- function(input, output) {
+  filtered_data <- reactive({
+    data <- restroom_location
+    
+    if (input$borough_choice != "All") {
+      data <- data %>% filter(borough == input$borough_choice)
+    }
+    
+    if (input$park_type != "All") {
+      data <- data %>% filter(category == input$park_type)
+    }
+    
+    data <- data %>% filter(
+      visitor_count >= input$visitor_range[1],
+      visitor_count <= input$visitor_range[2],
+      year >= input$year_range[1],
+      year <= input$year_range[2]
+    )
+    
+    return(data)
+  })
+  
+  output$filtered_table <- DT::renderDataTable({
+    DT::datatable(filtered_data())
+  })
+  
+  output$visitor_plot <- renderPlot({
+    data <- filtered_data()
+    if (nrow(data) > 0) {
+      #data <- data |>
+      #  arrange(desc(visitor_count)) |>
+      #  mutate(park_name = factor(park_name, levels = unique(park_name)))
+      
+      
+      ggplot(data, aes(x = forcats::fct_reorder(park_name, visitor_count), y = visitor_count, fill = as.factor(year))) +
+        geom_bar(stat = "identity", position = "dodge") +
+        coord_flip() +
+        scale_fill_brewer(palette = "Set3") +
+        facet_wrap(~ year) +
+        theme_minimal() +
+        labs(title = paste("Visitor Counts by Restroom (", input$year_range[1], "-", input$year_range[2], ")", sep = ""),
+             x = "Park Name",
+             y = "Visitor Count")
+    } else {
+      NULL
+    }
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
