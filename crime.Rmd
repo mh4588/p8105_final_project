@@ -1,10 +1,11 @@
 ---
-title: Crime in NYC Parks
-output: 
+title: "Crime in NYC Parks"
+output:
   html_document:
     toc: true
     toc_float: true
-    theme: cerulean
+    toc_depth: 2
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -132,11 +133,11 @@ all_park_crime_data = all_park_crime_data |>
 
 
 
-
+# Exploratory Data Analysis
 
 ## Crime Counts by Year in NYC Parks
    
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Prepare data for plotting
 crime_data_long = all_park_crime_data |>
   select(year, murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle) |>
@@ -180,7 +181,7 @@ It can be judged from the plot that serious crimes like grand larceny of motor v
 
 ## Crime Proportion
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(plotly)
 
 crime_types = all_park_crime_data |>
