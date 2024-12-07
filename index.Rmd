@@ -3,9 +3,25 @@ output:
   html_document:
     toc: true
     toc_float: true
+    css: 
+      - styles.css
+      - animation.css
 ---
 
 ```{css, echo=FALSE}
+
+<div class="splash-screen">
+  <img class="splash-image" src="images/park.JPG" alt="Splash Image">
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Your existing content here -->
+  <div id="home-container">
+    ...
+  </div>
+</div>
+
 <style>
 #home-container {
   text-align: center;
