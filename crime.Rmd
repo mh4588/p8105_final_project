@@ -56,7 +56,7 @@ The data processing process involves several steps to import, clean, and filter 
 Each row is a crime record for a park in specific year and season.
 
 
-```{r include=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 # Define a function to import and clean a single file with exceptions
 import_park_crime_data = function(year, season) {
   # Skip 2024 Q4
@@ -137,7 +137,7 @@ all_park_crime_data = all_park_crime_data |>
 
 ### Crime Counts by Year in NYC Parks
    
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 # Prepare data for plotting
 crime_data_long = all_park_crime_data |>
   select(year, murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle) |>
@@ -177,7 +177,7 @@ p1 = ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, 
 p1
 ```
 
-```{r echo=FALSE,message=FALSE}
+```{r message=FALSE}
 ggsave("images/report/crime_1.png", p1, width = 8, height = 6, dpi = 300)
 ```
 
@@ -186,7 +186,7 @@ It can be judged from the plot that serious crimes like grand larceny of motor v
 
 ### Crime Proportion
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(plotly)
 
 crime_types = all_park_crime_data |>
@@ -220,7 +220,7 @@ The observed crime patterns in parks suggest that property-related offenses, par
 
 ### Heatmap of Crime Counts
 
-```{r echo=FALSE, message=FALSE}
+```{r message=FALSE}
 crime_heatmap = all_park_crime_data |>
   group_by(year, borough) |>
   mutate(
@@ -246,7 +246,7 @@ p3 = ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum)
 p3
 ```
 
-```{r echo=FALSE,message=FALSE}
+```{r message=FALSE}
 ggsave("images/report/crime_3.png", p3, width = 8, height = 6, dpi = 300)
 ```
 
@@ -256,7 +256,7 @@ This is a heatmap of total crimes happened in different boroughs by year. In thi
 The observed crime patterns across NYC boroughs reveal several underlying factors. Manhattan and Brooklyn, being densely populated and economically active, experience higher crime rates, with Manhattan's concentration of businesses, tourist attractions, and nightlife further amplifying incidents. Socioeconomic challenges in the Bronx may contribute to its moderate crime levels, while Queens’ residential nature and diversity correlate with comparatively lower rates. Staten Island’s minimal crime totals could reflect its suburban character and potential differences in law enforcement focus or reporting practices. Over time, crime levels across boroughs remain relatively stable, with slight variations possibly influenced by shifts in policies, enforcement, or socio-economic dynamics.
 
 ### Crime Statistics by Borough
-```{r echo=FALSE, message=FALSE}
+```{r message=FALSE}
 # Pivot data to a longer format for plotting
 crime_by_borough = all_park_crime_data |>
     replace_na(list(
@@ -312,7 +312,7 @@ The differences in crime counts across boroughs and crime types may stem from se
 
 ### Distribution of Crime Counts by Type in Top 3 Parks
 
-```{r echo=FALSE, message=FALSE}
+```{r message=FALSE}
 # Calculate the total crimes per park
 crime_data_summary = all_park_crime_data |> 
   group_by(park) |>
@@ -344,7 +344,7 @@ Above is the top six parks where most crimes occurred. We want to have a look at
 
 
 
-```{r echo=FALSE, message=FALSE}
+```{r message=FALSE}
 top_3_crime_park = crime_data_top_parks |>
   group_by(
     park, crime_type
@@ -387,7 +387,7 @@ top3_crime_table
 ```
 
 
-```{r echo=FALSE}
+```{r}
 # Prepare the data for plotting
 top_3_crime_park_long = top_3_crime_park |>
   pivot_longer(
@@ -426,7 +426,7 @@ p4
 
 ```
 
-```{r echo=FALSE,message=FALSE}
+```{r message=FALSE}
 ggsave("images/report/crime_4.png", p4, width = 8, height = 6, dpi = 300)
 ```
 

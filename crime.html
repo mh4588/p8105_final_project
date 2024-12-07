@@ -495,12 +495,122 @@ individually. The final dataset includes variables:</p>
 </ul>
 <p>Each row is a crime record for a park in specific year and
 season.</p>
+<pre class="r"><code># Define a function to import and clean a single file with exceptions
+import_park_crime_data = function(year, season) {
+  # Skip 2024 Q4
+  if (year == 2024 &amp;&amp; season == &quot;q4&quot;) {
+    return(NULL)
+  }
+  
+  # Determine the file path
+  file_path = sprintf(&quot;data/nycparks_crime/%d/nyc-park-crime-stats-%s-%d.xlsx&quot;, year, season, year)
+  
+  # Use skip = 4 for specific files, otherwise skip = 3
+  skip_rows = ifelse((year == 2015 &amp;&amp; season %in% c(&quot;q1&quot;, &quot;q2&quot;, &quot;q3&quot;)) || (year == 2018 &amp;&amp; season == &quot;q2&quot;), 4, 3)
+  
+  # Attempt to read the file
+  data = tryCatch(
+    {
+      read_excel(file_path, skip = skip_rows) |&gt;
+        janitor::clean_names()
+    },
+    error = function(e) {
+      warning(sprintf(&quot;Failed to read file: %s. Error: %s&quot;, file_path, e$message))
+      return(NULL) # Skip problematic files
+    }
+  )
+  
+  # Check if the &#39;park&#39; column exists, and proceed accordingly
+  if (!&quot;park&quot; %in% names(data)) {
+    warning(sprintf(&quot;Column &#39;park&#39; not found in file: %s&quot;, file_path))
+    return(NULL) # Return NULL for this file if &#39;park&#39; is missing
+  }
+  
+    # List of columns to ensure numeric
+  numeric_columns = c(
+    &quot;size_acres&quot;, &quot;murder&quot;, &quot;rape&quot;, &quot;robbery&quot;, &quot;felony_assault&quot;, 
+    &quot;burglary&quot;, &quot;grand_larceny&quot;, &quot;grand_larceny_of_motor_vehicle&quot;, &quot;total&quot;
+  )
+  
+  # Add missing numeric columns as NA
+  missing_columns = setdiff(numeric_columns, names(data))
+  if (length(missing_columns) &gt; 0) {
+    data[missing_columns] = NA
+  }
+  
+  # Ensure these columns are numeric
+  data = data |&gt;
+    mutate(across(all_of(numeric_columns), as.numeric))
+  
+  # Perform cleaning and filtering
+  data |&gt;
+    mutate(
+      park = str_replace_all(str_to_lower(park), &quot; &quot;, &quot;_&quot;),
+      borough = str_replace_all(str_to_lower(borough), &quot; &quot;, &quot;_&quot;),
+      category = str_replace_all(str_to_lower(category), &quot; &quot;, &quot;_&quot;),
+      year = year,
+      season = season
+    ) |&gt;
+    filter(total &gt; 0)
+}
+
+# Generate a data frame with all combinations of years and seasons
+years = 2015:2024
+seasons = c(&quot;q1&quot;, &quot;q2&quot;, &quot;q3&quot;, &quot;q4&quot;)
+year_season_combinations = expand.grid(year = years, season = seasons)
+
+# Import and combine all the data
+all_park_crime_data = year_season_combinations |&gt;
+  pmap_dfr(~ import_park_crime_data(..1, ..2))
+
+all_park_crime_data = all_park_crime_data |&gt;
+  filter(
+    park != &quot;total&quot;
+  )</code></pre>
 </div>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory Data Analysis</h2>
 <div id="crime-counts-by-year-in-nyc-parks" class="section level3">
 <h3>Crime Counts by Year in NYC Parks</h3>
+<pre class="r"><code># Prepare data for plotting
+crime_data_long = all_park_crime_data |&gt;
+  select(year, murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle) |&gt;
+  pivot_longer(
+    cols = c(murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle),
+    names_to = &quot;crime_type&quot;,
+    values_to = &quot;count&quot;
+  ) |&gt;
+  group_by(year, crime_type) |&gt;
+  summarize(total_count = sum(count, na.rm = TRUE), .groups = &quot;drop&quot;)
+
+crime_data_long$year = as.factor(crime_data_long$year)
+
+# Plot the data
+p1 = ggplot(crime_data_long, aes(x = year, y = total_count, color = crime_type, group = crime_type)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = &quot;Crime Counts by Year in NYC Parks&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Total Count&quot;,
+    color = &quot;Crime Type&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = &quot;top&quot;, # Move the legend to the top
+    legend.title = element_text(size = 12, face = &quot;bold&quot;), # Style the legend title
+    legend.text = element_text(size = 10), # Style the legend text
+    legend.margin = margin(t = 5, b = 5), # Adjust spacing around the legend
+    legend.key.width = unit(1, &quot;cm&quot;) # Adjust the key width for better readability
+  )
+
+p1</code></pre>
 <p><img src="crime_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;images/report/crime_1.png&quot;, p1, width = 8, height = 6, dpi = 300)</code></pre>
 <p>It can be judged from the plot that serious crimes like grand larceny
 of motor vehicle, murder, rape and robbery, have a relative stable
 account and trend. However, crimes like burglary, felony assault and
@@ -515,8 +625,30 @@ likelihood of being arrested.</p>
 </div>
 <div id="crime-proportion" class="section level3">
 <h3>Crime Proportion</h3>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-2c690e1ae23e15f05866" style="width:768px;height:576px;"></div>
-<script type="application/json" data-for="htmlwidget-2c690e1ae23e15f05866">{"x":{"visdat":{"11a4d599f5030":["function () ","plotlyVisDat"]},"cur_data":"11a4d599f5030","attrs":{"11a4d599f5030":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>library(plotly)
+
+crime_types = all_park_crime_data |&gt;
+  select(murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle) |&gt;
+  summarize(across(everything(), sum, na.rm = TRUE)) |&gt;
+  pivot_longer(cols = everything(), names_to = &quot;crime_type&quot;, values_to = &quot;total_crimes&quot;)
+
+# Create a pie chart
+p2 = plot_ly(
+  data = crime_types,
+  labels = ~crime_type,
+  values = ~total_crimes,
+  type = &#39;pie&#39;,
+  textinfo = &#39;label+percent&#39;,
+  insidetextorientation = &#39;radial&#39;
+) |&gt;
+  layout(
+    title = &quot;Proportion of Different Crime Types (2015–2024)&quot;,
+    showlegend = TRUE
+  )
+
+p2</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7ba56184d7bc3d080afa" style="width:768px;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-7ba56184d7bc3d080afa">{"x":{"visdat":{"11bec432f6666":["function () ","plotlyVisDat"]},"cur_data":"11bec432f6666","attrs":{"11bec432f6666":{"labels":{},"values":{},"textinfo":"label+percent","insidetextorientation":"radial","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Different Crime Types (2015–2024)","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["murder","rape","robbery","felony_assault","burglary","grand_larceny","grand_larceny_of_motor_vehicle"],"values":[72,200,3322,2363,279,4401,83],"textinfo":"label+percent","insidetextorientation":"radial","type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>From the pie chart, we can figure out that grand larceny (41.1%),
 robbery (31%) and felony assault (22%) were main crime types during last
 ten years.</p>
@@ -536,7 +668,31 @@ security measures, such as surveillance, to deter such offenses.</p>
 </div>
 <div id="heatmap-of-crime-counts" class="section level3">
 <h3>Heatmap of Crime Counts</h3>
+<pre class="r"><code>crime_heatmap = all_park_crime_data |&gt;
+  group_by(year, borough) |&gt;
+  mutate(
+    year = as.factor(year)
+  ) |&gt;
+  filter(
+    park != &quot;total&quot;
+  )|&gt;
+  summarize(total_crimes = sum(total, na.rm = TRUE))
+
+
+p3 = ggplot(crime_heatmap, aes(x = year, y = reorder(borough, total_crimes, sum), fill = total_crimes)) +
+  geom_tile(color = &quot;white&quot;) +
+  scale_fill_gradient(low = &quot;white&quot;, high = &quot;red&quot;) +
+  labs(
+    title = &quot;Heatmap of Crimes by Year and Borough&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Borough&quot;,
+    fill = &quot;Total Crimes&quot;
+  ) +
+  theme_minimal()
+
+p3</code></pre>
 <p><img src="crime_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;images/report/crime_3.png&quot;, p3, width = 8, height = 6, dpi = 300)</code></pre>
 <p>This is a heatmap of total crimes happened in different boroughs by
 year. In this heatmap, the higher the number of crimes, the darker the
 red color. It’s pretty obvious that Manhattan has a high crime rate.
@@ -556,6 +712,51 @@ enforcement, or socio-economic dynamics.</p>
 </div>
 <div id="crime-statistics-by-borough" class="section level3">
 <h3>Crime Statistics by Borough</h3>
+<pre class="r"><code># Pivot data to a longer format for plotting
+crime_by_borough = all_park_crime_data |&gt;
+    replace_na(list(
+    murder = 0,
+    rape = 0,
+    robbery = 0,
+    felony_assault = 0,
+    burglary = 0,
+    grand_larceny = 0,
+    grand_larceny_of_motor_vehicle = 0
+  )) |&gt;
+  pivot_longer(
+    cols = c(murder, rape, robbery, felony_assault, burglary, grand_larceny, grand_larceny_of_motor_vehicle),
+    names_to = &quot;crime_type&quot;,
+    values_to = &quot;crime_count&quot;
+  ) |&gt;
+  filter(
+    borough != &quot;NA&quot;
+  ) |&gt;
+  group_by(
+    crime_type, borough
+  ) |&gt;
+  summarise(
+    crime_count = sum(crime_count)
+  ) |&gt;
+  ungroup() |&gt;
+  mutate(
+    borough = fct_reorder(borough, crime_count, .fun = sum, na.rm = TRUE)
+  )
+
+
+# Plot with facet_wrap
+ggplot(crime_by_borough, aes(x = borough, y = crime_count, fill = borough)) +
+  geom_col(show.legend = TRUE) +
+  facet_wrap(~crime_type, scales = &quot;free_y&quot;) +
+  labs(
+    title = &quot;Crime Counts by Type and Borough&quot;,
+    x = &quot;Borough&quot;,
+    y = &quot;Crime Count&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    strip.text = element_text(face = &quot;bold&quot;, size = 10)
+  )</code></pre>
 <p><img src="crime_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>This plot compares crime counts by type and borough in New York City,
 with each panel representing a specific crime type. Manhattan stands out
@@ -582,6 +783,30 @@ distribution of crimes.</p>
 <div id="distribution-of-crime-counts-by-type-in-top-3-parks"
 class="section level3">
 <h3>Distribution of Crime Counts by Type in Top 3 Parks</h3>
+<pre class="r"><code># Calculate the total crimes per park
+crime_data_summary = all_park_crime_data |&gt; 
+  group_by(park) |&gt;
+  filter(
+    park != &quot;total&quot;
+  ) |&gt;
+  summarize(total_crimes = sum(total, na.rm = TRUE)) |&gt; 
+  arrange(desc(total_crimes))
+
+
+# Get the top 3 parks with the most crimes
+top_parks = crime_data_summary |&gt; head(3) |&gt; pull(park)
+
+# Filter the original data to include only the top 3 parks
+crime_data_top_parks = all_park_crime_data |&gt; 
+  filter(park %in% top_parks) |&gt;
+  pivot_longer(
+    cols = murder:grand_larceny_of_motor_vehicle,
+    names_to = &quot;crime_type&quot;,
+    values_to = &quot;total_count&quot;
+  )
+
+knitr::kable(crime_data_summary |&gt;
+               head())</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -623,6 +848,44 @@ incidents of relatively minor crimes. Thus, we selected the three parks
 with the highest total number of crimes, and then divided them into
 statistics and visualizations according to the types of crimes. The
 following is the statistical table and the chart.</p>
+<pre class="r"><code>top_3_crime_park = crime_data_top_parks |&gt;
+  group_by(
+    park, crime_type
+  ) |&gt;
+  summarise(
+    count = sum(total_count)
+  ) |&gt;
+  pivot_wider(
+    names_from = crime_type,
+    values_from = count
+  ) |&gt;
+  replace_na(
+    list(murder = 0)
+  )
+
+top3_crime_table = top_3_crime_park |&gt;
+  kbl(
+    col.names = c(
+      &quot;Park Name&quot;, 
+      rep(c(&quot;Burglary&quot;, &quot;Felony Assault&quot;, &quot;Grand Larceny&quot;, 
+            &quot;Motor Vehicle Theft&quot;, &quot;Murder&quot;, &quot;Rape&quot;, &quot;Robbery&quot;), 1)
+    ),
+    caption = &quot;Crime Statistics by Park&quot;
+  ) |&gt;
+  add_header_above(c(&quot; &quot; = 1, &quot;Crimes&quot; = 7)) |&gt;
+  kable_styling(
+    full_width = FALSE, 
+    bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;),
+    position = &quot;center&quot;,
+    font_size = 14
+  ) |&gt;
+  column_spec(1, width = &quot;25em&quot;) |&gt; 
+  column_spec(2:8, extra_css = &quot;padding-right: 20px; padding-left: 20px;&quot;) |&gt;
+  row_spec(0, bold = TRUE, extra_css = &quot;padding-bottom: 10px;&quot;) |&gt; # Add spacing to header row
+  kable_styling(latex_options = &quot;hold_position&quot;) |&gt; 
+  row_spec(1:3, extra_css = &quot;padding-top: 10px; padding-bottom: 10px;&quot;)
+
+top3_crime_table</code></pre>
 <table class="table table-striped table-hover table-condensed table" style="font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 Crime Statistics by Park
@@ -745,7 +1008,43 @@ washington_square_park
 </tr>
 </tbody>
 </table>
+<pre class="r"><code># Prepare the data for plotting
+top_3_crime_park_long = top_3_crime_park |&gt;
+  pivot_longer(
+    cols = -park, # All columns except &quot;park&quot;
+    names_to = &quot;crime_type&quot;,
+    values_to = &quot;count&quot;
+  ) |&gt;
+  filter(
+    crime_type != &quot;murder&quot;
+  )
+
+# Plot using ggplot2
+p4 = ggplot(top_3_crime_park_long, aes(x = park, y = count, fill = park)) +
+  geom_bar(stat = &quot;identity&quot;, alpha = 0.8, show.legend = TRUE) +
+  facet_wrap(~ crime_type, scales = &quot;free_y&quot;, ncol = 3) + # Facet by crime type
+  theme_minimal() +
+  theme(
+    text = element_text(size = 12),
+    axis.text.x = element_blank(), # Rotate x-axis labels for readability
+    axis.text.y = element_text(size = 10),
+    plot.title = element_text(size = 16, hjust = 0.5, face = &quot;bold&quot;), # Center and bold title
+    strip.text = element_text(size = 8, face = &quot;bold&quot;), # Style facet titles
+    panel.spacing = unit(2, &quot;lines&quot;),
+    legend.key.size = unit(0.4, &quot;cm&quot;), # Reduce legend key size
+    legend.text = element_text(size = 10), # Adjust legend text size
+    legend.title = element_text(size = 11, face = &quot;bold&quot;), # Adjust legend title
+    legend.position = &quot;top&quot; # Place legend at the top
+  ) +
+  labs(
+    title = &quot;Crime Distribution by Type Across Top Parks&quot;,
+    x = &quot;Park&quot;,
+    y = &quot;Crime Count&quot;
+  )
+
+p4</code></pre>
 <p><img src="crime_files/figure-html/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;images/report/crime_4.png&quot;, p4, width = 8, height = 6, dpi = 300)</code></pre>
 <p>From both the table and the plot, there were no murders in any of the
 three parks, and felonies were relatively rare. It is reasonable to
 assume that the high number of crimes in these parks is due to the high
