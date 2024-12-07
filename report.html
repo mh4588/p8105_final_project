@@ -560,8 +560,9 @@ Parks and is compiled monthly after thorough quality checks.</li>
 processing process involves several steps to import, clean, and filter
 crime data from various park crime files spanning from 2015 to 2024.
 Since crime data is stored quarterly, we wrote a function to traverse
-all data file paths and special files were handled individually. The
-final dataset includes variables:</p>
+all data file paths and special files were handled individually. Each
+row is a crime record for a park in specific year and season. The final
+dataset includes variables:</p>
 <ul>
 <li><code>park</code>: park names;<br />
 </li>
@@ -582,10 +583,6 @@ final dataset includes variables:</p>
 </li>
 <li><code>season</code>: statistical season.</li>
 </ul></li>
-</ul>
-<p>Each row is a crime record for a park in specific year and
-season.</p>
-<ul>
 <li><p><a href="cleanliness.html"><strong>Cleanliness</strong></a>:
 Multiple datasets were loaded and cleaned to ensure consistent column
 names. Key features, including Litter, Glass, Graffiti, Weeds, and Ice,

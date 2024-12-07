@@ -69,7 +69,7 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
 
 **Data Cleaning**  
 
-- [**Crime**](crime.html):The data processing process involves several steps to import, clean, and filter crime data from various park crime files spanning from 2015 to 2024. Since crime data is stored quarterly, we wrote a function to traverse all data file paths and special files were handled individually. The final dataset includes variables:  
+- [**Crime**](crime.html):The data processing process involves several steps to import, clean, and filter crime data from various park crime files spanning from 2015 to 2024. Since crime data is stored quarterly, we wrote a function to traverse all data file paths and special files were handled individually. Each row is a crime record for a park in specific year and season. The final dataset includes variables:  
 
   - `park`: park names;  
   - `borough`: parks' boroughs;  
@@ -80,7 +80,6 @@ About the sanitation aspect, we firstly analyze the [cleanliness of NYC parks](c
   - `year`: statistical year;  
   - `season`: statistical season.
   
-Each row is a crime record for a park in specific year and season.  
 
 - [**Cleanliness**](cleanliness.html): Multiple datasets were loaded and cleaned to ensure consistent column names. Key features, including Litter, Glass, Graffiti, Weeds, and Ice, were selected for analysis. The datasets were merged using `prop_id` and `inspection_id`, resulting in a comprehensive dataset with park information, feature ratings, and cleanliness inspection data. The dataset was then further cleaned by handling missing values, removing unnecessary columns, and standardizing string values to maintain consistency. The final dataset includes variables:
 
