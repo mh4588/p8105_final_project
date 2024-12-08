@@ -37,6 +37,13 @@ Exploring park crimes in NYC is essential for several reasons:
 Image source: [NYPD in Central Park](https://commons.wikimedia.org/wiki/File:NYPD_3_wheeled_car_in_Central_Park.JPG)
 </div>
 
+
+## Initial Questions
+
+- What is the trend of different crime types over the years in NYC parks?  
+- How do crime patterns vary across different boroughs of NYC parks?  
+- Is there a pattern of crime types in parks with a higher number of crimes?
+
 ## Dataset
 
 For this part, we chose [NYC Park Crime Statistics](https://www.nyc.gov/site/nypd/stats/crime-statistics/park-crime-stats.page) provided by NYPD. This dataset contains detailed records of reported crimes in New York City's parks. It includes data on various crime types, such as robbery, assault, and larceny, categorized by park, borough, and time period. This dataset is updated quarterly and aims to enhance public safety by offering transparency on crime trends in recreational areas. It serves as a valuable resource for researchers, policymakers, and residents interested in understanding and addressing crime in NYC parks.
